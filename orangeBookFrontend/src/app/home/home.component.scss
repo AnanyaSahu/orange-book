@@ -1,0 +1,75 @@
+.searchFullBlock {
+    position: relative;
+    justify-content: center;
+  }
+   .searchFullBlock {
+    display: flex;
+    // float: left;
+    // width: 100%;
+  }
+
+
+  .homeSearchBlock{
+    width: 100%;
+  }
+  .searchLocation {
+    // width: 212px;
+    // float: right;
+    // right: 51px;
+}
+.searchBusiness, .searchLocation {
+    display: inline-block;
+    // float: left;
+    // position: relative;
+    // width: 100%;
+    // float: right;
+    // padding: 6px 10px;
+    margin-top: 8px;
+    // margin-right: 16px;
+    background: white;
+    font-size: 17px;
+    border: none;
+    
+    cursor: pointer;
+    input {
+        height: 37px;
+    }
+    select{
+        height: 41px;
+    }
+}
+
+
+// @media only screen and (min-width: 768px)
+.searchBusiness {
+    // max-width: 367px;
+    // float: left;
+    // margin-top: 0;
+}
+.searchBusiness {
+    // margin-top: 10px;
+}
+.searchBusiness, .searchLocation {
+    // float: left;
+    // position: relative;
+    // width: 100%;
+}
+
+
+.searchButtonBlock {
+    top: 0;
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.searchButtonBlock {
+    // position: absolute;
+    // right: 0;
+    // top: 60px;
+}

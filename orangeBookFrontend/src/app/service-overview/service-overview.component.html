@@ -1,0 +1,17 @@
+
+<div *ngFor = "let business of businessList">
+
+    <div class='card'>
+        <div class='card-content display-content'>
+            <div (click)="navigateToDetailPage( business.businessId )">{{business.businessName}}</div>
+            <div>{{business.address}}</div>
+            <div>{{business.sreviceType}}</div>
+            <div>{{business.serviceCost}}</div>
+            <div>{{business.email}}</div>
+            <!-- <h4 class='cursor-pointer' onclick='navigateToDetailPage( job.jobId )'>
+                </h4> -->
+                </div>
+                </div>
+
+</div>
+
