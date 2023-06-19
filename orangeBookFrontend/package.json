@@ -27,7 +27,8 @@
     "@fortawesome/fontawesome-svg-core":"^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0", 
-    "@fortawesome/free-solid-svg-icons": "^6.4.0"
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@angular/material": "^15.2.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.0.4",

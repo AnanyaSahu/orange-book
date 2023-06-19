@@ -1,0 +1,48 @@
+
+ ::ng-deep div#cdk-overlay-0{
+    position: relative !important;
+    color: black;
+    background: whitesmoke;
+  }
+
+
+  
+// Taken from https://medium.com/@racullum/how-to-create-a-modern-html-form-with-css-1dd0f3d49712
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+  width: 20vw;
+}
+
+input {
+  margin-bottom: 5vh;
+  border-right: none;
+  border-top: none;
+  border-left: none;
+  background-color:transparent;
+  outline: none;
+}
+
+input[type=text]::placeholder {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type=submit] {
+  width: 100%;
+  padding: 2vh;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px 4px;
+}

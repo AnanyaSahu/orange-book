@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -12,8 +12,12 @@ import { AccountModalComponent } from './account-modal/account-modal.component';
 import { AccountBookingsComponent } from './account-bookings/account-bookings.component';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
     AppComponent,
     HomeComponent,
@@ -28,8 +32,11 @@ import { ErrorPageComponent } from './error-page/error-page.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
+  exports:[MatSelectModule],
   providers: [],
   bootstrap: [AppComponent]
 })

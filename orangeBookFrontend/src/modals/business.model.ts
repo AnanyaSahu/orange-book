@@ -1,7 +1,7 @@
 export interface Business {
     businessId: string,
     businessName: string,
-    contachNumber: string,
+    contactNumber: string,
     email: string,
     address: string,
     ratings: number,

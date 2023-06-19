@@ -39,7 +39,7 @@ export class ServiceOverviewComponent implements OnInit {
       this.businessList = [
         {     businessId: '101',
           businessName: 'plumber',
-          contachNumber: 'string',
+          contactNumber: 'string',
           email: 'string',
           address: 'string',
           ratings: 3,
@@ -47,7 +47,7 @@ export class ServiceOverviewComponent implements OnInit {
           serviceCost: 'string'},
           {     businessId: '101',
           businessName: 'plumber',
-          contachNumber: 'string',
+          contactNumber: 'string',
           email: 'string',
           address: 'string',
           ratings: 3,
