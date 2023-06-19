@@ -1,28 +1,29 @@
-<div class="conatiner-area" id ="signin-form">
+<div class="conatiner-area" id ="signin-form" *ngIf="!isSignUpFormVisible">
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="addEventForm">
+                <form name="signInForm">
 
                 <br>
-                <input id="email" type="text" name="email" placeholder="Email" 
-                onfocus="this.placeholder=''" onblur="this.placeholder='Email'" [(ngModel)]="email">
+                <input id="useremail" type="text" name="useremail" placeholder="Email" 
+                onfocus="this.placeholder=''" onblur="this.placeholder='Email'" [(ngModel)]="useremail">
                 <br>
-                <input id="password" type="text" name="password" placeholder="Password" 
-                onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="password">
+                <input id="userpassword" type="text" name="userpassword" placeholder="Password" 
+                onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="userpassword">
                 <br>
-                <button id="book-modal-btn" type="button" class="btn-primary" (click)=" ()">Sign In</button>
+                <button id="signin-btn" type="button" class="btn-primary" (click)="login()">Sign In</button>
                 </form>
+                <div><span>Don't have an Account&nbsp;</span> <span (click)="switchForm()">Create An Account</span></div>
               </div>
       </div> 
   </div>
   </div>
 
-<div class="conatiner-area" id ="signup-form">
+<div class="conatiner-area" id ="signup-form" *ngIf="isSignUpFormVisible">
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="addEventForm">
+                <form name="signupForm">
                 <input id="title" type="text" name="title" placeholder="First Name"  required
                 onfocus="this.placeholder=''" onblur="this.placeholder='First Name'" [(ngModel)]="firstName">
                 <br>
@@ -41,8 +42,9 @@
                 <input id="repeatpassword" type="text" name="repeatpassword" placeholder="Re Enter Password" 
                 onfocus="this.placeholder=''" onblur="this.placeholder='Re Enter Password'" [(ngModel)]="repeatpassword">
                 <br>
-                <button id="book-modal-btn" type="button" class="btn-primary" (click)="createAccount()">Sign Up</button>
+                <button id="signup-btn" type="button" class="btn-primary" (click)="createAccount()">Sign Up</button>
                 </form>
+                <div><span>Already have an Account &nbsp;</span> <span (click)="switchForm()">SignIn</span></div>
               </div>
       </div> 
   </div>

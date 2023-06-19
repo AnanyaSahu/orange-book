@@ -13,6 +13,9 @@ export class LoginSignupComponent {
   public contactNumber: number;
   public password: string;
   public repeatpassword: string;
+  public useremail: string;
+  public userpassword: string;
+  public isSignUpFormVisible = false
 
   constructor () {
 
@@ -39,6 +42,11 @@ export class LoginSignupComponent {
 
   public login() {
     
+  }
+
+  public switchForm() {
+    this.isSignUpFormVisible = !this.isSignUpFormVisible
+
   }
 
 }
