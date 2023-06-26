@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-error-page',
@@ -7,4 +8,15 @@ import { Component } from '@angular/core';
 })
 export class ErrorPageComponent {
 
+  constructor(public router: Router){
+
+  }
+
+  /**
+   * navigateToHomePage
+   */
+  public navigateToHomePage() {
+    this.router.navigate(['/home'])
+
+  }
 }

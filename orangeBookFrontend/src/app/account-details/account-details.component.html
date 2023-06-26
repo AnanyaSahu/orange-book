@@ -1,1 +1,58 @@
-<p>account-details works!</p>
+
+
+<div *ngIf="!isEditButtonClicked">
+<h2>Profile Details</h2>
+<hr>
+<table>
+    <tr>
+      <td>Full Name</td>
+      <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
+    </tr>
+    <tr>
+      <td>Mobile Number</td>
+      <td>{{user.contactNumber}}</td>
+    </tr>
+    <tr>
+        <td>Email</td>
+        <td>{{user.email}}</td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td>{{user.address}}</td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td>{{password}} <span (click)="showPassword()">{{showHidelink}}</span></td>
+      </tr>
+      <tr><button id="signoutn-btn" type="button" class="btn-primary" (click)="editDetails()">Edit</button></tr>
+  </table>
+</div>
+
+
+<div *ngIf="isEditButtonClicked">
+    <h2>Edit Details</h2>
+    <hr>
+    <table>
+        <tr>
+          <td>Full Name</td>
+          <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
+        </tr>
+        <tr>
+          <td>Mobile Number</td>
+          <td>{{user.contactNumber}}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{user.email}}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{user.address}}</td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td>{{password}}</td>
+          </tr>
+          <tr><button id="save-btn" type="button" class="btn-primary" (click)="saveDetails()">Save Details</button></tr>
+      </table>
+    </div>

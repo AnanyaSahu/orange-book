@@ -1,41 +1,22 @@
-<p>account-modal works!</p>
-
-        <!-- Job Application Modal Start -->
+     <!-- Job Application Modal Start -->
         <div class="apply-modal-container" id="apply-modal-container">
             <div id="apply-modal" class="apply-modal">
                 <!-- Modal content Start-->
                 <div class="apply-modal-content">
-                    <!-- <span id="close-btn" class="fa-sharp fa-solid fa-xmark cursor-pointer float-right"
-                        onclick="closeModal()"></span> -->
-
-                    <form id="jobApplicationFrom" name="jobApplicationFrom">
                         <div class="container">
-                            <h1>Apply for Job</h1>
-                            <p>Please fill in this form to apply for job.</p>
+                            <h1>Welcome</h1>
+                            <button id="signup-login-btn" type="button" class="btn-primary" (click)="navigateToPage('login')">Login/Sign UP</button>
                             <hr>
-                            <label for="name"><b>Full Name</b></label>
-                            <input type="text" placeholder="Enter full name" name="name">
-                            <br><br>
-                            <label for="email"><b>Email</b></label>
-                            <input type="text" placeholder="Enter Email" name="email">
-                            <br><br>
-                            <label for="phone"><b>Phone</b></label>
-                            <input type="text" placeholder="Enter phone" name="phone">
-                            <label for="cv"><b>Upload your CV</b></label>
-                            <input type="file" id="myFile" name="cv">
-                            <br><br>
-                            <div class="">
-                                <div id="error-msg" class="error-msg"></div>
-                                <!-- <button type="button" class="btn-primary" onclick="showToast()">Apply</button> -->
-                            </div>
+                            <div  (click)="navigateToPage('userDetails')"><b>My Account</b></div>
+                            <br>
+                            <br>
+                            <div  (click)="navigateToPage('bookings')"><b>My Bookings</b></div>
+                            <br>
+                            <button id="signoutn-btn" type="button" class="btn-primary" (click)="navigateToPage('none')">Sign Out</button>
+                         
+                            
+                    
                         </div>
-                    </form>
                 </div>
-                <!-- Modal content End -->
             </div>
         </div>
-        <!-- Job Application Modal End -->
-
-        <!-- Toast Notification  Start -->
-        <div id="toastNotification" class="toast">Your application is successful!</div>
-        <!-- Toast Notification  End -->
