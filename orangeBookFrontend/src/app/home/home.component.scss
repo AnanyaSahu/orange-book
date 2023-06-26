@@ -62,14 +62,19 @@
     padding: 6px 10px;
     margin-top: 8px;
     margin-right: 16px;
-    background: #ddd;
-    font-size: 17px;
-    border: none;
-    cursor: pointer;
+    // background: #ddd;
+    // font-size: 17px;
+    font-size: initial;
+    // border: none;
+    // cursor: pointer;
 }
 
 .searchButtonBlock {
     // position: absolute;
     // right: 0;
     // top: 60px;
+}
+
+.location-dropdown{
+    min-width: 100px;
 }

@@ -11,9 +11,11 @@
                 <input id="userpassword" type="text" name="userpassword" placeholder="Password" 
                 onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="userpassword">
                 <br>
+                <div class=" button-align">
                 <button id="signin-btn" type="button" class="btn-primary" (click)="login()">Sign In</button>
+              </div>
                 </form>
-                <div><span>Don't have an Account&nbsp;</span> <span (click)="switchForm()">Create An Account</span></div>
+                <div ><span>Don't have an Account? &nbsp;</span> <span  class="primary-color cursor-pointer font-link" (click)="switchForm()">Create An Account</span></div>
               </div>
       </div> 
   </div>
@@ -42,9 +44,11 @@
                 <input id="repeatpassword" type="text" name="repeatpassword" placeholder="Re Enter Password" 
                 onfocus="this.placeholder=''" onblur="this.placeholder='Re Enter Password'" [(ngModel)]="repeatpassword">
                 <br>
+                <div class=" button-align">
                 <button id="signup-btn" type="button" class="btn-primary" (click)="createAccount()">Sign Up</button>
+                </div>
                 </form>
-                <div><span>Already have an Account &nbsp;</span> <span (click)="switchForm()">SignIn</span></div>
+                <div ><span>Already have an Account! &nbsp;</span> <span  class="primary-color cursor-pointer font-link"  (click)="switchForm()">SignIn</span></div>
               </div>
       </div> 
   </div>

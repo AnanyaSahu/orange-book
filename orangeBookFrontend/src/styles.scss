@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+    --background-color: rgb(237, 240, 246);
+  }
+  
+  body {
+    height: 82vh; 
+    background-color: var(--background-color);
+    margin-bottom: 40px;
+  }
+.btn-primary{
+  color: white;
+  background-color: coral;
+  border: none;
+  height: 28px;
+  min-width: 75px;
+  border-radius: 2px;
+  font-size: initial;
+  cursor: pointer;
+
+}
+
+.primary-color{
+    color: coral;
+}
+.font-link{
+    font-weight: bold; 
+}
+.button-align{
+    text-align: center;
+}
+.cursor-pointer{
+    cursor: pointer;
+}

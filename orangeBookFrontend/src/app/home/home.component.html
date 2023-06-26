@@ -9,7 +9,7 @@
          </div>
          <div class="searchLocation">
             <!-- <input name="ipLocation" type="text" id="ipLocation" class="homeSearchTextbox locationInputField" value="Hyderabad"> -->
-            <select class="form-control" name="Any"  (change)="selectLocation($event)" >
+            <select class="form-control location-dropdown" name="Any"  (change)="selectLocation($event)" >
                     <option  *ngFor = "let location of locationList">
                         {{location}}
                     </option>
@@ -20,8 +20,11 @@
     
             </div> -->
           </div>
-         <div class="searchButtonBlock" (click) = "searchBusiness()">
-          <span class="searchButton"> <i class="fa-solid fa-magnifying-glass">search</i>
+         <div class="searchButtonBlock btn-primary" (click) = "searchBusiness()">
+          <span class="searchButton"> 
+            <!-- <i class="fa-solid fa-magnifying-glass"> -->
+            Search
+          <!-- </i> -->
           </span>
         </div>
       </div>
