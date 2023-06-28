@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BusinessService} from '../../services/business.service'
 import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Business } from 'src/modals/business.model';
+import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,12 +12,13 @@ import { Router } from '@angular/router';
 })
 export class ServiceOverviewComponent implements OnInit {
 
-  // private searchParams: {
-  //   business: string,
-  //   location: string
-  // } = { business: '',
-  //       location: ''}
+  public searchParams: {
+    business: string,
+    location: string
+  } = { business: '',
+        location: ''}
 
+  public searchedResultsString = ""
   public businessList = new Array<Business>();
 
   constructor(private businessService: BusinessService,
@@ -36,15 +37,18 @@ export class ServiceOverviewComponent implements OnInit {
   private searchBusiness() {
     this.activatedRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams)
+      this.searchParams.business = queryParams['business']? queryParams['business']:"";
+      this.searchParams.location = queryParams['location']?queryParams['location']:"";
+     
       this.businessList = [
         {     businessId: '101',
           businessName: 'plumber',
-          contactNumber: 'string',
-          email: 'string',
-          address: 'string',
+          contactNumber: '83274523857023',
+          email: 'string@gmail.com',
+          address: '34, address, sddress',
           ratings: 3,
-          sreviceType: 'string',
-          serviceCost: 'string'},
+          sreviceType: 'type of service',
+          serviceCost: 's$54656'},
           {     businessId: '101',
           businessName: 'plumber',
           contactNumber: 'string',
@@ -53,7 +57,16 @@ export class ServiceOverviewComponent implements OnInit {
           ratings: 3,
           sreviceType: 'string',
           serviceCost: 'string'}
-      ]
+      ];
+      if ( this.searchParams.business?.trim() =='' && this.searchParams.location.trim()=='') {
+        this.searchedResultsString = this.businessList.length + " results found";
+      }
+      else if( this.searchParams.business.trim()!='' &&  this.searchParams.location.trim()!='') {
+        this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found near "+ this.searchParams.location;
+      } else if ( this.searchParams.business?.trim() !='' && this.searchParams.location.trim()=='') {
+        this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found";
+
+      }
     //   this.businessService.getServices(queryParams).subscribe( {  
 
     //     next : (data) => {
@@ -73,6 +86,16 @@ export class ServiceOverviewComponent implements OnInit {
   public navigateToDetailPage(businessId : string){
     this.router.navigate(['/service'], {queryParams :{ business:businessId}})
 
+
+  }
+  public getRatings(ratings:number): any{
+    let list: any[]=  [];
+    for(var i=1;i<=ratings;i++){
+      list.push(i);
+
+    }
+
+    return list;
 
   }
 }

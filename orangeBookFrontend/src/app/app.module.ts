@@ -15,6 +15,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
@@ -34,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
   ],
   exports:[MatSelectModule],
   providers: [],
