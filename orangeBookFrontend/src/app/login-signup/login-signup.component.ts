@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import {UserService} from '../../services/user.service'
-// import {md5} from '../../services/md5'
-import * as crypto from 'crypto';
-// import bcrypt = require('bcryptjs');
-// import * as bcrypt from 'bcryptjs'
-
+import * as bcrypt from 'bcryptjs';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -29,10 +25,19 @@ export class LoginSignupComponent {
 
 
   constructor (private userService:UserService) {
-
+    this.hashPassword('admin')
   }
 
-
+  hashPassword(password: string): string {
+    console.log('hashPassword')
+    const saltRounds = 10; // Number of salt rounds for hashing
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+    console.log(hash)
+    return hash;
+  }
+  
+  
   // Show toast notification
   public showToast(message: string) {
     // let toast = await this.toastCtrl.create({
@@ -44,17 +49,11 @@ export class LoginSignupComponent {
   }
 
   public createAccount(){
-    if(this.password.trim() != this.repeatpassword){
+    if(this.password.trim() != this.repeatpassword.trim()){
       // erroe msg 
     } else{
       console.log('createAccount method')
-    
-      // const md5 = (contents: string) => crypto.createHash('md5').update(contents).digest("hex");
-      // var hash =  crypto.createHash('md5').update('contents').digest("hex")
-      // crypto.createHash('
-      
-      // bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync());
-      // console.log(bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync()));
+
 
       let createAccountParam = {
         firstname:this.firstName,
