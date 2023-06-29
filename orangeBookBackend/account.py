@@ -1,5 +1,6 @@
 from database import databaseConnection
 import hashlib
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 
 class account:
@@ -24,6 +25,7 @@ class account:
         return {'message':'Account has been created', 'response':r}
     
     def verifyUserAccount(self, param):
+
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "SELECT * FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"' AND  [password] = '"+param['password']+"';"
@@ -34,23 +36,14 @@ class account:
         print(len(record))
         if(len(record) != 1):
             #   no account
+            print('Invalid Credentials')
             return {'message':"Invalid Credentials" }
         else:
+            access_token = create_access_token(identity=param['username'])
+            print(access_token)
             r= [tuple(row) for row in record]  
-            return {'response':r}
+            return {'response':r, 'message':'Account has been created','access_token':access_token }
         # d.closeDbConnection()
-    
-    def getHashValue(self, value):
-  
-        secret = "5gzgatevdfyslryfdtssksxdgaesrtw34szdea4dsg"
- 
-       
-        newPasswordValue = value+secret
-     
-        return hashlib.md5(newPasswordValue.encode())
-        
-
-        # print(hashed.hexdigest())   
 
 
     def getBookings(self,customerId):
@@ -117,4 +110,4 @@ class account:
         return {'response':r}    
 
 # s =account()
-# s.updateAccountDetails('100', 'ana', 'sahu','aerfasetjASdhaetrjhsadfh','a@example.com','123456765678','25 wolfe')        
+# s.verifyUserAccount({'username':'ananya@example.co','password':'3627997f92de663756a57b5098e3c11e'})        

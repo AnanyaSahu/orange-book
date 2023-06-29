@@ -44,9 +44,10 @@ export class HomeComponent implements OnInit {
   }
 
   public searchBusiness() {
+
     const business = this.searchParams.business!= '' ? this.searchParams.business : null;
     const location = this.searchParams.location!= '' ? this.searchParams.location : null;
-  
+    
     this.router.navigate(['/services'],{ queryParams: {business:business, location: location}})
   }
 

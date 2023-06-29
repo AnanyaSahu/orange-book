@@ -34,12 +34,14 @@ def  getServiceByServiceId(serviceId):
     return s.getServiceByServiceId(serviceId)
 
 @app.route('/getLocations', methods=['GET'])
+# @jwt_required()
 def  getLocations():
     s = services()
     return s.getLocations()
 
 # This method will create the bookings. for the user, input is customer id and serviceId
 @app.route('/createBookings', methods=['POST'])
+@jwt_required()
 def  createBookings():
     s = services()
     print(request.json)
@@ -47,12 +49,14 @@ def  createBookings():
 
 # This method will cancel the bookings. for the user, input is booking id
 @app.route('/cancelBookings/<int:bookingId>', methods=['PUT'])
+@jwt_required()
 def  cancelBookings(bookingId):
     s = services()
     return s.cancelBookings(bookingId)
 
 # This method will get the bookings. for the user, input is customer id
 @app.route('/getBookings/<int:userId>', methods=['GET'])
+@jwt_required()
 def  getBookings(userId):
     a = account()
     return a.getBookings(userId)
@@ -74,6 +78,7 @@ def  verifyUserAccount():
 
 # This method will update the user account, input is firstname, lastname, username, password, email, phone, address
 @app.route('/updateAccount/<int:userId>', methods=['PUT'])
+@jwt_required()
 def  updateUserAccount(userId):
     print(request.json)
     a = account()
@@ -81,6 +86,7 @@ def  updateUserAccount(userId):
 
 # This method will get the account details. for the user, input is customer id
 @app.route('/getAccountDetails/<int:userId>', methods=['GET'])
+@jwt_required()
 def  getAccountDetails(userId):
     a = account()
     return a.getAccountDetails(userId)

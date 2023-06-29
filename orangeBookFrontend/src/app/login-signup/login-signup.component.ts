@@ -29,11 +29,11 @@ export class LoginSignupComponent {
   }
 
   hashPassword(password: string): string {
-    console.log('hashPassword')
+    // console.log('hashPassword')
     const saltRounds = 10; // Number of salt rounds for hashing
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
-    console.log(hash)
+    // console.log(hash)
     return hash;
   }
   
@@ -81,9 +81,19 @@ export class LoginSignupComponent {
 
   public login() {
     //hash password
+    this.useremail = 'ananya@example.co'
+    this.userpassword = '3627997f92de663756a57b5098e3c11e'
+    let hashedPAssword = this.hashPassword(this.userpassword)
     this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword}).subscribe({
       next : (data) => {
-        this.userService.userDetails.next(data)
+        // this.userService.userDetails.next(data)
+        this.userService.userDetailsAndToken.next(data)
+        let ttl = 5 * 60* 1000 // in miliseconds
+        const access_token_item = {
+          access_token: data.access_token,
+          expiry: new Date().getTime() + ttl,
+        }
+        localStorage.setItem('access_token',JSON.stringify(access_token_item))
         console.log('service call response', data )
         // do something with the data here
       }

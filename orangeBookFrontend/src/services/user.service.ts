@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from 'src/models/user.model';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -11,6 +12,8 @@ export class UserService {
 
 
   public isUserLoggedIn =  new BehaviorSubject(false);
+  public userDetailsAndToken =  new BehaviorSubject<any>(null);
+  
   public userDetails =  new BehaviorSubject<User>({
     userId:'',
     firstName:'',
@@ -23,7 +26,8 @@ export class UserService {
 
   private prefix = 'http://127.0.0.1:5000'
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient,
+    private auth: AuthService) { 
 
   }
 
@@ -49,23 +53,29 @@ export class UserService {
   
   public updateUserAccount(userId: number, params: any): Observable<Object> {
     console.log(params)
+    const token = this.auth.getAccessToken()
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
-    .put(this.prefix + '/updateAccount/' + userId, params)
+    .put(this.prefix + '/updateAccount/' + userId, params,{ headers })
 
     // return of('in service')
   }
 
   
   public getAccountDetails(userId: number): Observable<Object> {
+    const token = this.auth.getAccessToken()
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
-    .get(this.prefix + '/getAccountDetails/' + userId)
+    .get(this.prefix + '/getAccountDetails/' + userId,{ headers })
 
     // return of('in service')
   }
   
   public getBookings(userId: number): Observable<Object> {
+    const token = this.auth.getAccessToken()
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
-    .get(this.prefix + '/getBookings/' + userId)
+    .get(this.prefix + '/getBookings/' + userId,{ headers })
 
     // return of('in service')
   }
