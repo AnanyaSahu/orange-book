@@ -50,7 +50,7 @@ export class UserService {
   public updateUserAccount(userId: number, params: any): Observable<Object> {
     console.log(params)
     return this.http
-    .put(this.prefix + '/createAccount/' + userId, params)
+    .put(this.prefix + '/updateAccount/' + userId, params)
 
     // return of('in service')
   }

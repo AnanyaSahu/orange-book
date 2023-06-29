@@ -21,6 +21,7 @@ export class AccountDetailsComponent implements OnInit{
 
   ngOnInit(): void {
     this.getUserDetailsFromUserService()
+    this.getDEtailsformDB()
   }
   /**
    * getUserDetailsFromUserService
@@ -30,6 +31,20 @@ export class AccountDetailsComponent implements OnInit{
       this.user = userData
 
     })
+  }
+
+  getDEtailsformDB(){
+    this.userService.getAccountDetails(100).subscribe({
+      next : (data) => {
+        // this.userService.userDetails.next(data)
+        console.log('service call response', data )
+        // do something with the data here
+      }
+      ,error :(error) => {
+        //error handlin
+        console.log(error)
+      }
+    }); 
   }
 
   showPassword(){

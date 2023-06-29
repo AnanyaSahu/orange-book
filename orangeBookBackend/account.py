@@ -14,11 +14,14 @@ class account:
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?);"
-       
         cursor.execute(query, param['firstname'],  param['lastname'],  param['email'],  param['phone'],  param['address'], param['password'])
+        recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
         cursor.commit()
-        d.closeDbConnection()
-        return {'message':'Account has been created'}
+        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+"';"
+        record = cursor.execute(fetchquery).fetchall()
+        r= [tuple(row) for row in record]  
+        # # d.closeDbConnection()
+        return {'message':'Account has been created', 'response':r}
     
     def verifyUserAccount(self, param):
         d = databaseConnection()
@@ -27,13 +30,15 @@ class account:
        
         cursor.execute(query)
         record = cursor.fetchall()
-        if(record.count != 1):
+        print('record.count')
+        print(len(record))
+        if(len(record) != 1):
             #   no account
             return {'message':"Invalid Credentials" }
         else:
             r= [tuple(row) for row in record]  
             return {'response':r}
-        d.closeDbConnection()
+        # d.closeDbConnection()
     
     def getHashValue(self, value):
   
@@ -55,7 +60,7 @@ class account:
        
         cursor.execute(query)
         record = cursor.fetchall()
-        d.closeDbConnection()
+        # d.closeDbConnection()
         r= [tuple(row) for row in record]
         return {'response':r}
 
@@ -67,7 +72,7 @@ class account:
         cursor.execute(query)
         record = cursor.fetchall()
         r= [tuple(row) for row in record]  
-        d.closeDbConnection() 
+        # d.closeDbConnection() 
         return {'response':r}
         
 
@@ -80,24 +85,24 @@ class account:
         phoneQuery=""
         addressQuery=""
         cursor = d.openDbConnection()
-        query = "SELECT * FROM [orange-book].[dbo].[User] "
+        query = "UPDATE [orange-book].[dbo].[User] "
         setQuery = "SET "
         if(param['firstname'] != ''):
             firstnameQuery  = "[firstName] = '"+param['firstname']+ "' "
-        if(param['lastName'] != ''):
-            lastnameQuery  = "AND [lastname] = '"+param['lastName']+ "' "
+        if(param['lastname'] != ''):
+            lastnameQuery  = " , [lastName] = '"+param['lastname']+ "' "
 
         # if(param['password'] != ''):
         #     passwordQuery  = "AND [password] = '"+param['password']+ "' "
 
         if(param['email'] != ''):
-            emailQuery  = "AND [email] = '"+param['email']+ "' "
+            emailQuery  = ", [email] = '"+param['email']+ "' "
 
         if(param['phone'] != ''):
-            phoneQuery  = "AND [contactNumber] = '"+param['phone']+ "' "
+            phoneQuery  = ", [contactNumber] = "+str(param['phone'])+ " "
 
         if(param['address'] != ''):
-            addressQuery  = "AND [address] = '"+param['address']+ "' "
+            addressQuery  = ", [address] = '"+param['address']+ "' "
 
 
         whereQuery =  " WHERE [userId] =  '"+str(customerId) +"';"
@@ -107,7 +112,7 @@ class account:
         print(newQuery)
         cursor.execute(newQuery)
         record = cursor.fetchall()
-        d.closeDbConnection()
+        # d.closeDbConnection()
         r= [tuple(row) for row in record]
         return {'response':r}    
 

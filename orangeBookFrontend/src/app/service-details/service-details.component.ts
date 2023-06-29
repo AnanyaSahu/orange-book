@@ -57,7 +57,7 @@ export class ServiceDetailsComponent {
             serviceCost: 'string'
           }
 
-        this.businessService.getServiceByServiceId(queryParams).subscribe( {  
+        this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
   
           next : (data) => {
             console.log('service call response', data )

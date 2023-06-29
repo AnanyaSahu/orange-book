@@ -4,10 +4,15 @@ import {UserService} from '../../services/user.service'
 // import {md5} from '../../services/md5'
 import * as crypto from 'crypto';
 // import bcrypt = require('bcryptjs');
-import * as bcrypt from 'bcryptjs'
+// import * as bcrypt from 'bcryptjs'
 
 
 // const bcrypt = require('bcryptjs')
+@Component({
+  selector: 'app-login-signup',
+  templateUrl: './login-signup.component.html',
+  styleUrls: ['./login-signup.component.scss']
+})
 export class LoginSignupComponent {
  
   public firstName: string;
@@ -48,8 +53,8 @@ export class LoginSignupComponent {
       // var hash =  crypto.createHash('md5').update('contents').digest("hex")
       // crypto.createHash('
       
-      bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync());
-      console.log(bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync()));
+      // bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync());
+      // console.log(bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync()));
 
       let createAccountParam = {
         firstname:this.firstName,

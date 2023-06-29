@@ -22,16 +22,21 @@ jwt = JWTManager(app)
 #  app.run(host='0.0.0.0',port='8080', ssl_context=('../cert.pem', '../privkey.pem'))
 
 # This method will list all the services
-@app.route('/getServices', methods=['GET'])
-def  getServices():
+@app.route('/getServices/<string:business>/<string:location>', methods=['GET'])
+def  getServices(business,location):
+    print('getServices method app.py')
     s = services()
-    print(request.json)
-    return s.getAllServices(request.json)
+    return s.getAllServices(business, location)
 
 @app.route('/getService/<int:serviceId>', methods=['GET'])
 def  getServiceByServiceId(serviceId):
     s = services()
     return s.getServiceByServiceId(serviceId)
+
+@app.route('/getLocations', methods=['GET'])
+def  getLocations():
+    s = services()
+    return s.getLocations()
 
 # This method will create the bookings. for the user, input is customer id and serviceId
 @app.route('/createBookings', methods=['POST'])

@@ -8,26 +8,26 @@ class services:
 
 
     
-    def getAllServices(self,param):
+    def getAllServices(self,business, location):
         locationQuery = ""
         businessQuery=""
         whereQuery = ""
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "Select * from [dbo].[Business]"
-        if(param['location'] != "" or param['business'] !=""):
+        if(location != "all" or business !="all"):
             whereQuery = " WHERE "
-        if(param['location'] != '' ):
-            locationQuery = " [location] = '"+param['location']+"'"
-        if( param['business']  != '' ):
-            businessQuery = " AND ([serviceType]='"+ param['business'] +"' OR [businessName]='"+ param['business'] +"')"
+        if(location != 'all' ):
+            locationQuery = " [location] = '"+location+"'"
+        if( business  != 'all' ):
+            businessQuery = " AND ([serviceType] LIKE '"+business +"%' OR [businessName] LIKE '"+ business +"%')"
         finalQuery = query+whereQuery+locationQuery +businessQuery
         newQuery = finalQuery.replace('WHERE  AND', 'WHERE')
         print(newQuery)
        
         cursor.execute(newQuery)
         record = cursor.fetchall()
-        d.closeDbConnection()
+        # d.closeDbConnection()
         r= [tuple(row) for row in record]
         return {'response':r}
     
@@ -35,7 +35,7 @@ class services:
     def getServiceByServiceId(self, serviceId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "Select * from [dbo].[Business] Where [serviceId]="+str(serviceId)+";"
+        query = "Select * from [dbo].[Business] Where [businessId]="+str(serviceId)+";"
         cursor.execute(query)
         record = cursor.fetchall()
         r= [tuple(row) for row in record]
@@ -49,7 +49,7 @@ class services:
        
         cursor.execute(query, param['customerId'], param['serviceId'], 1)
         cursor.commit()
-        d.closeDbConnection()
+        # d.closeDbConnection()
         return {'message':'Booking has been made'}
         
     def cancelBookings(self, bookingId):
@@ -60,9 +60,18 @@ class services:
        
         cursor.execute(query)
         cursor.commit()
-        d.closeDbConnection()
+        # d.closeDbConnection()
         return {'message':'Booking has been cancelled'}
     
+    def getLocations(self):
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "Select distinct([location]) from [orange-book].[dbo].[Business];"
+        cursor.execute(query)
+        record = cursor.fetchall()
+        r= [tuple(row) for row in record]
+        return {'response':r}
+           
 
 # s =service()
 # s.getAllServices('','')

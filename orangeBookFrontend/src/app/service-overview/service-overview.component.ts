@@ -35,10 +35,11 @@ export class ServiceOverviewComponent implements OnInit {
 
 
   private searchBusiness() {
+    console.log('searchBusiness inoverview')
     this.activatedRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams)
-      this.searchParams.business = queryParams['business']? queryParams['business']:"";
-      this.searchParams.location = queryParams['location']?queryParams['location']:"";
+      this.searchParams.business = queryParams['business']? queryParams['business']:"all";
+      this.searchParams.location = queryParams['location']?queryParams['location']:"all";
      
       this.businessList = [
         {     businessId: '101',
@@ -58,18 +59,19 @@ export class ServiceOverviewComponent implements OnInit {
           sreviceType: 'string',
           serviceCost: 'string'}
       ];
-      if ( this.searchParams.business?.trim() =='' && this.searchParams.location.trim()=='') {
-        this.searchedResultsString = this.businessList.length + " results found";
-      }
-      else if( this.searchParams.business.trim()!='' &&  this.searchParams.location.trim()!='') {
-        this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found near "+ this.searchParams.location;
-      } else if ( this.searchParams.business?.trim() !='' && this.searchParams.location.trim()=='') {
-        this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found";
 
-      }
-      this.businessService.getServices(queryParams).subscribe( {  
+      this.businessService.getServices( this.searchParams).subscribe( {  
         next : (data) => {
           console.log('service call response', data )
+          if ( this.searchParams.business?.trim() =='' && this.searchParams.location.trim()=='') {
+            this.searchedResultsString = this.businessList.length + " results found";
+          }
+          else if( this.searchParams.business.trim()!='' &&  this.searchParams.location.trim()!='') {
+            this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found near "+ this.searchParams.location;
+          } else if ( this.searchParams.business?.trim() !='' && this.searchParams.location.trim()=='') {
+            this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found";
+    
+          }
           // do something with the data here 
         }
         ,error :(error) => {

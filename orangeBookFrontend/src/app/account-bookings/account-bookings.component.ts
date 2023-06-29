@@ -49,7 +49,7 @@ export class AccountBookingsComponent implements OnInit {
     sreviceType: 'string',
     serviceCost: 'string'}]
 
-    this.userService.getBookings(this.userId).subscribe({
+    this.userService.getBookings(100).subscribe({
       next : (data) => {
         console.log('service call response', data )
         // do something with the data here

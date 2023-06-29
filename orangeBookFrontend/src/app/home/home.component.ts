@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  public locationList = new Array<string>();
+  public locationList = new Array<any>();
   public selectedLocation : string = 'All';
   public businessInputField: string = ''
   private searchParams: {
@@ -28,7 +28,12 @@ export class HomeComponent implements OnInit {
   }
 
   private getLocationList() {
-    this.locationList = ['All','Dublin', 'Cork'];
+    this.businessService.getLocations().subscribe((data: any)=>{
+      this.locationList = ['All'];
+      for (const key in data['response']) {
+        this.locationList.push(data['response'][key][0])
+      }
+    })
   }
 
   public selectLocation(e: any){
@@ -39,26 +44,10 @@ export class HomeComponent implements OnInit {
   }
 
   public searchBusiness() {
-    // this.searchParams = {
-    //   business: this.businessInputField,
-    //   location: string
-    // }
     const business = this.searchParams.business!= '' ? this.searchParams.business : null;
     const location = this.searchParams.location!= '' ? this.searchParams.location : null;
-    
+  
     this.router.navigate(['/services'],{ queryParams: {business:business, location: location}})
-//   this.businessService.getServices(this.searchParams).subscribe( {  
-
-//     next : (data) => {
-//       console.log('service call response', data )
-//       this.router.navigate(['/services'+])
-//       // do something with the data here 
-//     }
-//     ,error :(error) => {
-//         //error handling
-//          console.log(error)
-//     }
-// }); 
   }
 
   public onKeyUp(e: any){
@@ -70,4 +59,6 @@ export class HomeComponent implements OnInit {
       this.businessInputField = ''
     }
   }
+
+
 }

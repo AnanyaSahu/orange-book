@@ -18,18 +18,25 @@ export class BusinessService {
 
 
   public getServices( params: any): Observable<Object> {
+    console.log('business service', params)
     return this.http
-    .get(this.prefix + '/getServices/', params)
+    .get(this.prefix + '/getServices/'+ params.business + '/'+ params.location)
   }
 
   public getServiceByServiceId( params: any): Observable<Object> {
     return this.http
     .get(this.prefix + '/getService/'+params)
   }
+
+  
+  public getLocations(): Observable<Object> {
+    return this.http
+    .get(this.prefix + '/getLocations')
+  }
   
   public createBookings( params: any): Observable<Object> {
     return this.http
-    .post(this.prefix + '/createBookings/', params)
+    .post(this.prefix + '/createBookings', params)
 
 
   }
