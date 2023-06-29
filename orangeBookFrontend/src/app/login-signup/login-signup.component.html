@@ -16,6 +16,7 @@
               </div>
                 </form>
                 <div ><span>Don't have an Account? &nbsp;</span> <span  class="primary-color cursor-pointer font-link" (click)="switchForm()">Create An Account</span></div>
+                <div ><span  class="primary-color cursor-pointer font-link" (click)="forgetPassword()">Forget Password?</span></div>
               </div>
       </div> 
   </div>
@@ -37,6 +38,9 @@
                 <br>
                 <input id="contactNumber" type="text" name="contactNumber" placeholder="Conatct Number" 
                 onfocus="this.placeholder=''" onblur="this.placeholder='Conatct Number'" [(ngModel)]="contactNumber">
+                <br>
+                <input id="address" type="text" name="address" placeholder="Address" 
+                onfocus="this.placeholder=''" onblur="this.placeholder='Address'" [(ngModel)]="address">
                 <br>
                 <input id="password" type="text" name="password" placeholder="Password" 
                 onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="password">

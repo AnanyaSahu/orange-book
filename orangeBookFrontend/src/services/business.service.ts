@@ -16,12 +16,29 @@ export class BusinessService {
 
   }
 
-  public getServices(searchParams: any): Observable<Object> {
-    console.log(searchParams)
-    return this.http
-    .get(this.prefix + '/getBookings/101')
 
-    // return of('in service')
+  public getServices( params: any): Observable<Object> {
+    return this.http
+    .get(this.prefix + '/getServices/', params)
+  }
+
+  public getServiceByServiceId( params: any): Observable<Object> {
+    return this.http
+    .get(this.prefix + '/getService/'+params)
+  }
+  
+  public createBookings( params: any): Observable<Object> {
+    return this.http
+    .post(this.prefix + '/createBookings/', params)
+
+
+  }
+
+  
+  public cancelBookings(bookingId: number): Observable<Object> {
+    return this.http
+    .put(this.prefix + '/cancelBookings/' + bookingId, {isCancelled: true})
+
   }
 
 
@@ -29,14 +46,4 @@ export class BusinessService {
   //   return Observable.throw(err.message || 'Error: Unable to complete request.');
   // }
 
-  // GET list of public, future events
-  getExams(): Observable<any> {
-    return this.http
-      .get(this.prefix + '/getBookings/101')
-
-
-        // return this.http
-    //   .get(`${API_URL}/exams`)
-    //   .catch(BusinessService._handleError);
-  }
 }

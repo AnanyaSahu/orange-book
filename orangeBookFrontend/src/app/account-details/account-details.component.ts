@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/models/user.model';
+import { UserService } from 'src/services/user.service';
 
 @Component({
   selector: 'app-account-details',
@@ -14,25 +15,31 @@ export class AccountDetailsComponent implements OnInit{
   public isMaskedPasswordVisible = true;
   public isEditButtonClicked = false
 
-  constructor(){
+  constructor (private userService:UserService) {
 
   }
 
   ngOnInit(): void {
-    this.user = {
-      firstName:'edwsgf',
-      userId : 'bfs',
-      lastName:"sfgs", 
-      email:'sgvd', 
-      contactNumber:237548, 
-      password:'sdkjyfh'
-    }
+    this.getUserDetailsFromUserService()
+  }
+  /**
+   * getUserDetailsFromUserService
+   */
+  public getUserDetailsFromUserService() {
+    this.userService.userDetails.subscribe((userData)=>{
+      this.user = userData
+
+    })
   }
 
   showPassword(){
    this.isMaskedPasswordVisible = !this.isMaskedPasswordVisible
     this.password = this.isMaskedPasswordVisible? 'xxxxxxxx': this.user.password
     this.showHidelink = this.isMaskedPasswordVisible? 'Show': 'Hide'
+  }
+
+  switchForms(){
+    this.isEditButtonClicked = !this.isEditButtonClicked
   }
 
   editDetails(){
@@ -43,8 +50,42 @@ export class AccountDetailsComponent implements OnInit{
    * saveDetails
    */
   public saveDetails() {
-    //api call to save details
+    
     this.editDetails()
+    //api call to save details
+
+
+ 
   }
+
+
+  public updateUserAccount(){
+ 
+      console.log('updateUserAccount method')
+    
+
+      let updateUserAccountParam = {
+        firstname:this.user.firstName,
+        lastname:this.user.lastName, 
+        password:this.user.password, 
+        email:this.user.email, 
+        phone:this.user.contactNumber, 
+        address:this.user.address}
+      
+        this.userService.updateUserAccount(Number(this.user.userId),updateUserAccountParam).subscribe({
+          next : (data) => {
+            console.log('service call response', data )
+            // do something with the data here
+          } 
+          ,error :(error) => {
+            //error handlin
+            console.log(error)
+          }
+        }); 
+
+    
+  }
+
+  // public G
 
 }

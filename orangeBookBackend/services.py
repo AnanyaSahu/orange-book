@@ -1,48 +1,72 @@
+from database import databaseConnection
 
 
-class service:
+class services:
     def __init__(self):
         pass
         
 
-    def getBookings(self,customerId):
-        print('in service.py')
-        # listOfSeatBooked =[]
-        # d = databaseConnection()
-        # cursor = d.openDbConnection()
-        # getTherterQuery = "SELECT [thearerName],[areaId],[rowRange],[ColumnRange] FROM [MoviesWorld].[dbo].[Theater] where [theaterId] = "+theaterId +";"
-        # getBookedTickets = "SELECT [seatBooked] FROM [MoviesWorld].[dbo].[Booking] where [theraterId] = "+theaterId +" AND [movieId]='"+ movieId  +"';"
-        # cursor.execute(getTherterQuery)
-        # record = cursor.fetchall()
-        # row = record[0][2].split(',')
-        # column =  record[0][3].split(',')
-        # listOfSeats = []
-        # seatDictionary = {} 
-        # cursor.execute(getBookedTickets)
-        # record = cursor.fetchall()
-        # for i in record:
-        #     i[0].split(',')
-        #     listOfSeatBooked += i[0].split(',')
-        # for i in range (ord(row[1])-ord(row[0])+1):
-        #     for j in range(int(column[0]), int(column[1])+1):
-        #         seat = chr(ord('A') + i) + '-' + str(j)
-        #         listOfSeats.append(seat)
-        #         if(seat in listOfSeatBooked): seatDictionary[seat] = 'B'
-        #         else: seatDictionary[seat] = 'A'
-        
-        # outputDict = {'row': row, 'column': column ,'seats': seatDictionary}
-        # return {'rows':outputDict}
-        return {'response':'response from python api'}
+
     
-    def getServices(self):
-        return 'a'
+    def getAllServices(self,param):
+        locationQuery = ""
+        businessQuery=""
+        whereQuery = ""
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "Select * from [dbo].[Business]"
+        if(param['location'] != "" or param['business'] !=""):
+            whereQuery = " WHERE "
+        if(param['location'] != '' ):
+            locationQuery = " [location] = '"+param['location']+"'"
+        if( param['business']  != '' ):
+            businessQuery = " AND ([serviceType]='"+ param['business'] +"' OR [businessName]='"+ param['business'] +"')"
+        finalQuery = query+whereQuery+locationQuery +businessQuery
+        newQuery = finalQuery.replace('WHERE  AND', 'WHERE')
+        print(newQuery)
+       
+        cursor.execute(newQuery)
+        record = cursor.fetchall()
+        d.closeDbConnection()
+        r= [tuple(row) for row in record]
+        return {'response':r}
     
-    def createBookings(self, customerId, serviceId):
-        return 'a'
+    
+    def getServiceByServiceId(self, serviceId):
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "Select * from [dbo].[Business] Where [serviceId]="+str(serviceId)+";"
+        cursor.execute(query)
+        record = cursor.fetchall()
+        r= [tuple(row) for row in record]
+        return {'response':r}
+    
+    def createBookings(self, param):
+  
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "INSERT INTO [dbo].[UserBooking] VALUES(?,?,?);"
+       
+        cursor.execute(query, param['customerId'], param['serviceId'], 1)
+        cursor.commit()
+        d.closeDbConnection()
+        return {'message':'Booking has been made'}
         
     def cancelBookings(self, bookingId):
-        return 'a'
+       
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "UPDATE [orange-book].[dbo].[UserBooking] SET [isCancelled]= "+ str(1) + " WHERE [bookingId]= '" +str(bookingId)+"';"
+       
+        cursor.execute(query)
+        cursor.commit()
+        d.closeDbConnection()
+        return {'message':'Booking has been cancelled'}
     
+
+# s =service()
+# s.getAllServices('','')
+
     
 
     

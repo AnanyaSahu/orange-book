@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
+import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
+import {UserService} from '../../services/user.service'
+// import {md5} from '../../services/md5'
+import * as crypto from 'crypto';
+// import bcrypt = require('bcryptjs');
+import * as bcrypt from 'bcryptjs'
 
-@Component({
-  selector: 'app-login-signup',
-  templateUrl: './login-signup.component.html',
-  styleUrls: ['./login-signup.component.scss']
-})
+
+// const bcrypt = require('bcryptjs')
 export class LoginSignupComponent {
  
   public firstName: string;
@@ -15,9 +18,12 @@ export class LoginSignupComponent {
   public repeatpassword: string;
   public useremail: string;
   public userpassword: string;
+  public address:string;
   public isSignUpFormVisible = false
+  // passwordHash = require('password-hash');
 
-  constructor () {
+
+  constructor (private userService:UserService) {
 
   }
 
@@ -33,15 +39,55 @@ export class LoginSignupComponent {
   }
 
   public createAccount(){
+    if(this.password.trim() != this.repeatpassword){
+      // erroe msg 
+    } else{
+      console.log('createAccount method')
+    
+      // const md5 = (contents: string) => crypto.createHash('md5').update(contents).digest("hex");
+      // var hash =  crypto.createHash('md5').update('contents').digest("hex")
+      // crypto.createHash('
+      
+      bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync());
+      console.log(bcrypt.hashSync('yourPasswordFromSignupForm', bcrypt.genSaltSync()));
 
-    // create account api call
+      let createAccountParam = {
+        firstname:this.firstName,
+        lastname:this.lastName, 
+        password:this.password, 
+        email:this.email, 
+        phone:this.contactNumber, 
+        address:this.address}
+      
+        this.userService.createUserAccount(createAccountParam).subscribe({
+          next : (data) => {
+            console.log('service call response', data )
+            // do something with the data here
+          }
+          ,error :(error) => {
+            //error handlin
+            console.log(error)
+          }
+        }); 
 
-    // show toast
+    }
+
   }
 
 
   public login() {
-    
+    //hash password
+    this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword}).subscribe({
+      next : (data) => {
+        this.userService.userDetails.next(data)
+        console.log('service call response', data )
+        // do something with the data here
+      }
+      ,error :(error) => {
+        //error handlin
+        console.log(error)
+      }
+    }); 
   }
 
   public switchForm() {
@@ -49,4 +95,12 @@ export class LoginSignupComponent {
 
   }
 
+  public forgetPassword(){
+    
+  }
+
 }
+// function md5(arg0: string) {
+//   throw new Error('Function not implemented.');
+// }
+

@@ -3,14 +3,18 @@
 from flask_cors import CORS
 # from flask import Flask, render_template, request
 
-from services import service
+from services import services
 from account import account
 from flask import Flask
 from flask import Flask, render_template, request
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
 
 # # mysql = MySQL()
+
 app = Flask(__name__)
 CORS(app)
+app.config['JWT_SECRET_KEY'] = 'DtlCdt8PfPmkBpUOLve2PZYcXKqLI-3tAaH3FvFOccQ'
+jwt = JWTManager(app)
 # # mysql.init_app(app)
 
 
@@ -18,42 +22,63 @@ CORS(app)
 #  app.run(host='0.0.0.0',port='8080', ssl_context=('../cert.pem', '../privkey.pem'))
 
 # This method will list all the services
-@app.route('/getServices/', methods=['GET'])
+@app.route('/getServices', methods=['GET'])
 def  getServices():
-    s = service()
-    return s.getServices()
+    s = services()
+    print(request.json)
+    return s.getAllServices(request.json)
 
-# This method will get the bookings. for the user, input is customer id
-@app.route('/getBookings/<int:customerId>', methods=['GET'])
-def  getBookings(customerId):
-    s = service()
-    return s.getBookings(customerId)
-
+@app.route('/getService/<int:serviceId>', methods=['GET'])
+def  getServiceByServiceId(serviceId):
+    s = services()
+    return s.getServiceByServiceId(serviceId)
 
 # This method will create the bookings. for the user, input is customer id and serviceId
-@app.route('/createBookings/<int:customerId>/<int:serviceId>', methods=['POST'])
-def  createBookings(customerId, serviceId):
-    s = service()
-    return s.createBookings(customerId, serviceId)
+@app.route('/createBookings', methods=['POST'])
+def  createBookings():
+    s = services()
+    print(request.json)
+    return s.createBookings(request.json)
 
 # This method will cancel the bookings. for the user, input is booking id
 @app.route('/cancelBookings/<int:bookingId>', methods=['PUT'])
 def  cancelBookings(bookingId):
-    s = service()
+    s = services()
     return s.cancelBookings(bookingId)
 
-# This method will create the user account, input is firstname, lastname, username, password, email, phone, address
-@app.route('/createAccount/<int:firstname>/<string:lastname>/<string:username>/<string:password>/<string:email>/<string:phone>/<string:address>', methods=['POST'])
-def  createUserAccount(firstname, lastname, username, password, email, phone, address):
+# This method will get the bookings. for the user, input is customer id
+@app.route('/getBookings/<int:userId>', methods=['GET'])
+def  getBookings(userId):
     a = account()
-    return a.createUserAccount(firstname, lastname, username, password, email, phone, address)
+    return a.getBookings(userId)
+
+# This method will create the user account, input is firstname, lastname, username, password, email, phone, address
+@app.route('/createAccount', methods=['POST'])
+def  createUserAccount():
+    print('createUserAccount in python')
+    print(request.json)
+    a = account()
+    return a.createUserAccount(request.json)
 
 # This method will verify the user account, input is username, password
-@app.route('/verifyAccount/<int:username>/<int:password>', methods=['POST'])
-def  verifyUserAccount(username, password):
+@app.route('/verifyAccount', methods=['POST'])
+def  verifyUserAccount():
+    print(request.json)
     a = account()
-    return a.verifyUserAccount(username, password)
+    return a.verifyUserAccount(request.json)
 
+# This method will update the user account, input is firstname, lastname, username, password, email, phone, address
+@app.route('/updateAccount/<int:userId>', methods=['PUT'])
+def  updateUserAccount(userId):
+    print(request.json)
+    a = account()
+    return a.updateAccountDetails(userId, request.json)
+
+# This method will get the account details. for the user, input is customer id
+@app.route('/getAccountDetails/<int:userId>', methods=['GET'])
+def  getAccountDetails(userId):
+    a = account()
+    return a.getAccountDetails(userId)
  
 @app.route("/",  methods=['GET'])
 def root():

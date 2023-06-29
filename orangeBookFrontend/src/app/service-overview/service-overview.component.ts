@@ -47,7 +47,7 @@ export class ServiceOverviewComponent implements OnInit {
           email: 'string@gmail.com',
           address: '34, address, sddress',
           ratings: 3,
-          sreviceType: 'type of service',
+          sreviceType: 'type  of service',
           serviceCost: 's$54656'},
           {     businessId: '101',
           businessName: 'plumber',
@@ -67,17 +67,16 @@ export class ServiceOverviewComponent implements OnInit {
         this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found";
 
       }
-    //   this.businessService.getServices(queryParams).subscribe( {  
-
-    //     next : (data) => {
-    //       console.log('service call response', data )
-    //       // do something with the data here 
-    //     }
-    //     ,error :(error) => {
-    //         //error handling
-    //          console.log(error)
-    //     }
-    // });
+      this.businessService.getServices(queryParams).subscribe( {  
+        next : (data) => {
+          console.log('service call response', data )
+          // do something with the data here 
+        }
+        ,error :(error) => {
+            //error handling
+             console.log(error)
+        }
+    });
     })
     
 
