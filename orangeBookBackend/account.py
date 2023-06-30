@@ -6,6 +6,7 @@ from orangeBookBackend.entities.UserClass import UserObj
 from orangeBookBackend.entities.BusinessClass import BusinessObj
 from services import services
 import json
+from transform import transform
 
 class account:
 
@@ -47,7 +48,8 @@ class account:
             print(access_token)
             r= [tuple(row) for row in record]  
             a=account()
-            userData = a.transformUserRows(record)
+            # userData = a.transformUserRows(record)
+            userData = transform('user',record).transformRows()
             return {'response':userData, 'message':'Account has been created','access_token':access_token }
         # d.closeDbConnection()
 
@@ -68,7 +70,8 @@ class account:
         for row in record:
             # do 
             # print(row)
-            transformedListItem = s.transformBusinessRows([row])[0]
+            # transformedListItem = s.transformBusinessRows([row])[0]
+            transformedListItem = transform('business',[row]).transformRows()[0]
             transformedListItem['bookingId'] = row[9]
             transformedListItem['isCancelled'] = row[10]
             bookedbusinessList.append(transformedListItem)
@@ -132,14 +135,14 @@ class account:
         # r= [tuple(row) for row in record]'response':userData,
         return { 'message': "Account Updated Successfully"}    
     
-    def transformUserRows(self, record):
-        # userList = []
-        for row in record:
-            userObj = UserObj(row[0],row[1],row[2],row[3],row[4],row[5])
-            # print(json.dumps(businessObj.__dict__))
-            # businessList.append(json.loads(json.dumps(businessObj.__dict__)))
-        # print(businessList)
-        return json.loads(json.dumps(userObj.__dict__))
+    # def transformUserRows(self, record):
+    #     # userList = []
+    #     for row in record:
+    #         userObj = UserObj(row[0],row[1],row[2],row[3],row[4],row[5])
+    #         # print(json.dumps(businessObj.__dict__))
+    #         # businessList.append(json.loads(json.dumps(businessObj.__dict__)))
+    #     # print(businessList)
+    #     return json.loads(json.dumps(userObj.__dict__))
 
 
 # s =account()

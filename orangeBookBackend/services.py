@@ -3,6 +3,7 @@ from database import databaseConnection
 import sys
 sys.path.insert(0,"..")
 from orangeBookBackend.entities.BusinessClass import BusinessObj
+from transform import transform
 import json
 
 
@@ -34,10 +35,7 @@ class services:
         cursor.execute(newQuery)
         record = cursor.fetchall()
         # d.closeDbConnection()
-        # r= [tuple(row) for row in record]
-        # for row in record:
-            # print(row[0])
-        businessList = s.transformBusinessRows(record)
+        businessList = transform('business',record).transformRows()
         
 
         return {'response':businessList}
@@ -50,7 +48,7 @@ class services:
         query = "Select * from [dbo].[Business] Where [businessId]="+str(serviceId)+";"
         cursor.execute(query)
         record = cursor.fetchall()
-        businessList = s.transformBusinessRows(record)
+        businessList = transform('business',record).transformRows()
         if(len(businessList)==0):
             msg='No Matching Business'
 
@@ -88,18 +86,18 @@ class services:
         query = "Select distinct([location]) from [orange-book].[dbo].[Business];"
         return {'response':r}
     
-    def transformBusinessRows(self, record):
-        businessList = []
-        for row in record:
-            businessObj = BusinessObj(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
-            # print(json.dumps(businessObj.__dict__))
-            businessList.append(json.loads(json.dumps(businessObj.__dict__)))
-        # print(businessList)
-        return businessList
+    # def transformBusinessRows(self, record):
+    #     businessList = []
+    #     for row in record:
+    #         businessObj = BusinessObj(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
+    #         # print(json.dumps(businessObj.__dict__))
+    #         businessList.append(json.loads(json.dumps(businessObj.__dict__)))
+    #     # print(businessList)
+    #     return businessList
            
 
-s =services()
-s.getAllServices('all','all')
+# s =services()
+# s.getAllServices('all','all')
 
 
     
