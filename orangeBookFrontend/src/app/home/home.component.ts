@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BusinessService} from '../../services/business.service'
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
   } = { business: '',
         location: ''}
   constructor(private businessService: BusinessService,
+    private toastr: ToastrService,
     public router: Router) {
 
   }
@@ -28,12 +30,18 @@ export class HomeComponent implements OnInit {
   }
 
   private getLocationList() {
-    this.businessService.getLocations().subscribe((data: any)=>{
-      this.locationList = ['All'];
-      for (const key in data['response']) {
-        this.locationList.push(data['response'][key][0])
+    this.businessService.getLocations().subscribe({
+      next : (data: any) => {
+        this.locationList = ['All'];
+        for (const key in data['response']) {
+          this.locationList.push(data['response'][key][0])
+        }
       }
-    })
+      ,error :(error) => {
+        this.toastr.error('Unable to fetch Locations!', 'ERROR!');
+        console.log(error)
+      }
+    }); 
   }
 
   public selectLocation(e: any){

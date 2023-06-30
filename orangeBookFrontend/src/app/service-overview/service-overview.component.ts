@@ -4,6 +4,7 @@ import { Route } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-service-overview',
@@ -23,7 +24,8 @@ export class ServiceOverviewComponent implements OnInit {
 
   constructor(private businessService: BusinessService,
     private activatedRoute: ActivatedRoute,
-    public router: Router) {
+    public router: Router,
+    private toastr: ToastrService) {
 
   }
 
@@ -76,6 +78,7 @@ export class ServiceOverviewComponent implements OnInit {
         }
         ,error :(error) => {
             //error handling
+            this.toastr.error('Unable to fetch services!', 'ERROR!');
              console.log(error)
         }
     });

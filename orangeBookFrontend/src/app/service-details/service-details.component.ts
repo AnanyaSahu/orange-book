@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Business } from 'src/models/business.model';
 import { BusinessService } from 'src/services/business.service';
 import { UserService } from '../../services/user.service'
@@ -19,7 +20,8 @@ export class ServiceDetailsComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private businessService: BusinessService
+    private businessService: BusinessService,
+    private toastr: ToastrService
     ) {
 
   }
@@ -58,13 +60,13 @@ export class ServiceDetailsComponent {
           }
 
         this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
-  
           next : (data) => {
             console.log('service call response', data )
             // do something with the data here 
           }
           ,error :(error) => {
               //error handling
+              this.toastr.error('Unable to fetch service!', 'ERROR!');
                console.log(error)
           }
       });
@@ -84,9 +86,11 @@ export class ServiceDetailsComponent {
       next : (data) => {
         console.log('service call response', data )
         // do something with the data here 
+        this.toastr.success('Booking Confirmed!', 'Success!');
       }
       ,error :(error) => {
           //error handling
+          this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
            console.log(error)
       }
   });

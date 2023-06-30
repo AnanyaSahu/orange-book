@@ -4,6 +4,8 @@ import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
 import {BusinessService} from '../../services/business.service'
 import {UserService} from '../../services/user.service'
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-account-bookings',
@@ -20,7 +22,9 @@ export class AccountBookingsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public router: Router,
     private businessService:BusinessService,
-    private userService:UserService) {
+    private userService:UserService,
+    private toastr: ToastrService
+    ) {
 
   }
 
@@ -51,11 +55,14 @@ export class AccountBookingsComponent implements OnInit {
 
     this.userService.getBookings(100).subscribe({
       next : (data) => {
+       
         console.log('service call response', data )
         // do something with the data here
+
       }
       ,error :(error) => {
         //error handlin
+        this.toastr.error('Unable to fetch bookings!', 'Error!');
         console.log(error)
       }
     }); 
@@ -71,9 +78,11 @@ export class AccountBookingsComponent implements OnInit {
       next : (data) => {
         console.log('service call response', data )
         // do something with the data here
+        this.toastr.success('Your booking has been cancelled!', 'Success!');
       }
       ,error :(error) => {
         //error handlin
+        this.toastr.error('Unable to cancel bookings!', 'Error!');
         console.log(error)
       }
     }); 

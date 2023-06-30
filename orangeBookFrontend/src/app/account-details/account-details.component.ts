@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/models/user.model';
 import { UserService } from 'src/services/user.service';
 
@@ -15,7 +16,9 @@ export class AccountDetailsComponent implements OnInit{
   public isMaskedPasswordVisible = true;
   public isEditButtonClicked = false
 
-  constructor (private userService:UserService) {
+  constructor (private userService:UserService,
+    private toastr: ToastrService) {
+    
 
   }
 
@@ -42,6 +45,7 @@ export class AccountDetailsComponent implements OnInit{
       }
       ,error :(error) => {
         //error handlin
+        this.toastr.error('Unable to fetch details!', 'ERROR!');
         console.log(error)
       }
     }); 
@@ -90,10 +94,12 @@ export class AccountDetailsComponent implements OnInit{
         this.userService.updateUserAccount(Number(this.user.userId),updateUserAccountParam).subscribe({
           next : (data) => {
             console.log('service call response', data )
+            this.toastr.success('Account Details Updated!', 'Success!');
             // do something with the data here
           } 
           ,error :(error) => {
             //error handlin
+            this.toastr.error('Somthing went wrong!', 'ERROR!');
             console.log(error)
           }
         }); 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import {UserService} from '../../services/user.service'
 import * as bcrypt from 'bcryptjs';
+import { ToastrService } from 'ngx-toastr';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -24,8 +25,10 @@ export class LoginSignupComponent {
   // passwordHash = require('password-hash');
 
 
-  constructor (private userService:UserService) {
-    this.hashPassword('admin')
+  constructor (private userService:UserService,
+    private toastr: ToastrService) {
+
+    // this.hashPassword('admin')
   }
 
   hashPassword(password: string): string {
@@ -37,16 +40,6 @@ export class LoginSignupComponent {
     return hash;
   }
   
-  
-  // Show toast notification
-  public showToast(message: string) {
-    // let toast = await this.toastCtrl.create({
-    //   message: message,
-    //   duration: 2000,
-    //   position: 'middle'
-    // });
-    // toast.present();
-  }
 
   public createAccount(){
     if(this.password.trim() != this.repeatpassword.trim()){
@@ -66,10 +59,12 @@ export class LoginSignupComponent {
         this.userService.createUserAccount(createAccountParam).subscribe({
           next : (data) => {
             console.log('service call response', data )
+            this.toastr.success('Account created successfully!', 'Success!');
             // do something with the data here
           }
           ,error :(error) => {
             //error handlin
+            this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
             console.log(error)
           }
         }); 
@@ -95,10 +90,12 @@ export class LoginSignupComponent {
         }
         localStorage.setItem('access_token',JSON.stringify(access_token_item))
         console.log('service call response', data )
+        this.toastr.success('Login successful!', 'Success!');
         // do something with the data here
       }
       ,error :(error) => {
         //error handlin
+        this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
         console.log(error)
       }
     }); 
