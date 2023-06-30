@@ -1,7 +1,11 @@
 from database import databaseConnection
-import hashlib
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token
-
+import sys
+sys.path.insert(0,"..")
+from orangeBookBackend.entities.UserClass import UserObj
+from orangeBookBackend.entities.BusinessClass import BusinessObj
+from services import services
+import json
 
 class account:
 
@@ -15,7 +19,7 @@ class account:
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?);"
-        cursor.execute(query, param['firstname'],  param['lastname'],  param['email'],  param['phone'],  param['address'], param['password'])
+        cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), str( param['password']))
         recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
         cursor.commit()
         fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+"';"
@@ -28,7 +32,7 @@ class account:
 
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT * FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"' AND  [password] = '"+param['password']+"';"
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"' AND  [password] = '"+param['password']+"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
@@ -42,25 +46,38 @@ class account:
             access_token = create_access_token(identity=param['username'])
             print(access_token)
             r= [tuple(row) for row in record]  
-            return {'response':r, 'message':'Account has been created','access_token':access_token }
+            a=account()
+            userData = a.transformUserRows(record)
+            return {'response':userData, 'message':'Account has been created','access_token':access_token }
         # d.closeDbConnection()
 
 
     def getBookings(self,customerId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "Select * from [orange-book].[dbo].[UserBooking] as ub Inner Join [dbo].[Business] as b on ub.[businessId] = b.[businessId] Where [userId] = '"+str(customerId) +"';"
+        query = "Select b.[businessId] ,b.[businessName],b.[contactNumber],b.[email],b.[address],b.[rating],b.[serviceType],b.[serviceCost],b.[location], ub.[bookingId], ub.[isCancelled] from [orange-book].[dbo].[UserBooking] as ub Inner Join [dbo].[Business] as b on ub.[businessId] = b.[businessId] Where [userId] = '"+str(customerId) +"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
         # d.closeDbConnection()
-        r= [tuple(row) for row in record]
-        return {'response':r}
+        # r= [tuple(row) for row in record]
+        s=services()
+        bookedbusinessList = [] 
+        a = account()
+        # print(record)
+        for row in record:
+            # do 
+            # print(row)
+            transformedListItem = s.transformBusinessRows([row])[0]
+            transformedListItem['bookingId'] = row[9]
+            transformedListItem['isCancelled'] = row[10]
+            bookedbusinessList.append(transformedListItem)
+        return {'response':bookedbusinessList}
 
     def getAccountDetails(self,customerId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address] FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
@@ -104,10 +121,26 @@ class account:
         newQuery= finalQuery.replace('SET AND', 'SET')
         print(newQuery)
         cursor.execute(newQuery)
-        record = cursor.fetchall()
+        cursor.commit()
+        # recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
+        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(customerId)+"';"
+        record = cursor.execute(fetchquery).fetchall()
+        # r= [tuple(row) for row in record]  
+        # a=account()
+        # userData = a.transformUserRows(record)
         # d.closeDbConnection()
-        r= [tuple(row) for row in record]
-        return {'response':r}    
+        # r= [tuple(row) for row in record]'response':userData,
+        return { 'message': "Account Updated Successfully"}    
+    
+    def transformUserRows(self, record):
+        # userList = []
+        for row in record:
+            userObj = UserObj(row[0],row[1],row[2],row[3],row[4],row[5])
+            # print(json.dumps(businessObj.__dict__))
+            # businessList.append(json.loads(json.dumps(businessObj.__dict__)))
+        # print(businessList)
+        return json.loads(json.dumps(userObj.__dict__))
+
 
 # s =account()
-# s.verifyUserAccount({'username':'ananya@example.co','password':'3627997f92de663756a57b5098e3c11e'})        
+# s.getBookings('100')        

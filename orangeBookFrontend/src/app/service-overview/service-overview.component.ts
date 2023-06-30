@@ -43,38 +43,42 @@ export class ServiceOverviewComponent implements OnInit {
       this.searchParams.business = queryParams['business']? queryParams['business']:"all";
       this.searchParams.location = queryParams['location']?queryParams['location']:"all";
      
-      this.businessList = [
-        {     businessId: '101',
-          businessName: 'plumber',
-          contactNumber: '83274523857023',
-          email: 'string@gmail.com',
-          address: '34, address, sddress',
-          ratings: 3,
-          sreviceType: 'type  of service',
-          serviceCost: 's$54656'},
-          {     businessId: '101',
-          businessName: 'plumber',
-          contactNumber: 'string',
-          email: 'string',
-          address: 'string',
-          ratings: 3,
-          sreviceType: 'string',
-          serviceCost: 'string'}
-      ];
+      // this.businessList = [
+      //   {     businessId: '101',
+      //     businessName: 'plumber',
+      //     contactNumber: '83274523857023',
+      //     email: 'string@gmail.com',
+      //     address: '34, address, sddress',
+      //     ratings: 3,
+      //     sreviceType: 'type  of service',
+      //     serviceCost: 's$54656',
+      //     location: 'dublin'},
+      //     {     businessId: '101',
+      //     businessName: 'plumber',
+      //     contactNumber: 'string',
+      //     email: 'string',
+      //     address: 'string',
+      //     ratings: 3,
+      //     sreviceType: 'string',
+      //     serviceCost: 'string',
+      //     location: 'dublin'}
+      // ];
 
       this.businessService.getServices( this.searchParams).subscribe( {  
-        next : (data) => {
+        next : (data: any) => {
+          this.businessList = data.response
           console.log('service call response', data )
-          if ( this.searchParams.business?.trim() =='' && this.searchParams.location.trim()=='') {
+          if ( this.searchParams.business?.trim() =='all' && this.searchParams.location.trim()=='all') {
             this.searchedResultsString = this.businessList.length + " results found";
           }
-          else if( this.searchParams.business.trim()!='' &&  this.searchParams.location.trim()!='') {
+          else if( this.searchParams.business.trim()!='all' &&  this.searchParams.location.trim()!='all') {
             this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found near "+ this.searchParams.location;
-          } else if ( this.searchParams.business?.trim() !='' && this.searchParams.location.trim()=='') {
+          } else if ( this.searchParams.business?.trim() !='all' && this.searchParams.location.trim()=='all') {
             this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.business +" found";
     
           }
-          // do something with the data here 
+         
+          // do something with the data here  
         }
         ,error :(error) => {
             //error handling

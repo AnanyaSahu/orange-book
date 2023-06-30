@@ -5,8 +5,12 @@
 <hr>
 <table>
     <tr>
-      <td>Full Name</td>
-      <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
+      <td>First Name</td>
+      <td>{{user.firstName}}</td>
+    </tr>
+    <tr>
+      <td>Last Name</td>
+      <td>{{user.lastName}}</td>
     </tr>
     <tr>
       <td>Mobile Number</td>
@@ -20,10 +24,10 @@
         <td>Address</td>
         <td>{{user.address}}</td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td>Password</td>
         <td>{{password}} <span (click)="showPassword()">{{showHidelink}}</span></td>
-      </tr>
+      </tr> -->
       <tr><button id="signoutn-btn" type="button" class="btn-primary" (click)="editDetails()">Edit</button></tr>
   </table>
 </div>
@@ -33,26 +37,35 @@
     <h2>Edit Details</h2>
     <hr>
     <table>
-        <tr>
-          <td>Full Name</td>
-          <td>{{user.firstName}}&nbsp;{{user.lastName}}</td>
-        </tr>
+      <tr>
+        <td>First Name</td>
+        <input id="firstName" type="text" name="firstName" placeholder="firstName" 
+        onfocus="this.placeholder=''" onblur="this.placeholder='firstName'" [(ngModel)]="user.firstName">
+      </tr>
+      <tr>
+        <td>Last Name</td>
+        <input id="lastName" type="text" name="lastName" placeholder="Last Name" required
+        onfocus="this.placeholder=''" onblur="this.placeholder='Last Name'" [(ngModel)]="user.lastName">
+      </tr>
         <tr>
           <td>Mobile Number</td>
-          <td>{{user.contactNumber}}</td>
+          <input id="contactNumber" type="text" name="contactNumber" placeholder="Conatct Number" 
+          onfocus="this.placeholder=''" onblur="this.placeholder='Conatct Number'" [(ngModel)]="user.contactNumber">
         </tr>
         <tr>
             <td>Email</td>
-            <td>{{user.email}}</td>
+            <input id="email" type="text" name="email" placeholder="Email" 
+            onfocus="this.placeholder=''" onblur="this.placeholder='Email'" [(ngModel)]="user.email">
           </tr>
           <tr>
             <td>Address</td>
-            <td>{{user.address}}</td>
+            <input id="address" type="text" name="address" placeholder="Address" 
+            onfocus="this.placeholder=''" onblur="this.placeholder='Address'" [(ngModel)]="user.address">
           </tr>
-          <tr>
+          <!-- <tr>
             <td>Password</td>
             <td>{{password}}</td>
-          </tr>
+          </tr> -->
           <tr><button id="save-btn" type="button" class="btn-primary" (click)="saveDetails()">Save Details</button></tr>
       </table>
     </div>

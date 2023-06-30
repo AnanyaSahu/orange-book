@@ -26,7 +26,7 @@ export class BusinessService {
   public getServices( params: any): Observable<Object> {
     console.log('business service', params)
     return this.http
-    .get(this.prefix + '/getServices/'+ params.business + '/'+ params.location)
+    .get(this.prefix + '/getServices/'+ params.business + '/'+ params.location,{responseType:'json'})
   }
 
   public getServiceByServiceId( params: any): Observable<Object> {

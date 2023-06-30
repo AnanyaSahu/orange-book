@@ -5,8 +5,9 @@
         <div>{{business.sreviceType}}</div>
         <div>{{business.serviceCost}}</div>
         <div>{{business.email}}</div>
-        <div  [class.disabled]="!isUserLoggedIn" >
-            <button id="book-modal-btn" type="button" class="btn-primary" (click)="bookAppointment(business.businessId )">Book Appointment</button>
+        <!-- <div  [class.disabled]="!isUserLoggedIn" > -->
+            <div>
+            <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" (click)="bookAppointment(business.businessId )">Book Appointment</button>
         </div>
 
 

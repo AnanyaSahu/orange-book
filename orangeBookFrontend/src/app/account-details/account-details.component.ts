@@ -16,6 +16,7 @@ export class AccountDetailsComponent implements OnInit{
   public isMaskedPasswordVisible = true;
   public isEditButtonClicked = false
 
+
   constructor (private userService:UserService,
     private toastr: ToastrService) {
     
@@ -72,6 +73,8 @@ export class AccountDetailsComponent implements OnInit{
     
     this.editDetails()
     //api call to save details
+
+    this.updateUserAccount()
 
 
  

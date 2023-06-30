@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Business } from 'src/models/business.model';
 import { BusinessService } from 'src/services/business.service';
@@ -21,7 +21,8 @@ export class ServiceDetailsComponent {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private businessService: BusinessService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public router: Router
     ) {
 
   }
@@ -39,33 +40,35 @@ export class ServiceDetailsComponent {
   public getUserDetailsFromUserService() {
     this.userService.userDetails.subscribe((userData)=>{
       this.userId = userData.userId
+      // console.log("userId")
+      // console.log(userData)
 
     })
   }
   getBusinessById(){
   
       this.activatedRoute.queryParams.subscribe(queryParams => {
-        console.log(queryParams)
-        this.bookingId = queryParams['businessId']
-        this.business = 
-          {     
-            businessId: '101',
-            businessName: 'plumber',
-            contactNumber: 'string',
-            email: 'string',
-            address: 'string',
-            ratings: 3,
-            sreviceType: 'string',
-            serviceCost: 'string'
-          }
-
+        // console.log(queryParams)
+        this.bookingId = queryParams['business']
         this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
-          next : (data) => {
+          next : (data: any) => {
             console.log('service call response', data )
-            // do something with the data here 
+            if(data.message == 'No Matching Business')
+            {
+              this.toastr.info('No Matching Business!', 'Info!');
+              this.router.navigate(['/services'])
+            } else{
+              this.business = data.response[0]
+              // do something with the data here 
+            }
+            
           }
-          ,error :(error) => {
+          ,error :(error: any) => {
               //error handling
+              if(error.status == 404){
+                this.router.navigate(['/404'])
+
+              } 
               this.toastr.error('Unable to fetch service!', 'ERROR!');
                console.log(error)
           }
@@ -75,27 +78,32 @@ export class ServiceDetailsComponent {
   
     }
    public bookAppointment( businessId : string) {
-    console.log('sdhblkuj')
+    
           let createBookingParam = {
             customerId: this.userId,
-            serviceId: this.bookingId
+            serviceId: businessId
 
           }
-    this.businessService.createBookings(createBookingParam).subscribe( {  
+
+          // console.log('sdhblkuj', createBookingParam)
+          if(this.userId == ''){
+            this.toastr.info('Login to book appointment!', 'Info!');
+          }
+          else {
+            this.businessService.createBookings(createBookingParam).subscribe( {  
   
-      next : (data) => {
-        console.log('service call response', data )
-        // do something with the data here 
-        this.toastr.success('Booking Confirmed!', 'Success!');
-      }
-      ,error :(error) => {
-          //error handling
-          this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
-           console.log(error)
-      }
-  });
-    
-    //show toast for bookings
+              next : (data) => {
+                // console.log('service call response', data )
+                // do something with the data here 
+                this.toastr.success('Booking Confirmed!', 'Success!');
+              }
+              ,error :(error) => {
+                  //error handling
+                  this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
+                   console.log(error)
+              }
+          });
+          }
 
    }
 

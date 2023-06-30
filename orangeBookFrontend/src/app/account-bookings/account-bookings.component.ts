@@ -30,6 +30,7 @@ export class AccountBookingsComponent implements OnInit {
 
 
   ngOnInit() {
+    this.userId = localStorage.getItem('userId')
     this.userService.userDetails.subscribe((userData)=>{
       this.userId = userData.userId
       this.getBookings()
@@ -44,18 +45,14 @@ export class AccountBookingsComponent implements OnInit {
    * getBookings
    */
   public getBookings() {
-    this.bookingList = [ {     businessId: '101',
-    businessName: 'plumber',
-    contactNumber: 'string',
-    email: 'string',
-    address: 'string',
-    ratings: 3,
-    sreviceType: 'string',
-    serviceCost: 'string'}]
-
-    this.userService.getBookings(100).subscribe({
-      next : (data) => {
+    if(this.userId == ''){
+      this.toastr.info('Login to get bookings!', 'Info!');
+    }
+    else {    
+      this.userService.getBookings(this.userId).subscribe({
+      next : (data: any) => {
        
+        this.bookingList = data.response
         console.log('service call response', data )
         // do something with the data here
 
@@ -65,7 +62,8 @@ export class AccountBookingsComponent implements OnInit {
         this.toastr.error('Unable to fetch bookings!', 'Error!');
         console.log(error)
       }
-    }); 
+    }); }
+
   }
 
 

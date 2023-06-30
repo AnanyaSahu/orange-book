@@ -6,5 +6,6 @@ export interface Business {
     address: string,
     ratings: number,
     sreviceType: string,
-    serviceCost: string
+    serviceCost: string,
+    location:string
     }

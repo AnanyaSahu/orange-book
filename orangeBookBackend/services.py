@@ -1,4 +1,9 @@
 from database import databaseConnection
+# from orangeBookBackendBusinessClass import BusinessObj
+import sys
+sys.path.insert(0,"..")
+from orangeBookBackend.entities.BusinessClass import BusinessObj
+import json
 
 
 class services:
@@ -9,6 +14,7 @@ class services:
 
     
     def getAllServices(self,business, location):
+        s =services()
         locationQuery = ""
         businessQuery=""
         whereQuery = ""
@@ -28,18 +34,27 @@ class services:
         cursor.execute(newQuery)
         record = cursor.fetchall()
         # d.closeDbConnection()
-        r= [tuple(row) for row in record]
-        return {'response':r}
+        # r= [tuple(row) for row in record]
+        # for row in record:
+            # print(row[0])
+        businessList = s.transformBusinessRows(record)
+        
+
+        return {'response':businessList}
     
     
     def getServiceByServiceId(self, serviceId):
         d = databaseConnection()
+        msg = ''
         cursor = d.openDbConnection()
         query = "Select * from [dbo].[Business] Where [businessId]="+str(serviceId)+";"
         cursor.execute(query)
         record = cursor.fetchall()
-        r= [tuple(row) for row in record]
-        return {'response':r}
+        businessList = s.transformBusinessRows(record)
+        if(len(businessList)==0):
+            msg='No Matching Business'
+
+        return {'response':businessList, 'message':msg}
     
     def createBookings(self, param):
   
@@ -47,7 +62,7 @@ class services:
         cursor = d.openDbConnection()
         query = "INSERT INTO [dbo].[UserBooking] VALUES(?,?,?);"
        
-        cursor.execute(query, param['customerId'], param['serviceId'], 1)
+        cursor.execute(query, str( param['customerId']),  str(param['serviceId']), 0)
         cursor.commit()
         # d.closeDbConnection()
         return {'message':'Booking has been made'}
@@ -70,11 +85,22 @@ class services:
         cursor.execute(query)
         record = cursor.fetchall()
         r= [tuple(row) for row in record]
+        query = "Select distinct([location]) from [orange-book].[dbo].[Business];"
         return {'response':r}
+    
+    def transformBusinessRows(self, record):
+        businessList = []
+        for row in record:
+            businessObj = BusinessObj(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8])
+            # print(json.dumps(businessObj.__dict__))
+            businessList.append(json.loads(json.dumps(businessObj.__dict__)))
+        # print(businessList)
+        return businessList
            
 
-# s =service()
-# s.getAllServices('','')
+s =services()
+s.getAllServices('all','all')
+
 
     
 

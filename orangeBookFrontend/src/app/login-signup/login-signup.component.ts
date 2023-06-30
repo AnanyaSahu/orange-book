@@ -3,6 +3,7 @@ import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import {UserService} from '../../services/user.service'
 import * as bcrypt from 'bcryptjs';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -26,7 +27,8 @@ export class LoginSignupComponent {
 
 
   constructor (private userService:UserService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    public router: Router) {
 
     // this.hashPassword('admin')
   }
@@ -60,6 +62,7 @@ export class LoginSignupComponent {
           next : (data) => {
             console.log('service call response', data )
             this.toastr.success('Account created successfully!', 'Success!');
+            this.router.navigate(['/home'])
             // do something with the data here
           }
           ,error :(error) => {
@@ -81,7 +84,7 @@ export class LoginSignupComponent {
     let hashedPAssword = this.hashPassword(this.userpassword)
     this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword}).subscribe({
       next : (data) => {
-        // this.userService.userDetails.next(data)
+        this.userService.userDetails.next(data.response)
         this.userService.userDetailsAndToken.next(data)
         let ttl = 5 * 60* 1000 // in miliseconds
         const access_token_item = {
@@ -89,8 +92,10 @@ export class LoginSignupComponent {
           expiry: new Date().getTime() + ttl,
         }
         localStorage.setItem('access_token',JSON.stringify(access_token_item))
+        localStorage.setItem('userId',data.response.userId)
         console.log('service call response', data )
         this.toastr.success('Login successful!', 'Success!');
+        this.router.navigate(['/home'])
         // do something with the data here
       }
       ,error :(error) => {
@@ -110,8 +115,5 @@ export class LoginSignupComponent {
     
   }
 
-}
-// function md5(arg0: string) {
-//   throw new Error('Function not implemented.');
-// }
+}   
 
