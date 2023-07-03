@@ -1,3 +1,4 @@
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit{
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
-    private breadcrumbService : BreadcrumbService
+    private breadcrumbService : BreadcrumbService,
+    private authService: SocialAuthService
   ) {
     this.currentRoute = window.location.href;  
     if(this.currentRoute.indexOf('home')>1){
@@ -56,5 +58,22 @@ export class AppComponent implements OnInit{
     // console.log('clodes')
     this.toggleAccountModal(event)
     // event.stopPropagation()
+  }
+
+  signInWithGoogle(): void {
+    
+    console.log('in signInWithGoogle')
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID,
+      {headers:{ key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups', }})
+      .then((user: SocialUser) => {
+        // Handle the signed-in user information
+        console.log('sigin via googel user')
+        console.log(user);
+      })
+      .catch((error: any) => {
+        // Handle error scenarios
+        console.log('in methor error')
+        console.log(error);
+      });
   }
 }

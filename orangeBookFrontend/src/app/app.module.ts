@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule, GoogleSigninButtonDirective } from '@abacritt/angularx-social-login';
+import { ServiceCardComponent } from './service-card/service-card.component';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
@@ -33,7 +34,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, Google
     AccountModalComponent,
     AccountBookingsComponent,
     AccountDetailsComponent,
-    ErrorPageComponent,BreadcrumbComponent
+    ErrorPageComponent,BreadcrumbComponent, ServiceCardComponent
   ],
   imports: [
     BrowserModule,
