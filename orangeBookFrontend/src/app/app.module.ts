@@ -18,6 +18,9 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule, GoogleSigninButtonDirective } from '@abacritt/angularx-social-login';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
@@ -30,7 +33,7 @@ import { ToastrModule } from 'ngx-toastr';
     AccountModalComponent,
     AccountBookingsComponent,
     AccountDetailsComponent,
-    ErrorPageComponent
+    ErrorPageComponent,BreadcrumbComponent
   ],
   imports: [
     BrowserModule,
@@ -39,11 +42,30 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     FormsModule,
     FontAwesomeModule,
+    SocialLoginModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    GoogleSigninButtonModule
   ],
   exports:[MatSelectModule],
-  providers: [],
+  providers: [
+    BreadcrumbService,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider('754954741922-r4gnvu4oidd0eoet2pmlgtmb69uhjl3c.apps.googleusercontent.com')
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    },
+    GoogleSigninButtonDirective
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+

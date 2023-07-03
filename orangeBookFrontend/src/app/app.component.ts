@@ -1,60 +1,60 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'orangeBookFrontend';
   public isAccountModalOpen = false;
-  @ViewChild('accountModal', { static: false }) 
-  accountModalElementRef: ElementRef;
+  public tabName = ''
+  public currentRoute = ''
+  public breadCrumbList = []
+  // @ViewChild('accountModal', { static: false }) 
+  // accountModalElementRef: ElementRef;
 
   constructor(
-    public router: Router
+    public router: Router,
+    public activatedRoute: ActivatedRoute,
+    private breadcrumbService : BreadcrumbService
   ) {
-    
+    this.currentRoute = window.location.href;  
+    if(this.currentRoute.indexOf('home')>1){
+      this.tabName = 'home'
+    } else     if(this.currentRoute.indexOf('services')>1){
+      this.tabName = 'services'
+    } 
+  }
+  ngOnInit(): void {
+    this.breadcrumbService.breadCrumb.subscribe((breadcrumb: any) =>{
+      console.log('breadcrumb app compoment')
+      console.log(breadcrumb)
+      this.breadCrumbList = breadcrumb
+    })
   }
 
 
+
+
   public navigateToTab(tabName : string): void {
+    this.tabName = tabName
     this.router.navigate(['/'+tabName])
   }
   /**
    * toggleAccountModal
    */
   public toggleAccountModal(e:any) {
+    this.tabName = ''
     this.isAccountModalOpen= !this.isAccountModalOpen
     
   }
 
-  // @HostListener('document:click', ['$event'])
-  // logGlobalEvent(globalEvent: any): void{
-  //   console.log(this.isAccountModalOpen)
-  //   if(this.isAccountModalOpen){
-  //     if(this.isEventTriggeredInsideHost(globalEvent)){
-  //       console.log('isEventTriggeredInsideHost')
-  //       return
-  //     }
-  //     console.log(' console.log')
-  //     this.isAccountModalOpen = false;
-  //   }
-  // }
-
-
-  // isEventTriggeredInsideHost(event: any) : boolean {
-  //   console.log(event)
-  //   console.log(this.accountModalElementRef.nativeElement)
-  //   let current = event.target
-  //   let host = this.accountModalElementRef.nativeElement;
-  //   do{
-  //     if(current=== host){
-  //       return (true)
-  //     }
-  //     current =current.parentNode
-  //   } while(current)
-  //   return (false)
-  // }
+  close(event:any){
+    // console.log('clodes')
+    this.toggleAccountModal(event)
+    // event.stopPropagation()
+  }
 }

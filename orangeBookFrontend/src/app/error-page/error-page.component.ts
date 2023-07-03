@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router'
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 
 @Component({
   selector: 'app-error-page',
@@ -8,7 +9,10 @@ import { Router } from '@angular/router'
 })
 export class ErrorPageComponent {
 
-  constructor(public router: Router){
+  constructor(public router: Router,
+    private breadcrumbService : BreadcrumbService) {
+
+      this.breadcrumbService.breadCrumb.next([{url: '', label: ''}])
 
   }
 

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 
 @Component({
   selector: 'app-service-overview',
@@ -25,7 +26,10 @@ export class ServiceOverviewComponent implements OnInit {
   constructor(private businessService: BusinessService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+    private breadcrumbService : BreadcrumbService) {
+
+      this.breadcrumbService.breadCrumb.next([{url: '/services', label: 'Services'}])
 
   }
 

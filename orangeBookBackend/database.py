@@ -10,7 +10,7 @@ class databaseConnection:
 
 # connect to database
     def openDbConnection(self):
-        try:
+        try: 
                 # if u have used window authentication for local running DB
             dbConnection = pyodbc.connect('Driver={SQL Server};'
                       'Server=ANNA\MSSQLSERVER03;'
@@ -33,7 +33,7 @@ class databaseConnection:
             # 'UID=sa;'
             # 'PWD=Sqlserver@123',autocommit = True)
 
-            print('data base')
+            # print('data base')
 
             if dbConnection.getinfo != None:
                 cursor = dbConnection.cursor()

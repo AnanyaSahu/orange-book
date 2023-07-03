@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Business } from 'src/models/business.model';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { BusinessService } from 'src/services/business.service';
 import { UserService } from '../../services/user.service'
 
@@ -22,8 +23,10 @@ export class ServiceDetailsComponent {
     private userService: UserService,
     private businessService: BusinessService,
     private toastr: ToastrService,
-    public router: Router
-    ) {
+    public router: Router,
+    private breadcrumbService : BreadcrumbService) {
+
+      this.breadcrumbService.breadCrumb.next([{url: '/service', label: 'Service'}])
 
   }
 

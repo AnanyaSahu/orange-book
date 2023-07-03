@@ -7,10 +7,12 @@ from orangeBookBackend.entities.BusinessClass import BusinessObj
 from services import services
 import json
 from transform import transform
+from cryptography.fernet import Fernet
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class account:
 
-    
+    key = b'ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg='
     def __init__(self):
         pass
         
@@ -20,7 +22,12 @@ class account:
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?);"
-        cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), str( param['password']))
+        
+        a =account()
+        # fernet = Fernet(a.key)
+        encryptedPassword =generate_password_hash(param['password'])
+        print(encryptedPassword)
+        cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), str(encryptedPassword))
         recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
         cursor.commit()
         fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+"';"
@@ -30,17 +37,28 @@ class account:
         return {'message':'Account has been created', 'response':r}
     
     def verifyUserAccount(self, param):
-
+        a =account()
+        # fernet = Fernet(a.key)
+        
+        # print(encryptedPassword)
+        # bcrypt.hashpw('password', bcrypt.gensalt()))
+        # ' AND  [password] = '"+str(encryptedPassword)+"'
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"' AND  [password] = '"+param['password']+"';"
-       
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[password] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"';"
+        print(query)
         cursor.execute(query)
         record = cursor.fetchall()
         print('record.count')
         print(len(record))
-        if(len(record) != 1):
+   
+        databasePassword = check_password_hash( record[0][6], param['password'])
+        print(record[0][6])
+        if(len(record) == 0):
             #   no account
+            print('User Not Found')
+            return {'message':"User Not Found" }
+        if(len(record) == 1 and databasePassword == False):
             print('Invalid Credentials')
             return {'message':"Invalid Credentials" }
         else:
@@ -143,7 +161,13 @@ class account:
     #         # businessList.append(json.loads(json.dumps(businessObj.__dict__)))
     #     # print(businessList)
     #     return json.loads(json.dumps(userObj.__dict__))
-
+# def check_password(raw_password, enc_password):
+#     """
+#     Returns a boolean of whether the raw_password was correct. Handles
+#     encryption formats behind the scenes.
+#     """
+#     algo, salt, hsh = enc_password.split('$')
+#     return hsh == get_hexdigest(algo, salt, raw_password)
 
 # s =account()
 # s.getBookings('100')        

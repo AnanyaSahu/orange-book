@@ -1,3 +1,5 @@
+
+
 <div class="conatiner-area" id ="signin-form" *ngIf="!isSignUpFormVisible">
     <div class="container-fluid ">
           <div class="body">
@@ -13,9 +15,14 @@
                 <br>
                 <div class=" button-align">
                 <button id="signin-btn" type="button" class="btn-primary" (click)="login()">Sign In</button>
+                <br>
+                <br>
+                <!-- <button class="btn-primary"  (click)="signInWithGoogle()">Sign in with Google</button> -->
+                <asl-google-signin-button type='standard' size='medium' (click)="signInWithGoogle()"></asl-google-signin-button>
               </div>
                 </form>
                 <div ><span>Don't have an Account? &nbsp;</span> <span  class="primary-color cursor-pointer font-link" (click)="switchForm()">Create An Account</span></div>
+                
                 <div ><span  class="primary-color cursor-pointer font-link" (click)="forgetPassword()">Forget Password?</span></div>
               </div>
       </div> 
@@ -50,6 +57,7 @@
                 <br>
                 <div class=" button-align">
                 <button id="signup-btn" type="button" class="btn-primary" (click)="createAccount()">Sign Up</button>
+            
                 </div>
                 </form>
                 <div ><span>Already have an Account! &nbsp;</span> <span  class="primary-color cursor-pointer font-link"  (click)="switchForm()">SignIn</span></div>

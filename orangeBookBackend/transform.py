@@ -27,5 +27,5 @@ class transform:
         # userList = []
         for row in record:
             userObj = UserObj(row[0],row[1],row[2],row[3],row[4],row[5])
-        # print(businessList)
+        print(json.loads(json.dumps(userObj.__dict__)))
         return json.loads(json.dumps(userObj.__dict__))

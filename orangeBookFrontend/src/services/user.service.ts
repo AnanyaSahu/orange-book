@@ -37,28 +37,22 @@ export class UserService {
     console.log(params)
     return this.http
     .post(this.prefix + '/createAccount', params)
-
-    // return of('in service')
+ 
   }
 
   public verifyUserAccount(params: any): Observable<any> {
     console.log(params)
-    //param['username'] +"' AND  [password] = '"+param['password']
     return this.http
     .post(this.prefix + '/verifyAccount', params)
 
-    // return of('in service')
   }
 
   
   public updateUserAccount(userId: number, params: any): Observable<Object> {
-    console.log(params)
     const token = this.auth.getAccessToken()
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
     .put(this.prefix + '/updateAccount/' + userId, params,{ headers })
-
-    // return of('in service')
   }
 
   
@@ -68,15 +62,16 @@ export class UserService {
     return this.http
     .get(this.prefix + '/getAccountDetails/' + userId,{ headers })
 
-    // return of('in service')
+
   }
   
   public getBookings(userId: number): Observable<Object> {
     const token = this.auth.getAccessToken()
+    // let token = 'euJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4ODIzNjM4NiwianRpIjoiMTY0MzUwYzUtZTE0NS00ZmU1LWIzYzAtZDkzZTViNjU4ZDQzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFuYW55YUBleGFtcGxlLmNvIiwibmJmIjoxNjg4MjM2Mzg2LCJleHAiOjE2ODgyMzcyODZ9.9Lu3kn07PXaUfQtHkghTOuo8roEl9VSjWksrF1V1__k'
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
     .get(this.prefix + '/getBookings/' + userId,{ headers })
 
-    // return of('in service')
+
   }
 }

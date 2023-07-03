@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {BusinessService} from '../../services/business.service'
 import {UserService} from '../../services/user.service'
 import { ToastrService } from 'ngx-toastr';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 
 
 @Component({
@@ -23,18 +24,20 @@ export class AccountBookingsComponent implements OnInit {
     public router: Router,
     private businessService:BusinessService,
     private userService:UserService,
-    private toastr: ToastrService
-    ) {
+    private toastr: ToastrService,
+    private breadcrumbService : BreadcrumbService) {
 
+      this.breadcrumbService.breadCrumb.next([{url: '/bookings', label: 'My Bookings'}])
+    
   }
 
 
   ngOnInit() {
     this.userId = localStorage.getItem('userId')
-    this.userService.userDetails.subscribe((userData)=>{
-      this.userId = userData.userId
+    // this.userService.userDetails.subscribe((userData)=>{
+    //   this.userId = userData.userId
       this.getBookings()
-    })
+    // })
    
 
   }

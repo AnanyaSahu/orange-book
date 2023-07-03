@@ -29,6 +29,9 @@ p {
   color: white;
   margin-left: 2px;
   margin-right: 4px;
+  height: inherit !important;
+  display: inline-flex;
+  align-items: center;
 }
 
 .toolbar {
@@ -316,4 +319,16 @@ svg#clouds {
 .card-position{
   margin-top: 10px;
 height: 24px !important;
+}
+.active-tab {
+  background-color:#3673b1 !important;
+  text-decoration: underline;
+}
+.tabs{
+height: inherit;
+}
+.breadcrumb{
+  font-size: medium;
+  left: 15px;
+  position: absolute;
 }

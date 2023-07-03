@@ -10,11 +10,11 @@ import { ServiceOverviewComponent } from './service-overview/service-overview.co
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'services', component: ServiceOverviewComponent },
-  { path: 'service', component: ServiceDetailsComponent },
-  { path: 'login', component: LoginSignupComponent },
-  { path: 'bookings', component: AccountBookingsComponent },
-  { path: 'userDetails', component: AccountDetailsComponent },
+  { path: 'services', component: ServiceOverviewComponent , data: { breadcrumb: 'HOME' }},
+  { path: 'service', component: ServiceDetailsComponent,data: { breadcrumb: 'HOME' } },
+  { path: 'login', component: LoginSignupComponent,data: { breadcrumb: 'HOME' } },
+  { path: 'bookings', component: AccountBookingsComponent,data: { breadcrumb: 'HOME' } },
+  { path: 'userDetails', component: AccountDetailsComponent ,data: { breadcrumb: 'HOME' }},
   
 
   {

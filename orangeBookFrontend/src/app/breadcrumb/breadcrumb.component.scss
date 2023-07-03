@@ -1,0 +1,11 @@
+.display-breadcrumb{
+    display: flex;
+    a {
+        text-decoration: none !important;
+    }
+}
+
+.inactiveLink {
+    pointer-events: none;
+    cursor: default;
+ }

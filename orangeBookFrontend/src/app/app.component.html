@@ -5,35 +5,46 @@
     alt="Angular Logo"
     src="../assets/logo orange book.png"
   />
-  <div (click)="navigateToTab('home')" title="account">
+  <!-- [ngClass]=" {'active-tab': tab==1 }" -->
+  <div (click)="navigateToTab('home')" title="home" class = 'tabs' [ngClass]="{'active-tab': tabName=='home' }">
     <span class="header-tab">Home</span>
   </div>
 
-  <a (click)="navigateToTab('services')"  title="account">
+  <div (click)="navigateToTab('services')"  title="services"  class = 'tabs' [ngClass]="{'active-tab': tabName=='services' }">
     <span class="header-tab">Services</span>
-  </a>
+  </div>
 
     <div class="spacer"></div>
 
-    <div title="account" (click)="toggleAccountModal(null)">
-      <svg xmlns="http://www.w3.org/2000/svg"height="24" viewBox="0 0 448 512">
+    <div title="account" (click)="toggleAccountModal(null)" class = 'tabs' >
+      <!-- <svg xmlns="http://www.w3.org/2000/svg"height="24" viewBox="0 0 448 512">
         <!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-        <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+        <!-- <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
         
-      </svg>
+      </svg> --> 
       <span class="header-tab">Account</span>
 
     </div>
             <!-- Account Modal start -->
-<div *ngIf="isAccountModalOpen" class="account-modal" #accountModal>
+
+<div >
+
+<div *ngIf="isAccountModalOpen" class="account-modal" #accountModal (mouseleave)="close($event)">
   <app-account-modal (closeModalEmittor)="toggleAccountModal($event)"></app-account-modal>
 </div>
+
+</div>
   <!-- Account Modal End -->
+
     
 </div>
 
 <div class="content" role="main">
+  <div class="breadcrumb">
+    <app-breadcrumb [breadcrumb]="breadCrumbList"></app-breadcrumb>
+  </div>
 
+  
   <!-- Highlight Card -->
   <div class="card highlight-card card-small card-position">
     <div class="align-logo">

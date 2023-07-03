@@ -4,6 +4,8 @@ import {UserService} from '../../services/user.service'
 import * as bcrypt from 'bcryptjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -28,19 +30,25 @@ export class LoginSignupComponent {
 
   constructor (private userService:UserService,
     private toastr: ToastrService,
-    public router: Router) {
+    public router: Router,
+    private authService: SocialAuthService,
+    private breadcrumbService : BreadcrumbService) {
 
-    // this.hashPassword('admin')
+    this.breadcrumbService.breadCrumb.next([{url: '/login', label: 'Login'}])
   }
 
-  hashPassword(password: string): string {
-    // console.log('hashPassword')
-    const saltRounds = 10; // Number of salt rounds for hashing
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(password, salt);
-    // console.log(hash)
-    return hash;
-  }
+  // hashPassword(password: string): string {x`
+  //   // console.log('hashPassword')
+  //   const saltRounds = 10; // Number of salt rounds for hashing
+  //   let h =''
+  //   const salt = bcrypt.genSaltSync(saltRounds);
+  //   const hash = bcrypt.hash(password, 10).then((data)=>{
+  //     h =data
+  //     console.log(data)
+  //   });
+  //   console.log(hash)
+  //   return h;
+  // }
   
 
   public createAccount(){
@@ -79,10 +87,10 @@ export class LoginSignupComponent {
 
   public login() {
     //hash password
-    this.useremail = 'ananya@example.co'
-    this.userpassword = '3627997f92de663756a57b5098e3c11e'
-    let hashedPAssword = this.hashPassword(this.userpassword)
-    this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword}).subscribe({
+    // this.useremail = 'ananya@example.co'
+    // this.userpassword = '3627997f92de663756a57b5098e3c11e'
+    let hashedPAssword = this.userpassword
+    this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
       next : (data) => {
         this.userService.userDetails.next(data.response)
         this.userService.userDetailsAndToken.next(data)
@@ -113,6 +121,18 @@ export class LoginSignupComponent {
 
   public forgetPassword(){
     
+  }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID,{headers:{ key: 'Cross-Origin-Opener-Policy', value: 'same-origin', }})
+      .then((user: SocialUser) => {
+        // Handle the signed-in user information
+        console.log(user);
+      })
+      .catch((error: any) => {
+        // Handle error scenarios
+        console.log(error);
+      });
   }
 
 }   

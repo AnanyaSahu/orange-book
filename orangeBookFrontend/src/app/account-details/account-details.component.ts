@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/models/user.model';
+import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { UserService } from 'src/services/user.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { UserService } from 'src/services/user.service';
 export class AccountDetailsComponent implements OnInit{
 
   public user: User;
+  public userId: any;
   public password = 'xxxxxxxx'
   public showHidelink = 'Show'
   public isMaskedPasswordVisible = true;
@@ -18,7 +20,10 @@ export class AccountDetailsComponent implements OnInit{
 
 
   constructor (private userService:UserService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService,
+     private breadcrumbService : BreadcrumbService) {
+
+      this.breadcrumbService.breadCrumb.next([{url: '/userDetails', label: 'My Account'}])
     
 
   }
@@ -31,17 +36,19 @@ export class AccountDetailsComponent implements OnInit{
    * getUserDetailsFromUserService
    */
   public getUserDetailsFromUserService() {
-    this.userService.userDetails.subscribe((userData)=>{
-      this.user = userData
+    // this.userService.userDetails.subscribe((userData)=>{
+      
 
-    })
+    // })
   }
 
   getDEtailsformDB(){
-    this.userService.getAccountDetails(100).subscribe({
-      next : (data) => {
+    this.userId = localStorage.getItem('userId')? localStorage.getItem('userId'): null
+    this.userService.getAccountDetails(this.userId).subscribe({
+      next : (data: any) => {
         // this.userService.userDetails.next(data)
-        console.log('service call response', data )
+        this.user = data
+        console.log('service call response', this.user )
         // do something with the data here
       }
       ,error :(error) => {
@@ -53,9 +60,9 @@ export class AccountDetailsComponent implements OnInit{
   }
 
   showPassword(){
-   this.isMaskedPasswordVisible = !this.isMaskedPasswordVisible
-    this.password = this.isMaskedPasswordVisible? 'xxxxxxxx': this.user.password
-    this.showHidelink = this.isMaskedPasswordVisible? 'Show': 'Hide'
+  //  this.isMaskedPasswordVisible = !this.isMaskedPasswordVisible
+  //   this.password = this.isMaskedPasswordVisible? 'xxxxxxxx': this.user?.password?
+  //   this.showHidelink = this.isMaskedPasswordVisible? 'Show': 'Hide'
   }
 
   switchForms(){
