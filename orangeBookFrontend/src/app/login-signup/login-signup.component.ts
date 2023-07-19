@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -25,6 +26,7 @@ export class LoginSignupComponent {
   public userpassword: string;
   public address:string;
   public isSignUpFormVisible = false
+  public signupForm: FormGroup;
   // passwordHash = require('password-hash');
 
 
@@ -35,6 +37,15 @@ export class LoginSignupComponent {
     private breadcrumbService : BreadcrumbService) {
 
     this.breadcrumbService.breadCrumb.next([{url: '/login', label: 'Login'}])
+    this.signupForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      contactNumber: new FormControl('', [Validators.pattern('[0-9]{10}')]),
+      address: new FormControl(''),
+      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      repeatpassword: new FormControl('', Validators.required)
+    });
   }
 
   // hashPassword(password: string): string {x`

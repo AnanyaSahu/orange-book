@@ -103,8 +103,9 @@ class account:
         cursor.execute(query)
         record = cursor.fetchall()
         r= [tuple(row) for row in record]  
+        userData = transform('user',record).transformRows()
         # d.closeDbConnection() 
-        return {'response':r}
+        return {'response':userData}
         
 
     def updateAccountDetails(self, customerId,param):

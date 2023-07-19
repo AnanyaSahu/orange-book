@@ -19,6 +19,7 @@ export class AccountModalComponent {
    * navigateToLoginPage
    */
   public navigateToPage(pageName: string) {
+    console.log('login button')
     this.closeAccountModal()
     this.router.navigate(['/'+pageName])
     

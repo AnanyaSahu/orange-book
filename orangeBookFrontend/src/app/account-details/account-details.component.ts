@@ -11,7 +11,12 @@ import { UserService } from 'src/services/user.service';
 })
 export class AccountDetailsComponent implements OnInit{
 
-  public user: User;
+  public user: User ={
+    userId: '',
+    firstName: '',
+    lastName: '',
+    email: ''
+  };
   public userId: any;
   public password = 'xxxxxxxx'
   public showHidelink = 'Show'
@@ -29,7 +34,7 @@ export class AccountDetailsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getUserDetailsFromUserService()
+    // this.getUserDetailsFromUserService()
     this.getDEtailsformDB()
   }
   /**
@@ -47,8 +52,9 @@ export class AccountDetailsComponent implements OnInit{
     this.userService.getAccountDetails(this.userId).subscribe({
       next : (data: any) => {
         // this.userService.userDetails.next(data)
-        this.user = data
-        console.log('service call response', this.user )
+        // console.log(data)
+        this.user = data.response
+        // console.log('service call response', this.user )
         // do something with the data here
       }
       ,error :(error) => {

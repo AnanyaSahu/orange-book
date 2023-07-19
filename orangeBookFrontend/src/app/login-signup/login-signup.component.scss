@@ -37,7 +37,7 @@ input {
   outline: none;
 }
 
-input[type=text]::placeholder {
+input[type=text]::placeholder, input[type=password]::placeholder {
   text-align: center;
   font-family: 'Roboto', sans-serif;
 }

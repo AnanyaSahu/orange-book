@@ -1,0 +1,19 @@
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // height: 100vh; 
+  }
+
+
+  .detailContainer {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    // height: 80vh;
+    // width: 20vw;
+    border-style: solid;
+    padding: 48px;
+    min-width: 300px;
+  }
