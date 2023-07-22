@@ -106,19 +106,26 @@ export class LoginSignupComponent {
     let hashedPAssword = this.userpassword
     this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
       next : (data) => {
-        this.userService.userDetails.next(data.response)
-        this.userService.userDetailsAndToken.next(data)
-        let ttl = 5 * 60* 1000 // in miliseconds
-        const access_token_item = {
-          access_token: data.access_token,
-          expiry: new Date().getTime() + ttl,
+        console.log(data.message)
+        if(data.message == 'Invalid Credentials'){
+          this.toastr.error('Please enter a correct username or password!', 'ERROR!');
+        } else if(data.message == 'User Not Found') {
+          this.toastr.error('Please enter a valid username!', 'ERROR!');
+        } else {
+          this.userService.userDetails.next(data.response)
+          this.userService.userDetailsAndToken.next(data)
+          let ttl = 5 * 60* 1000 // in miliseconds
+          const access_token_item = {
+            access_token: data.access_token,
+            expiry: new Date().getTime() + ttl,
+          }
+          localStorage.setItem('access_token',JSON.stringify(access_token_item))
+          localStorage.setItem('userId',data.response.userId)
+          console.log('service call response', data )
+          this.toastr.success('Login successful!', 'Success!');
+          this.router.navigate(['/home'])
         }
-        localStorage.setItem('access_token',JSON.stringify(access_token_item))
-        localStorage.setItem('userId',data.response.userId)
-        console.log('service call response', data )
-        this.toastr.success('Login successful!', 'Success!');
-        this.router.navigate(['/home'])
-        // do something with the data here
+       
       }
       ,error :(error) => {
         //error handlin

@@ -38,11 +38,6 @@ class account:
     
     def verifyUserAccount(self, param):
         a =account()
-        # fernet = Fernet(a.key)
-        
-        # print(encryptedPassword)
-        # bcrypt.hashpw('password', bcrypt.gensalt()))
-        # ' AND  [password] = '"+str(encryptedPassword)+"'
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[password] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"';"
@@ -52,23 +47,28 @@ class account:
         print('record.count')
         print(len(record))
    
-        databasePassword = check_password_hash( record[0][6], param['password'])
-        print(record[0][6])
+
         if(len(record) == 0):
             #   no account
             print('User Not Found')
             return {'message':"User Not Found" }
-        if(len(record) == 1 and databasePassword == False):
-            print('Invalid Credentials')
-            return {'message':"Invalid Credentials" }
-        else:
-            access_token = create_access_token(identity=param['username'])
-            print(access_token)
-            r= [tuple(row) for row in record]  
-            a=account()
-            # userData = a.transformUserRows(record)
-            userData = transform('user',record).transformRows()
-            return {'response':userData, 'message':'Account has been created','access_token':access_token }
+
+
+        if(len(record) == 1):
+            databasePassword = check_password_hash( record[0][6], param['password'])
+            print(databasePassword)
+            if(databasePassword == False):
+                print(record[0][6])
+                print('Invalid Credentials')
+                return {'message':"Invalid Credentials" }
+            else:
+                print('useer founf')
+                access_token = create_access_token(identity=param['username'])
+                print(access_token)
+                r= [tuple(row) for row in record]  
+                a=account()
+                userData = transform('user',record).transformRows()
+                return {'response':userData, 'message':'Account has been created','access_token':access_token }
         # d.closeDbConnection()
 
 
@@ -86,9 +86,6 @@ class account:
         a = account()
         # print(record)
         for row in record:
-            # do 
-            # print(row)
-            # transformedListItem = s.transformBusinessRows([row])[0]
             transformedListItem = transform('business',[row]).transformRows()[0]
             transformedListItem['bookingId'] = row[9]
             transformedListItem['isCancelled'] = row[10]

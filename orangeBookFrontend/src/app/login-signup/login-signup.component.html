@@ -15,7 +15,7 @@
                   <div *ngIf="signInForm.controls.useremail.errors.pattern">Invalid email format.</div>
                 </div>
                 <br>
-                <input id="userpassword" type="text" name="userpassword" placeholder="Password"   required minlength="8"
+                <input id="userpassword" type="text" name="userpassword" placeholder="Password"   required minlength="6"
                 onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="userpassword">
                 <div *ngIf="signInForm.controls.userpassword?.invalid && (signInForm.controls.userpassword.dirty || signInForm.controls.userpassword.touched)">
                   <div *ngIf="signInForm.controls.userpassword.errors.required">Password is required.</div>
