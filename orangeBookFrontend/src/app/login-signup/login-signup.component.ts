@@ -27,6 +27,9 @@ export class LoginSignupComponent {
   public address:string;
   public isSignUpFormVisible = false
   public signupForm: FormGroup;
+  public isForgetPasswordClicked = false;
+  public newuserpassword= ''
+  public resetuseremail = ''
   // passwordHash = require('password-hash');
 
 
@@ -131,8 +134,31 @@ export class LoginSignupComponent {
   }
 
   public forgetPassword(){
-    
+    this.isForgetPasswordClicked = true;
   }
+
+  
+  // 
+  public resetPassword(){
+    // api call to reset password  updateUserPassword
+    this.userService.updateUserPassword(this.resetuseremail,{password:this.newuserpassword}).subscribe({
+      next : (data: any) => {
+        console.log('service call response', data )
+        if(data.message == 'User Not Found') {
+          this.toastr.info('Please enter a valid user email!', 'User Not Found!');
+        } else if(data.message =='Password has been updated')
+        this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
+        this.router.navigate(['/login'])
+        // do something with the data here
+      }
+      ,error :(error) => {
+        //error handlin
+        this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
+        console.log(error)
+      }
+    }); 
+  }
+
 
   signInWithGoogle(): void {
     

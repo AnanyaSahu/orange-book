@@ -74,4 +74,11 @@ export class UserService {
 
 
   }
+
+  // resetPassword
+  public updateUserPassword(userId: string, params: any): Observable<Object> {
+    return this.http
+    .put(this.prefix + '/resetPassword/' + userId, params)
+  }
+
 }

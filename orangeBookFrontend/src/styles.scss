@@ -47,3 +47,20 @@
   top: 80% !important;
   left: 40% !important;
  }
+
+ #credential_picker_container {
+  z-index: 9998 !important;
+  top: 50px  !important;
+  right: 50px !important;
+}
+
+.account-modal{
+  top: 60px;
+  background-color: white;
+  position: fixed;
+  right: 0;
+  color: black;
+  min-width: 184px;
+  // text-align: center;
+  z-index: 9999 !important;
+}

@@ -58,9 +58,12 @@ import { ServiceCardComponent } from './service-card/service-card.component';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('754954741922-r4gnvu4oidd0eoet2pmlgtmb69uhjl3c.apps.googleusercontent.com')
+            provider: new GoogleLoginProvider('754954741922-f02v3fu7kcbheohk2ng1l4gm8dgv0m06.apps.googleusercontent.com')
           }
-        ]
+        ],
+        onError: (err) => {
+          console.log('Error on google signin', err)
+        }
       } as SocialAuthServiceConfig,
     },
     GoogleSigninButtonDirective

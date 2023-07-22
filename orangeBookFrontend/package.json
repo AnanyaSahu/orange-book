@@ -34,7 +34,8 @@
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0",
-    "@abacritt/angularx-social-login":"2.0.0"
+    "@abacritt/angularx-social-login":"2.0.0",
+    "angular-google-signin":"0.1.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.0.4",

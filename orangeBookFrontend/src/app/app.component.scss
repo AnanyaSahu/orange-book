@@ -333,3 +333,7 @@ height: inherit;
   left: 15px;
   position: absolute;
 }
+.header-tab{
+  z-index: 9999 !important;
+  cursor: pointer;
+}

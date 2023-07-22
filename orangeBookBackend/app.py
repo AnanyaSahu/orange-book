@@ -91,6 +91,14 @@ def  getAccountDetails(userId):
     a = account()
     return a.getAccountDetails(userId)
  
+ 
+# This method will get the account details. for the user, and reset user password
+@app.route('/resetPassword/<string:userId>', methods=['PUT'])
+def  resetPassword(userId):
+    print(request.json)
+    a = account()
+    return a.resetPassword(userId, request.json)
+
 @app.route("/",  methods=['GET'])
 def root():
     return render_template('index.html')

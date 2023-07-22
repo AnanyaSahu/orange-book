@@ -153,6 +153,30 @@ class account:
         # d.closeDbConnection()
         # r= [tuple(row) for row in record]'response':userData,
         return { 'message': "Account Updated Successfully"}    
+
+    def resetPassword(self, userid, param):
+        d = databaseConnection()
+        cursor = d.openDbConnection()
+        query = "SELECT [userId] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+userid +"';"
+        # print(query)
+        cursor.execute(query)
+        record = cursor.fetchall()
+        # print('record.count')
+        # print(len(record))
+   
+        # databasePassword = check_password_hash( record[0][6], param['password'])
+        # print(record[0][6])
+        if(len(record) == 0):
+            #   no account
+            print('User Not Found')
+            return {'message':"User Not Found" }
+        elif(len(record) == 1):
+            encryptedPassword =generate_password_hash(param['password'])
+            query = "UPDATE [orange-book].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+";"
+            print(query)
+            return {'message':"Password has been updated" }
+
+
     
     # def transformUserRows(self, record):
     #     # userList = []

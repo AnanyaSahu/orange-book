@@ -60,20 +60,4 @@ export class AppComponent implements OnInit{
     // event.stopPropagation()
   }
 
-  signInWithGoogle(): void {
-    
-    console.log('in signInWithGoogle')
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID,
-      {headers:{ key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups', }})
-      .then((user: SocialUser) => {
-        // Handle the signed-in user information
-        console.log('sigin via googel user')
-        console.log(user);
-      })
-      .catch((error: any) => {
-        // Handle error scenarios
-        console.log('in methor error')
-        console.log(error);
-      });
-  }
 }
