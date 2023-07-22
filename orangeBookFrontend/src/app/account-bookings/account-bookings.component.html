@@ -1,5 +1,6 @@
-<p>account-bookings works!</p>
-
+<div *ngIf = "bookingList.length == 0">
+    <span>No bookings has been made</span>
+</div>
 
 <div *ngFor = "let business of bookingList">
 
