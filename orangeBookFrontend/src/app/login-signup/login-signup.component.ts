@@ -4,9 +4,11 @@ import {UserService} from '../../services/user.service'
 import * as bcrypt from 'bcryptjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import {  SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+// import { SocialAuthService } from "@abacritt/angularx-social-login";
+import { FacebookLoginProvider } from "@abacritt/angularx-social-login";
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -31,7 +33,9 @@ export class LoginSignupComponent {
   public newuserpassword= ''
   public resetuseremail = ''
   // passwordHash = require('password-hash');
-
+  public fbLoginOptions = { }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+  
+  public config = [ ];
 
   constructor (private userService:UserService,
     private toastr: ToastrService,
@@ -49,6 +53,28 @@ export class LoginSignupComponent {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       repeatpassword: new FormControl('', Validators.required)
     });
+
+    const fbLoginOptions = {
+      scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+      return_scopes: true,
+      enable_profile_selector: true
+    }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+    
+    const config = [
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider("Facebook-App-Id", this.fbLoginOptions)
+      },
+  
+    ];
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 
   // hashPassword(password: string): string {x`
@@ -164,24 +190,6 @@ export class LoginSignupComponent {
         console.log(error)
       }
     }); 
-  }
-
-
-  signInWithGoogle(): void {
-    
-    console.log('in signInWithGoogle')
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID,
-      {headers:{ key: 'Cross-Origin-Opener-Policy', value: 'same-origin-allow-popups', }})
-      .then((user: SocialUser) => {
-        // Handle the signed-in user information
-        console.log('sigin via googel user')
-        console.log(user);
-      })
-      .catch((error: any) => {
-        // Handle error scenarios
-        console.log('in methor error')
-        console.log(error);
-      });
   }
 
 }   

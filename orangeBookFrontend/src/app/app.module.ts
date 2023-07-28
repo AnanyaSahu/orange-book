@@ -20,7 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import { GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule, GoogleSigninButtonModule, GoogleSigninButtonDirective } from '@abacritt/angularx-social-login';
+import { SocialAuthServiceConfig, SocialLoginModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { ServiceCardComponent } from './service-card/service-card.component';
 
 @NgModule({
@@ -46,7 +46,6 @@ import { ServiceCardComponent } from './service-card/service-card.component';
     SocialLoginModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
-    GoogleSigninButtonModule
   ],
   exports:[MatSelectModule],
   providers: [
@@ -56,20 +55,18 @@ import { ServiceCardComponent } from './service-card/service-card.component';
       useValue: {
         autoLogin: false,
         providers: [
+   
           {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('754954741922-f02v3fu7kcbheohk2ng1l4gm8dgv0m06.apps.googleusercontent.com')
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('164552483310989')
           }
         ],
         onError: (err) => {
-          console.log('Error on google signin', err)
+          console.log('Error on facebook signin', err)
         }
       } as SocialAuthServiceConfig,
-    },
-    GoogleSigninButtonDirective
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-

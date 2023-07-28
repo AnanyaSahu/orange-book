@@ -1,4 +1,4 @@
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import {  SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
