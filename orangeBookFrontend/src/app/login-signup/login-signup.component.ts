@@ -70,34 +70,18 @@ export class LoginSignupComponent {
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(response =>{
+      console.log('faceboook user data')
+      console.log(response)
+      // save access token and user deatils as UserID is Fk ion booking check logic for FK
+    });
   }
 
   signOut(): void {
     this.authService.signOut();
   }
 
-  // hashPassword(password: string): string {x`
-  //   // console.log('hashPassword')
-  //   const saltRounds = 10; // Number of salt rounds for hashing
-  //   let h =''
-  //   const salt = bcrypt.genSaltSync(saltRounds);
-  //   const hash = bcrypt.hash(password, 10).then((data)=>{
-  //     h =data
-  //     console.log(data)
-  //   });
-  //   console.log(hash)
-  //   return h;
-  // }
-  
-
   public createAccount(){
-    // if(this.password.trim() != this.repeatpassword.trim()){
-    //   // erroe msg 
-    //   document.getElementById('#repaeatPassword').innerHTML = "<span>Passwords do not match.</span>"
-    // } else{
-      console.log('createAccount method')
-
 
       let createAccountParam = {
         firstname:this.firstName,
