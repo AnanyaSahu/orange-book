@@ -13,26 +13,26 @@ class databaseConnection:
         try: 
             
                 # if u have used window authentication for local running DB
-            dbConnection = pyodbc.connect('Driver={SQL Server};'
-                      'Server=ANNA\MSSQLSERVER03;'
-                      'Database=orange-book;'
-                      'Trusted_Connection=yes;')
-            # dbConnection = connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-            # 'Server=sqlpython.centralindia.cloudapp.azure.com;'
-            # 'Database=master;'
-            # 'encrypt=yes;'
-            # 'TrustServerCertificate=yes;'
-            # 'UID=sa;'
-            # 'PWD=Sqlserver@123',autocommit = True)
-            # connection.close()
+            # dbConnection = pyodbc.connect('Driver={SQL Server};'
+            #           'Server=ANNA\MSSQLSERVER03;'
+            #           'Database=orange-book;'
+            #           'Trusted_Connection=yes;')
+            dbConnection = connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+            'Server=sqlpython.centralindia.cloudapp.azure.com;'
+            'Database=master;'
+            'encrypt=yes;'
+            'TrustServerCertificate=yes;'
+            'UID=sa;'
+            'PWD=Sqlserver@123',autocommit = True)
+            connection.close()
 
-            # dbConnection=connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
-            # 'Server=sqlpython.centralindia.cloudapp.azure.com;'
-            # 'Database=OrangeBook;'
-            # 'encrypt=yes;'
-            # 'TrustServerCertificate=yes;'
-            # 'UID=sa;'
-            # 'PWD=Sqlserver@123',autocommit = True)
+            dbConnection=connection = pyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
+            'Server=sqlpython.centralindia.cloudapp.azure.com;'
+            'Database=OrangeBook;'
+            'encrypt=yes;'
+            'TrustServerCertificate=yes;'
+            'UID=sa;'
+            'PWD=Sqlserver@123',autocommit = True)
 
             print('data base')
 
