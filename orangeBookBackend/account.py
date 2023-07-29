@@ -21,6 +21,15 @@ class account:
     def createUserAccount(self,param):
         d = databaseConnection()
         cursor = d.openDbConnection()
+
+        getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] ;"
+        cursor.execute(getAccountDeatialsQuery)
+        record = cursor.fetchall()
+        # r= [tuple(row) for row in record]  
+        for row in record:
+            print (row[0])
+            if row[0] == param['email']:
+                return {'message':'Account already exist'}
         query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?);"
         
         a =account()
@@ -62,7 +71,7 @@ class account:
                 print('Invalid Credentials')
                 return {'message':"Invalid Credentials" }
             else:
-                print('useer founf')
+                print('useer found')
                 access_token = create_access_token(identity=param['username'])
                 print(access_token)
                 r= [tuple(row) for row in record]  
@@ -84,7 +93,7 @@ class account:
         s=services()
         bookedbusinessList = [] 
         a = account()
-        # print(record)
+        print(record)
         for row in record:
             transformedListItem = transform('business',[row]).transformRows()[0]
             transformedListItem['bookingId'] = row[9]

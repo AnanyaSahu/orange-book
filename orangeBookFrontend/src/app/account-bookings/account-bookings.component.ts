@@ -48,7 +48,7 @@ export class AccountBookingsComponent implements OnInit {
    * getBookings
    */
   public getBookings() {
-    if(this.userId == ''){
+    if(this.userId == ''  || this.userId == null){
       this.toastr.info('Login to get bookings!', 'Info!');
     }
     else {    
@@ -79,6 +79,7 @@ export class AccountBookingsComponent implements OnInit {
       next : (data) => {
         console.log('service call response', data )
         // do something with the data here
+        this.getBookings()
         this.toastr.success('Your booking has been cancelled!', 'Success!');
       }
       ,error :(error) => {

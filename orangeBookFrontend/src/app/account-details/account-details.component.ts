@@ -49,27 +49,27 @@ export class AccountDetailsComponent implements OnInit{
 
   getDEtailsformDB(){
     this.userId = localStorage.getItem('userId')? localStorage.getItem('userId'): null
-    this.userService.getAccountDetails(this.userId).subscribe({
-      next : (data: any) => {
-        // this.userService.userDetails.next(data)
-        // console.log(data)
-        this.user = data.response
-        // console.log('service call response', this.user )
-        // do something with the data here
-      }
-      ,error :(error) => {
-        //error handlin
-        this.toastr.error('Unable to fetch details!', 'ERROR!');
-        console.log(error)
-      }
-    }); 
+    if( this.userId != null) {
+      this.userService.getAccountDetails(this.userId).subscribe({
+        next : (data: any) => {
+          // this.userService.userDetails.next(data)
+          // console.log(data)
+          this.user = data.response
+          // console.log('service call response', this.user )
+          // do something with the data here
+        }
+        ,error :(error) => {
+          //error handlin
+          this.toastr.error('Unable to fetch details!', 'ERROR!');
+          console.log(error)
+        }
+      }); 
+    } else {
+      this.toastr.info( 'Please Login Again!','Session Expired!');
+    }
+ 
   }
 
-  showPassword(){
-  //  this.isMaskedPasswordVisible = !this.isMaskedPasswordVisible
-  //   this.password = this.isMaskedPasswordVisible? 'xxxxxxxx': this.user?.password?
-  //   this.showHidelink = this.isMaskedPasswordVisible? 'Show': 'Hide'
-  }
 
   switchForms(){
     this.isEditButtonClicked = !this.isEditButtonClicked
@@ -95,10 +95,6 @@ export class AccountDetailsComponent implements OnInit{
 
 
   public updateUserAccount(){
- 
-      console.log('updateUserAccount method')
-    
-
       let updateUserAccountParam = {
         firstname:this.user.firstName,
         lastname:this.user.lastName, 
@@ -111,7 +107,6 @@ export class AccountDetailsComponent implements OnInit{
           next : (data) => {
             console.log('service call response', data )
             this.toastr.success('Account Details Updated!', 'Success!');
-            // do something with the data here
           } 
           ,error :(error) => {
             //error handlin
@@ -122,7 +117,4 @@ export class AccountDetailsComponent implements OnInit{
 
     
   }
-
-  // public G
-
 }

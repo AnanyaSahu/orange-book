@@ -12,8 +12,8 @@ import { AuthService } from './auth.service';
 })
 export class BusinessService {
 
-  // private prefix = 'http://127.0.0.1:5000'
-  private prefix = ''
+  private prefix = 'http://127.0.0.1:5000'
+  // private prefix = ''
 
   constructor(private http: HttpClient, private us: UserService,
     private auth: AuthService) { 

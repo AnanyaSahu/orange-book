@@ -51,7 +51,7 @@ export class ServiceDetailsComponent {
   getBusinessById(){
   
       this.activatedRoute.queryParams.subscribe(queryParams => {
-        // console.log(queryParams)
+ 
         this.bookingId = queryParams['business']
         this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
           next : (data: any) => {
@@ -62,7 +62,7 @@ export class ServiceDetailsComponent {
               this.router.navigate(['/services'])
             } else{
               this.business = data.response[0]
-              // do something with the data here 
+          
             }
             
           }
@@ -88,7 +88,6 @@ export class ServiceDetailsComponent {
 
           }
 
-          // console.log('sdhblkuj', createBookingParam)
           if(this.userId == ''){
             this.toastr.info('Login to book appointment!', 'Info!');
           }
@@ -96,8 +95,6 @@ export class ServiceDetailsComponent {
             this.businessService.createBookings(createBookingParam).subscribe( {  
   
               next : (data) => {
-                // console.log('service call response', data )
-                // do something with the data here 
                 this.toastr.success('Booking Confirmed!', 'Success!');
               }
               ,error :(error) => {

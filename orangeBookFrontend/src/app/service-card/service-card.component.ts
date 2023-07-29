@@ -50,17 +50,13 @@ export class ServiceCardComponent {
       serviceId: businessId
 
     }
-
-    // console.log('sdhblkuj', createBookingParam)
     if(localStorage.getItem('userId') == '' || localStorage.getItem('userId') == null){
       this.toastr.info('Login to book appointment!', 'Info!');
     }
     else {
       this.businessService.createBookings(createBookingParam).subscribe( {  
 
-        next : (data) => {
-          // console.log('service call response', data )
-          // do something with the data here 
+        next : (data) => { 
           this.toastr.success('Booking Confirmed!', 'Success!');
         }
         ,error :(error) => {

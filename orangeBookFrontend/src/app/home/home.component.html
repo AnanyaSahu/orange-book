@@ -3,12 +3,12 @@
 
         <div class="searchBusiness">
           <input type="text" value="" id="ipSearch" class="homeSearchTextbox businessInputField" placeholder="Search local business"  (keyup)="onKeyUp($event)">
-          <!-- <div class="searchResult" id="divRes">
 
-          </div> -->
+
+
          </div>
          <div class="searchLocation">
-            <!-- <input name="ipLocation" type="text" id="ipLocation" class="homeSearchTextbox locationInputField" value="Hyderabad"> -->
+          
             <select class="form-control location-dropdown" name="Any"  (change)="selectLocation($event)" >
                     <option  *ngFor = "let location of locationList">
                         {{location}}
@@ -16,15 +16,14 @@
               
   
             </select>
-            <!-- <div class="searchResult" id="divLoc">
     
-            </div> -->
+         
           </div>
          <div class="searchButtonBlock btn-primary" (click) = "searchBusiness()">
           <span class="searchButton"> 
             <!-- <i class="fa-solid fa-magnifying-glass"> -->
             Search
-          <!-- </i> -->
+        
           </span>
         </div>
       </div>

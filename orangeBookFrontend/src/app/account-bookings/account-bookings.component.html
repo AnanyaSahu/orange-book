@@ -12,7 +12,7 @@
             <div>{{business.serviceCost}}</div>
             <div>{{business.email}}</div>
             <div *ngIf="!business.isCancelled">
-                <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" (click)="cancelBooking(business.businessId )">Cancel Appointment</button>
+                <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" (click)="cancelBooking(business.bookingId )">Cancel Appointment</button>
             </div>
             <div *ngIf="business.isCancelled">
                 <div>This booking is cancelled</div>

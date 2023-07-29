@@ -22,8 +22,8 @@
                   <div *ngIf="signInForm.controls.userpassword.errors.minlength">Password must be at least 6 characters long.</div>
                   </div>
                 <br>
-                <div class=" button-align">
-                <button id="signin-btn" type="submit" class="btn-primary"   [disabled]="signInForm.invalid">Sign In</button>
+                <div class=" button-align"> 
+                <button id="signin-btn" type="submit" class="btn-primary" [disabled]="signInForm.invalid" >Sign In</button>
                 <br>
                 <br>
                 <button class="btn-primary"  (click)="signInWithFB()">Sign in with facebook</button>
@@ -69,7 +69,7 @@
                   <div *ngIf="forgetPasswordForm.controls.reenteruserpassword.errors.minlength">Password must be at least 6 characters long.</div>
                   </div>
                 <div class=" button-align">
-                <button id="signin-btn" type="submit" class="btn-primary"   [disabled]="forgetPasswordForm.invalid">Reset Password</button>
+                <button id="signin-btn" type="submit" class="btn-primary "   [disabled]="forgetPasswordForm.invalid">Reset Password</button>
                 <br>
         
               </div>
@@ -101,6 +101,9 @@
                   </div>
                   <br>
                   <input id="address" type="text" name="address" placeholder="Address" [(ngModel)]="address" maxlength="50">
+                  <div *ngIf="signupForm.controls.address?.invalid && (signupForm.controls.address.dirty || signupForm.controls.address.touched)">
+                    <div *ngIf="signupForm.controls.address.errors.maxlength">addess must be less than 50 characters.</div>
+                  </div>
                   <br>
                   <input id="password" type="password" name="password" placeholder="Password" required [(ngModel)]="password" minlength="6">
                   <div *ngIf="signupForm.controls.password?.invalid && (signupForm.controls.password.dirty || signupForm.controls.password.touched)">
@@ -108,14 +111,14 @@
                     <div *ngIf="signupForm.controls.password.errors.minlength">Password must be at least 6 characters long.</div>
                   </div>
                   <br>
-                  <input id="repeatpassword" type="password" name="repeatpassword" placeholder="Re-enter Password" required [(ngModel)]="repeatpassword">
+                  <input id="repeatpassword" type="password" name="repeatpassword" placeholder="Re-enter Password" required [(ngModel)]="repeatpassword" minlength="6">
                   <div *ngIf="signupForm.controls.repeatpassword?.invalid && (signupForm.controls.repeatpassword.dirty || signupForm.controls.repeatpassword.touched)">
-                    <div *ngIf="signupForm.controls.repeatpassword.errors.required">Please re-enter the password.</div>
-                    <div *ngIf="password !== repeatpassword">Passwords do not match.</div>
+                    <div *ngIf="signupForm.controls.repeatpassword.errors.required">Please enter the password.</div>
+                    <div *ngIf="password !== repeatpassword" id="repaeatPassword">Passwords do not match.</div>
                   </div>
                   <br>
                   <div class="button-align">
-                    <button id="signup-btn" type="submit" class="btn-primary" [disabled]="signupForm.invalid || password !== repeatpassword">Sign Up</button>
+                    <button id="signup-btn" type="submit" class="btn-primary " [disabled]="signupForm.invalid">Sign Up</button>
                   </div>
                 </form>
                 <div ><span>Already have an Account! &nbsp;</span> <span  class="primary-color cursor-pointer font-link"  (click)="switchForm()">SignIn</span></div>

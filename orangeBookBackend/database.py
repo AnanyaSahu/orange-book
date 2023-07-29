@@ -11,6 +11,7 @@ class databaseConnection:
 # connect to database
     def openDbConnection(self):
         try: 
+            
                 # if u have used window authentication for local running DB
             dbConnection = pyodbc.connect('Driver={SQL Server};'
                       'Server=ANNA\MSSQLSERVER03;'

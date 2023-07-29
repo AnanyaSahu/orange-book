@@ -92,9 +92,10 @@ export class LoginSignupComponent {
   
 
   public createAccount(){
-    if(this.password.trim() != this.repeatpassword.trim()){
-      // erroe msg 
-    } else{
+    // if(this.password.trim() != this.repeatpassword.trim()){
+    //   // erroe msg 
+    //   document.getElementById('#repaeatPassword').innerHTML = "<span>Passwords do not match.</span>"
+    // } else{
       console.log('createAccount method')
 
 
@@ -107,11 +108,15 @@ export class LoginSignupComponent {
         address:this.address}
       
         this.userService.createUserAccount(createAccountParam).subscribe({
-          next : (data) => {
+          next : (data: any) => {
             console.log('service call response', data )
-            this.toastr.success('Account created successfully!', 'Success!');
-            this.router.navigate(['/home'])
-            // do something with the data here
+            if(data.message == 'Account already exist') {
+              this.toastr.info('Please login or use a different email to create account', data.message);
+            } else {
+              this.toastr.success('Please Login!', 'Account created successfully!');
+              this.switchForm()
+            }
+     
           }
           ,error :(error) => {
             //error handlin
@@ -120,7 +125,7 @@ export class LoginSignupComponent {
           }
         }); 
 
-    }
+    // }
 
   }
 
@@ -181,8 +186,9 @@ export class LoginSignupComponent {
           this.toastr.info('Please enter a valid user email!', 'User Not Found!');
         } else if(data.message =='Password has been updated')
         this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
-        this.router.navigate(['/login'])
-        // do something with the data here
+        this.isSignUpFormVisible = false
+        this.isForgetPasswordClicked = false
+
       }
       ,error :(error) => {
         //error handlin
