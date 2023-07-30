@@ -40,6 +40,7 @@ class account:
             getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] where [isFacebookUser] = 1;"
             cursor.execute(getAccountDeatialsQuery)
             record = cursor.fetchall()
+            
             # r= [tuple(row) for row in record]  
             for row in record:
                 print (row[0])
@@ -57,6 +58,7 @@ class account:
 
         fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
         record = cursor.execute(fetchquery).fetchall()
+        print(record)
         r= [tuple(row) for row in record]  
         # # d.closeDbConnection()
         return {'message':'Account has been created', 'response':r}

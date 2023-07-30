@@ -73,8 +73,7 @@ export class LoginSignupComponent {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((response : any) =>{
       console.log('faceboook user data')
       console.log(response)
-      this.userService.userDetails.next(data.response)
-      this.userService.userDetailsAndToken.next(data)
+
 
       // save access token and user deatils as UserID is Fk ion booking check logic for FK
       let ttl = 5 * 60* 1000 // in miliseconds
@@ -82,6 +81,8 @@ export class LoginSignupComponent {
         access_token: response.authToken,
         expiry: new Date().getTime() + ttl,
       }
+      localStorage.setItem('access_token',JSON.stringify(access_token_item))
+      
       let createAccountFBParam ={
         firstname:response.firstName,
         lastname:response.lastName, 
@@ -93,6 +94,9 @@ export class LoginSignupComponent {
       this.userService.createUserAccount(createAccountFBParam).subscribe({
         next : (data: any) => {
           console.log('service call response FB user', data )
+          this.userService.userDetails.next(data.response)
+          this.userService.userDetailsAndToken.next(data)
+          localStorage.setItem('userId',data.response.userId)
         }
         ,error :(error) => {
           //error handlin
