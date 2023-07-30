@@ -101,9 +101,9 @@ def  resetPassword(userId):
 
 # This method will give accessTokenFBUser
 @app.route('/accessTokenFBUser/<string:userId>', methods=['GET'])
-def  getAccessTikenForFBUser(userId):
+def  getAccessTokenForFBUser(userId):
     a = account()
-    return a.resetgetAccessTikenForFBUserPassword(userId)
+    return a.getAccessTokenForFBUser(userId)
 
 @app.route("/",  methods=['GET'])
 def root():

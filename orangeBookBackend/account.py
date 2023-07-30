@@ -206,7 +206,7 @@ class account:
             print(query)
             return {'message':"Password has been updated" }
 
-    def getAccessTikenForFBUser(self, userid):
+    def getAccessTokenForFBUser(self, userid):
                 access_token = create_access_token(identity=userid)
                 return {'userIdForFBUSer':userid, 'access_token':access_token }
        
