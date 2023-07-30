@@ -35,7 +35,7 @@ class account:
             cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), str(encryptedPassword), param['isFacebookUser'])
             recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
             cursor.commit()
-            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+" and [isFacebookUser] = 0';"
+            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+"' and [isFacebookUser] = 0;"
         else:
             isFBAccountExist = 0
             getAccountDeatialsQuery = "SELECT [email] FROM [OrangeBook].[dbo].[User] where [isFacebookUser] = 1;"
