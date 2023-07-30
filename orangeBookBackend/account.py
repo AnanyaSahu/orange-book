@@ -128,7 +128,7 @@ class account:
     def getAccountDetails(self,customerId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId],[first Name],[lastName],[email],[contactNumber],[address],[isFacebookUser] FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[isFacebookUser] FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
