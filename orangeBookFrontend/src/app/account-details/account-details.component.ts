@@ -15,8 +15,12 @@ export class AccountDetailsComponent implements OnInit{
     userId: '',
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    address: '',
+    contactNumber: '',
+    isFacebookUser: false
   };
+  private userCopy : any
   public userId: any;
   public password = 'xxxxxxxx'
   public showHidelink = 'Show'
@@ -55,6 +59,7 @@ export class AccountDetailsComponent implements OnInit{
           // this.userService.userDetails.next(data)
           // console.log(data)
           this.user = data.response
+          this.userCopy = JSON.parse(JSON.stringify(this.user))
           // console.log('service call response', this.user )
           // do something with the data here
         }
@@ -105,7 +110,6 @@ export class AccountDetailsComponent implements OnInit{
       
         this.userService.updateUserAccount(Number(this.user.userId),updateUserAccountParam).subscribe({
           next : (data) => {
-            console.log('service call response', data )
             this.toastr.success('Account Details Updated!', 'Success!');
           } 
           ,error :(error) => {
@@ -116,5 +120,12 @@ export class AccountDetailsComponent implements OnInit{
         }); 
 
     
+  }
+
+
+  public cancelChanges(){
+ this.editDetails()
+this.getDEtailsformDB()
+this.user = this.userCopy
   }
 }

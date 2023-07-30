@@ -26,10 +26,6 @@
         <td>Address</td>
         <td>{{user.address}}</td>
       </tr>
-      <!-- <tr>
-        <td>Password</td>
-        <td>{{password}} <span (click)="showPassword()">{{showHidelink}}</span></td>
-      </tr> -->
       <tr><button id="signoutn-btn" type="button" class="btn-primary" (click)="editDetails()">Edit</button></tr>
   </table>
 </div>
@@ -41,12 +37,12 @@
     <table>
       <tr>
         <td>First Name</td>
-        <input id="firstName" type="text" name="firstName" placeholder="firstName" 
+        <input id="firstName" type="text" name="firstName" placeholder="firstName" [disabled]="user.isFacebookUser == true"
         onfocus="this.placeholder=''" onblur="this.placeholder='firstName'" [(ngModel)]="user.firstName">
       </tr>
       <tr>
         <td>Last Name</td>
-        <input id="lastName" type="text" name="lastName" placeholder="Last Name" required
+        <input id="lastName" type="text" name="lastName" placeholder="Last Name" [disabled]="user.isFacebookUser == true"
         onfocus="this.placeholder=''" onblur="this.placeholder='Last Name'" [(ngModel)]="user.lastName">
       </tr>
         <tr>
@@ -56,7 +52,7 @@
         </tr>
         <tr>
             <td>Email</td>
-            <input id="email" type="text" name="email" placeholder="Email" 
+            <input id="email" type="text" name="email" placeholder="Email" [disabled]="user.isFacebookUser == true"
             onfocus="this.placeholder=''" onblur="this.placeholder='Email'" [(ngModel)]="user.email">
           </tr>
           <tr>
@@ -64,11 +60,9 @@
             <input id="address" type="text" name="address" placeholder="Address" 
             onfocus="this.placeholder=''" onblur="this.placeholder='Address'" [(ngModel)]="user.address">
           </tr>
-          <!-- <tr>
-            <td>Password</td>
-            <td>{{password}}</td>
-          </tr> -->
-          <tr><button id="save-btn" type="button" class="btn-primary" (click)="saveDetails()">Save Details</button></tr>
+          <tr>
+            <td><button id="save-btn" type="button" class="btn-primary" (click)="cancelChanges()">Cancel Changes</button></td>
+            <td><button id="save-btn" type="button" class="btn-primary" (click)="saveDetails()">Save Details</button></td></tr>
       </table>
     </div>
     </div>
