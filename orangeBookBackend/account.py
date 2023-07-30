@@ -23,7 +23,7 @@ class account:
             record = cursor.fetchall()
             # r= [tuple(row) for row in record]  
             for row in record:
-                print (row[0])
+                # print (row[0])
                 if row[0] == param['email']:
                     return {'message':'Account already exist'}
             query = "INSERT INTO [OrangeBook].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
@@ -35,6 +35,7 @@ class account:
             cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), param['isFacebookUser'], str(encryptedPassword))
             recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
             cursor.commit()
+            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+" and [isFacebookUser] = 0';"
         else:
             isFBAccountExist = 0
             getAccountDeatialsQuery = "SELECT [email] FROM [OrangeBook].[dbo].[User] where [isFacebookUser] = 1;"
@@ -43,7 +44,7 @@ class account:
             
             # r= [tuple(row) for row in record]  
             for row in record:
-                print (row[0])
+                # print (row[0])
                 if row[0] == param['email']:
                     isFBAccountExist = 1
                     # return {'message':'FB Account already exist'}
@@ -54,10 +55,12 @@ class account:
                 cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  0,   '', param['isFacebookUser'], '')
                 recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
                 cursor.commit()
+            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
                 
 
-        fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
+        
         record = cursor.execute(fetchquery).fetchall()
+        print('get user datials')
         print(record)
         r= [tuple(row) for row in record]  
         # # d.closeDbConnection()
@@ -68,11 +71,11 @@ class account:
         d = databaseConnection()
         cursor = d.openDbConnection()
         query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[password] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+param['username'] +"';"
-        print(query)
+        # print(query)
         cursor.execute(query)
         record = cursor.fetchall()
-        print('record.count')
-        print(len(record))
+        # print('record.count')
+        # print(len(record))
    
 
         if(len(record) == 0):
@@ -83,15 +86,15 @@ class account:
 
         if(len(record) == 1):
             databasePassword = check_password_hash( record[0][6], param['password'])
-            print(databasePassword)
+            # print(databasePassword)
             if(databasePassword == False):
                 print(record[0][6])
                 print('Invalid Credentials')
                 return {'message':"Invalid Credentials" }
             else:
-                print('useer found')
+                # print('useer found')
                 access_token = create_access_token(identity=param['username'])
-                print(access_token)
+                # print(access_token)
                 r= [tuple(row) for row in record]  
                 a=account()
                 userData = transform('user',record).transformRows()
@@ -111,7 +114,7 @@ class account:
         s=services()
         bookedbusinessList = [] 
         a = account()
-        print(record)
+        # print(record)
         for row in record:
             transformedListItem = transform('business',[row]).transformRows()[0]
             transformedListItem['bookingId'] = row[9]
@@ -165,7 +168,7 @@ class account:
        
         finalQuery = query+setQuery+firstnameQuery+lastnameQuery+emailQuery+phoneQuery+addressQuery+whereQuery
         newQuery= finalQuery.replace('SET AND', 'SET')
-        print(newQuery)
+        # print(newQuery)
         cursor.execute(newQuery)
         cursor.commit()
         # recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]

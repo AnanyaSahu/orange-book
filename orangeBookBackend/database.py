@@ -34,7 +34,7 @@ class databaseConnection:
             'UID=sa;'
             'PWD=Sqlserver@123',autocommit = True)
 
-            print('data base')
+           
 
             if dbConnection.getinfo != None:
                 cursor = dbConnection.cursor()

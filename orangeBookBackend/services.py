@@ -30,7 +30,7 @@ class services:
             businessQuery = " AND ([serviceType] LIKE '"+business +"%' OR [businessName] LIKE '"+ business +"%')"
         finalQuery = query+whereQuery+locationQuery +businessQuery
         newQuery = finalQuery.replace('WHERE  AND', 'WHERE')
-        print(newQuery)
+        
        
         cursor.execute(newQuery)
         record = cursor.fetchall()
