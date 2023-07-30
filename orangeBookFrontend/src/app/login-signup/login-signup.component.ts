@@ -70,10 +70,37 @@ export class LoginSignupComponent {
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(response =>{
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((response : any) =>{
       console.log('faceboook user data')
       console.log(response)
+      this.userService.userDetails.next(data.response)
+      this.userService.userDetailsAndToken.next(data)
+
       // save access token and user deatils as UserID is Fk ion booking check logic for FK
+      let ttl = 5 * 60* 1000 // in miliseconds
+      const access_token_item = {
+        access_token: response.authToken,
+        expiry: new Date().getTime() + ttl,
+      }
+      let createAccountFBParam ={
+        firstname:response.firstName,
+        lastname:response.lastName, 
+        password:'', 
+        email:response.email, 
+        phone:'', 
+        address:'',
+        isFacebookUser: true}
+      this.userService.createUserAccount(createAccountFBParam).subscribe({
+        next : (data: any) => {
+          console.log('service call response FB user', data )
+        }
+        ,error :(error) => {
+          //error handlin
+          this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
+          console.log(error)
+        }
+      }); 
+
     });
   }
 
@@ -89,7 +116,8 @@ export class LoginSignupComponent {
         password:this.password, 
         email:this.email, 
         phone:this.contactNumber, 
-        address:this.address}
+        address:this.address,
+        isFacebookUser:false}
       
         this.userService.createUserAccount(createAccountParam).subscribe({
           next : (data: any) => {
@@ -119,35 +147,39 @@ export class LoginSignupComponent {
     // this.useremail = 'ananya@example.co'
     // this.userpassword = '3627997f92de663756a57b5098e3c11e'
     let hashedPAssword = this.userpassword
-    this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
-      next : (data) => {
-        console.log(data.message)
-        if(data.message == 'Invalid Credentials'){
-          this.toastr.error('Please enter a correct username or password!', 'ERROR!');
-        } else if(data.message == 'User Not Found') {
-          this.toastr.error('Please enter a valid username!', 'ERROR!');
-        } else {
-          this.userService.userDetails.next(data.response)
-          this.userService.userDetailsAndToken.next(data)
-          let ttl = 5 * 60* 1000 // in miliseconds
-          const access_token_item = {
-            access_token: data.access_token,
-            expiry: new Date().getTime() + ttl,
+    if(this.useremail != null &&  this.userpassword != null) {
+      this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
+        next : (data) => {
+          console.log(data.message)
+          if(data.message == 'Invalid Credentials'){
+            this.toastr.error('Please enter a correct username or password!', 'ERROR!');
+          } else if(data.message == 'User Not Found') {
+            this.toastr.error('Please enter a valid username!', 'ERROR!');
+          } else {
+            this.userService.userDetails.next(data.response)
+            this.userService.userDetailsAndToken.next(data)
+            console.log(data)
+            let ttl = 5 * 60* 1000 // in miliseconds
+            const access_token_item = {
+              access_token: data.access_token,
+              expiry: new Date().getTime() + ttl,
+            }
+            localStorage.setItem('access_token',JSON.stringify(access_token_item))
+            localStorage.setItem('userId',data.response.userId)
+            console.log('service call response', data )
+            this.toastr.success('Login successful!', 'Success!');
+            this.router.navigate(['/home'])
           }
-          localStorage.setItem('access_token',JSON.stringify(access_token_item))
-          localStorage.setItem('userId',data.response.userId)
-          console.log('service call response', data )
-          this.toastr.success('Login successful!', 'Success!');
-          this.router.navigate(['/home'])
+         
         }
-       
-      }
-      ,error :(error) => {
-        //error handlin
-        this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
-        console.log(error)
-      }
-    }); 
+        ,error :(error) => {
+          //error handlin
+          this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
+          console.log(error)
+        }
+      }); 
+    }
+
   }
 
   public switchForm() {
@@ -163,23 +195,26 @@ export class LoginSignupComponent {
   // 
   public resetPassword(){
     // api call to reset password  updateUserPassword
-    this.userService.updateUserPassword(this.resetuseremail,{password:this.newuserpassword}).subscribe({
-      next : (data: any) => {
-        console.log('service call response', data )
-        if(data.message == 'User Not Found') {
-          this.toastr.info('Please enter a valid user email!', 'User Not Found!');
-        } else if(data.message =='Password has been updated')
-        this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
-        this.isSignUpFormVisible = false
-        this.isForgetPasswordClicked = false
+    if(this.resetuseremail != null &&  this.newuserpassword != null) {
+      this.userService.updateUserPassword(this.resetuseremail,{password:this.newuserpassword}).subscribe({
+        next : (data: any) => {
+          console.log('service call response', data )
+          if(data.message == 'User Not Found') {
+            this.toastr.info('Please enter a valid user email!', 'User Not Found!');
+          } else if(data.message =='Password has been updated')
+          this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
+          this.isSignUpFormVisible = false
+          this.isForgetPasswordClicked = false
+  
+        }
+        ,error :(error) => {
+          //error handlin
+          this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
+          console.log(error)
+        }
+      }); 
+    }
 
-      }
-      ,error :(error) => {
-        //error handlin
-        this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
-        console.log(error)
-      }
-    }); 
   }
 
 }   

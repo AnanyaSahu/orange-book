@@ -1,18 +1,13 @@
 from database import databaseConnection
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_jwt_extended import create_access_token
 import sys
 sys.path.insert(0,"..")
-from orangeBookBackend.entities.UserClass import UserObj
-from orangeBookBackend.entities.BusinessClass import BusinessObj
 from services import services
-import json
 from transform import transform
-from cryptography.fernet import Fernet
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class account:
 
-    key = b'ZmDfcTF7_60GrrY167zsiPd67pEvs0aGOv2oasOM1Pg='
     def __init__(self):
         pass
         
@@ -22,24 +17,45 @@ class account:
         d = databaseConnection()
         cursor = d.openDbConnection()
 
-        getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] ;"
-        cursor.execute(getAccountDeatialsQuery)
-        record = cursor.fetchall()
-        # r= [tuple(row) for row in record]  
-        for row in record:
-            print (row[0])
-            if row[0] == param['email']:
-                return {'message':'Account already exist'}
-        query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?);"
+        if param['isFacebookUser'] == 0:
+            getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] where [isFacebookUser] = 0;"
+            cursor.execute(getAccountDeatialsQuery)
+            record = cursor.fetchall()
+            # r= [tuple(row) for row in record]  
+            for row in record:
+                print (row[0])
+                if row[0] == param['email']:
+                    return {'message':'Account already exist'}
+            query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
+            
+            a =account()
         
-        a =account()
-        # fernet = Fernet(a.key)
-        encryptedPassword =generate_password_hash(param['password'])
-        print(encryptedPassword)
-        cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), str(encryptedPassword))
-        recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
-        cursor.commit()
-        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(recordKey)+"';"
+            encryptedPassword =generate_password_hash(param['password'])
+            print(encryptedPassword)
+            cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  param['phone'],   str(param['address']), param['isFacebookUser'], str(encryptedPassword))
+            recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
+            cursor.commit()
+        else:
+            isFBAccountExist = 0
+            getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] where [isFacebookUser] = 1;"
+            cursor.execute(getAccountDeatialsQuery)
+            record = cursor.fetchall()
+            # r= [tuple(row) for row in record]  
+            for row in record:
+                print (row[0])
+                if row[0] == param['email']:
+                    isFBAccountExist = 1
+                    # return {'message':'FB Account already exist'}
+            if isFBAccountExist == 0:
+                query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
+                
+                a =account()
+                cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  0,   '', param['isFacebookUser'], '')
+                recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
+                cursor.commit()
+                
+
+        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
         record = cursor.execute(fetchquery).fetchall()
         r= [tuple(row) for row in record]  
         # # d.closeDbConnection()

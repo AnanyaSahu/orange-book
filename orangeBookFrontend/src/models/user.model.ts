@@ -5,6 +5,7 @@ export interface User {
      email: string,
      contactNumber?: string,
      password?: string,
-     address?: string
+     address?: string,
+     isFacebookUser?: boolean
 }
  
