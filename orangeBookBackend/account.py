@@ -57,7 +57,7 @@ class account:
                 # recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
                 cursor.commit()
             
-            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
+            fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+"' and [isFacebookUser] = 1;"
                 
 
         
