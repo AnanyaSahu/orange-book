@@ -81,7 +81,7 @@ export class LoginSignupComponent {
         access_token: response.authToken,
         expiry: new Date().getTime() + ttl,
       }
-      localStorage.setItem('access_token',JSON.stringify(access_token_item))
+      
       
       let createAccountFBParam ={
         firstname:response.firstName,
@@ -97,6 +97,7 @@ export class LoginSignupComponent {
           this.userService.userDetails.next(data.response)
           this.userService.userDetailsAndToken.next(data)
           localStorage.setItem('userId',data.response.userId)
+          localStorage.setItem('access_token',JSON.stringify(access_token_item))
         }
         ,error :(error) => {
           //error handlin

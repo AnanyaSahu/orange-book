@@ -65,8 +65,9 @@ class account:
         print('get user datials')
         print(record)
         r= [tuple(row) for row in record]  
+        userData = transform('user',record).transformRows()
         # # d.closeDbConnection()
-        return {'message':'Account has been created', 'response':r}
+        return {'message':'Account has been created', 'response':userData}
     
     def verifyUserAccount(self, param):
         a =account()
