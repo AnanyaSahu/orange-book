@@ -41,20 +41,22 @@ class account:
             getAccountDeatialsQuery = "SELECT [email] FROM [OrangeBook].[dbo].[User] where [isFacebookUser] = 1;"
             cursor.execute(getAccountDeatialsQuery)
             record = cursor.fetchall()
-            
+            print('getAccountDeatialsQuery')
+            print(record)
             # r= [tuple(row) for row in record]  
             for row in record:
-                # print (row[0])
+                print (row[0])
                 if row[0] == param['email']:
                     isFBAccountExist = 1
                     # return {'message':'FB Account already exist'}
             if isFBAccountExist == 0:
                 query = "INSERT INTO [OrangeBook].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
-                
+                print('isFBAccountExist no create users for fb account')
                 a =account()
                 cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  0,   '', param['isFacebookUser'], '')
                 recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
                 cursor.commit()
+            
             fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
                 
 
