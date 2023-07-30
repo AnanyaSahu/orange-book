@@ -69,7 +69,7 @@ class services:
        
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "UPDATE [orange-book].[dbo].[UserBooking] SET [isCancelled]= "+ str(1) + " WHERE [bookingId]= '" +str(bookingId)+"';"
+        query = "UPDATE [OrangeBook].[dbo].[UserBooking] SET [isCancelled]= "+ str(1) + " WHERE [bookingId]= '" +str(bookingId)+"';"
        
         cursor.execute(query)
         cursor.commit()
@@ -79,11 +79,11 @@ class services:
     def getLocations(self):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "Select distinct([location]) from [orange-book].[dbo].[Business];"
+        query = "Select distinct([location]) from [OrangeBook].[dbo].[Business];"
         cursor.execute(query)
         record = cursor.fetchall()
         r= [tuple(row) for row in record]
-        query = "Select distinct([location]) from [orange-book].[dbo].[Business];"
+        query = "Select distinct([location]) from [OrangeBook].[dbo].[Business];"
         return {'response':r}
     
     # def transformBusinessRows(self, record):

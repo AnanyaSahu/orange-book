@@ -18,7 +18,7 @@ class account:
         cursor = d.openDbConnection()
 
         if param['isFacebookUser'] == 0:
-            getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] where [isFacebookUser] = 0;"
+            getAccountDeatialsQuery = "SELECT [email] FROM [OrangeBook].[dbo].[User] where [isFacebookUser] = 0;"
             cursor.execute(getAccountDeatialsQuery)
             record = cursor.fetchall()
             # r= [tuple(row) for row in record]  
@@ -26,7 +26,7 @@ class account:
                 print (row[0])
                 if row[0] == param['email']:
                     return {'message':'Account already exist'}
-            query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
+            query = "INSERT INTO [OrangeBook].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
             
             a =account()
         
@@ -37,7 +37,7 @@ class account:
             cursor.commit()
         else:
             isFBAccountExist = 0
-            getAccountDeatialsQuery = "SELECT [email] FROM [orange-book].[dbo].[User] where [isFacebookUser] = 1;"
+            getAccountDeatialsQuery = "SELECT [email] FROM [OrangeBook].[dbo].[User] where [isFacebookUser] = 1;"
             cursor.execute(getAccountDeatialsQuery)
             record = cursor.fetchall()
             
@@ -48,7 +48,7 @@ class account:
                     isFBAccountExist = 1
                     # return {'message':'FB Account already exist'}
             if isFBAccountExist == 0:
-                query = "INSERT INTO [orange-book].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
+                query = "INSERT INTO [OrangeBook].[dbo].[User] VALUES(?,?,?,?,?,?,?);"
                 
                 a =account()
                 cursor.execute(query, str(param['firstname']),  str( param['lastname']),   str(param['email']),  0,   '', param['isFacebookUser'], '')
@@ -56,7 +56,7 @@ class account:
                 cursor.commit()
                 
 
-        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
+        fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(param['email'])+" and [isFacebookUser] = 1';"
         record = cursor.execute(fetchquery).fetchall()
         print(record)
         r= [tuple(row) for row in record]  
@@ -67,7 +67,7 @@ class account:
         a =account()
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[password] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+param['username'] +"';"
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address],[password] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+param['username'] +"';"
         print(query)
         cursor.execute(query)
         record = cursor.fetchall()
@@ -102,7 +102,7 @@ class account:
     def getBookings(self,customerId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "Select b.[businessId] ,b.[businessName],b.[contactNumber],b.[email],b.[address],b.[rating],b.[serviceType],b.[serviceCost],b.[location], ub.[bookingId], ub.[isCancelled] from [orange-book].[dbo].[UserBooking] as ub Inner Join [dbo].[Business] as b on ub.[businessId] = b.[businessId] Where [userId] = '"+str(customerId) +"';"
+        query = "Select b.[businessId] ,b.[businessName],b.[contactNumber],b.[email],b.[address],b.[rating],b.[serviceType],b.[serviceCost],b.[location], ub.[bookingId], ub.[isCancelled] from [OrangeBook].[dbo].[UserBooking] as ub Inner Join [dbo].[Business] as b on ub.[businessId] = b.[businessId] Where [userId] = '"+str(customerId) +"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
@@ -122,7 +122,7 @@ class account:
     def getAccountDetails(self,customerId):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address] FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
+        query = "SELECT [userId],[firstName],[lastName],[email],[contactNumber],[address] FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(customerId) +"';"
        
         cursor.execute(query)
         record = cursor.fetchall()
@@ -141,7 +141,7 @@ class account:
         phoneQuery=""
         addressQuery=""
         cursor = d.openDbConnection()
-        query = "UPDATE [orange-book].[dbo].[User] "
+        query = "UPDATE [OrangeBook].[dbo].[User] "
         setQuery = "SET "
         if(param['firstname'] != ''):
             firstnameQuery  = "[firstName] = '"+param['firstname']+ "' "
@@ -169,7 +169,7 @@ class account:
         cursor.execute(newQuery)
         cursor.commit()
         # recordKey = cursor.execute("SELECT @@IDENTITY AS ID;").fetchone()[0]
-        fetchquery = "SELECT * FROM [orange-book].[dbo].[User] WHERE [userId] =  '"+str(customerId)+"';"
+        fetchquery = "SELECT * FROM [OrangeBook].[dbo].[User] WHERE [userId] =  '"+str(customerId)+"';"
         record = cursor.execute(fetchquery).fetchall()
         # r= [tuple(row) for row in record]  
         # a=account()
@@ -181,7 +181,7 @@ class account:
     def resetPassword(self, userid, param):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId] FROM [orange-book].[dbo].[User] WHERE [email] =  '"+userid +"';"
+        query = "SELECT [userId] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+userid +"';"
         # print(query)
         cursor.execute(query)
         record = cursor.fetchall()
@@ -196,7 +196,7 @@ class account:
             return {'message':"User Not Found" }
         elif(len(record) == 1):
             encryptedPassword =generate_password_hash(param['password'])
-            query = "UPDATE [orange-book].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+";"
+            query = "UPDATE [OrangeBook].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+";"
             print(query)
             return {'message':"Password has been updated" }
 
