@@ -75,12 +75,12 @@ export class LoginSignupComponent {
       console.log(response)
 
 
-      // save access token and user deatils as UserID is Fk ion booking check logic for FK
-      let ttl = 5 * 60* 1000 // in miliseconds
-      const access_token_item = {
-        access_token: response.authToken,
-        expiry: new Date().getTime() + ttl,
-      }
+      // // save access token and user deatils as UserID is Fk ion booking check logic for FK
+      // let ttl = 5 * 60* 1000 // in miliseconds
+      // const access_token_item = {
+      //   access_token: response.authToken,
+      //   expiry: new Date().getTime() + ttl,
+      // }
       
       
       let createAccountFBParam ={
@@ -93,11 +93,38 @@ export class LoginSignupComponent {
         isFacebookUser: true}
       this.userService.createUserAccount(createAccountFBParam).subscribe({
         next : (data: any) => {
-          console.log('service call response FB user', data )
-          this.userService.userDetails.next(data.response)
-          this.userService.userDetailsAndToken.next(data)
-          localStorage.setItem('userId',data.response.userId)
-          localStorage.setItem('access_token',JSON.stringify(access_token_item))
+
+          // 
+          this.userService.accessTokenFBUser(createAccountFBParam.email).subscribe({
+            next : (access: any) => {
+    
+              // accessTokenFBUser
+
+              access.access_token
+    
+    
+                    // save access token and user deatils as UserID is Fk ion booking check logic for FK
+      let ttl = 5 * 60* 1000 // in miliseconds
+      const access_token_item = {
+        access_token: access.access_token,
+        expiry: new Date().getTime() + ttl,
+      }
+      
+              console.log('service call response FB user', data )
+              this.userService.userDetails.next(data.response)
+              this.userService.userDetailsAndToken.next(data)
+              localStorage.setItem('userId',data.response.userId)
+              localStorage.setItem('access_token',JSON.stringify(access_token_item))
+              this.toastr.success('Login successful!', 'Success!');
+              this.router.navigate(['/home'])
+            }
+            ,error :(error) => {
+              //error handlin
+              this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
+              console.log(error)
+            }
+          }); 
+
         }
         ,error :(error) => {
           //error handlin
@@ -131,9 +158,9 @@ export class LoginSignupComponent {
               this.toastr.info('Please login or use a different email to create account', data.message);
             } else {
               this.toastr.success('Please Login!', 'Account created successfully!');
-              this.switchForm()
+              
             }
-     
+            this.switchForm()
           }
           ,error :(error) => {
             //error handlin

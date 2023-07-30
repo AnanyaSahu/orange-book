@@ -32,8 +32,6 @@ export class AppComponent implements OnInit{
   }
   ngOnInit(): void {
     this.breadcrumbService.breadCrumb.subscribe((breadcrumb: any) =>{
-      console.log('breadcrumb app compoment')
-      console.log(breadcrumb)
       this.breadCrumbList = breadcrumb
     })
   }
@@ -55,9 +53,9 @@ export class AppComponent implements OnInit{
   }
 
   close(event:any){
-    // console.log('clodes')
+   
     this.toggleAccountModal(event)
-    // event.stopPropagation()
+  
   }
 
 }

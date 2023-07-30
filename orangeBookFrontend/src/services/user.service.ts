@@ -81,4 +81,14 @@ export class UserService {
     .put(this.prefix + '/resetPassword/' + userId, params)
   }
 
+
+  
+  public accessTokenFBUser(userId: number): Observable<Object> {
+    return this.http
+    .get(this.prefix + '/accessTokenFBUser/' + userId)
+
+
+  }
+
+
 }

@@ -99,6 +99,12 @@ def  resetPassword(userId):
     a = account()
     return a.resetPassword(userId, request.json)
 
+# This method will give accessTokenFBUser
+@app.route('/accessTokenFBUser/<string:userId>', methods=['GET'])
+def  getAccessTikenForFBUser(userId):
+    a = account()
+    return a.resetgetAccessTikenForFBUserPassword(userId)
+
 @app.route("/",  methods=['GET'])
 def root():
     return render_template('index.html')
