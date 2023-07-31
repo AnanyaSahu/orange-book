@@ -21,7 +21,7 @@ class services:
         whereQuery = ""
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "Select [businessId][businessName],[contactNumber] ,[email],[address],[location],[rating] ,[serviceType],[serviceCost] from [dbo].[Business]"
+        query = "Select [businessId],[businessName],[contactNumber] ,[email],[address],[location],[rating] ,[serviceType],[serviceCost] from [dbo].[Business]"
         if(location != "all" or business !="all"):
             whereQuery = " WHERE "
         if(location != 'all' ):
