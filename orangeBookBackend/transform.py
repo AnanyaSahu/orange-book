@@ -36,6 +36,6 @@ class   transform:
     def transformBookingRows(self, record):
         bookingList = []
         for row in record:
-            userBookingObj = UserBookingObj(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8], row[9])
+            userBookingObj = UserBookingObj(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8], row[9],row[10])
             bookingList.append(json.loads(json.dumps(userBookingObj.__dict__)))
         return bookingList
