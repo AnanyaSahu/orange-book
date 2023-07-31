@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Business } from 'src/models/business.model';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
@@ -24,7 +25,8 @@ export class ServiceDetailsComponent {
     private businessService: BusinessService,
     private toastr: ToastrService,
     public router: Router,
-    private breadcrumbService : BreadcrumbService) {
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService) {
 
       this.breadcrumbService.breadCrumb.next([{url: '/service', label: 'Service'}])
 
@@ -49,12 +51,13 @@ export class ServiceDetailsComponent {
     })
   }
   getBusinessById(){
-  
+    this.spinner.show();
       this.activatedRoute.queryParams.subscribe(queryParams => {
  
         this.bookingId = queryParams['business']
         this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
           next : (data: any) => {
+            this.spinner.hide();
             console.log('service call response', data )
             if(data.message == 'No Matching Business')
             {
@@ -68,6 +71,7 @@ export class ServiceDetailsComponent {
           }
           ,error :(error: any) => {
               //error handling
+              this.spinner.hide();
               if(error.status == 404){
                 this.router.navigate(['/404'])
 
@@ -81,7 +85,7 @@ export class ServiceDetailsComponent {
   
     }
    public bookAppointment( businessId : string) {
-    
+    this.spinner.hide();
           let createBookingParam = {
             customerId: this.userId,
             serviceId: businessId
@@ -95,10 +99,12 @@ export class ServiceDetailsComponent {
             this.businessService.createBookings(createBookingParam).subscribe( {  
   
               next : (data) => {
+                this.spinner.hide();
                 this.toastr.success('Booking Confirmed!', 'Success!');
               }
               ,error :(error) => {
                   //error handling
+                  this.spinner.hide();
                   this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
                    console.log(error)
               }

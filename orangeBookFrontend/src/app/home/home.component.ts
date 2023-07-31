@@ -3,6 +3,7 @@ import {BusinessService} from '../../services/business.service'
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
   constructor(private businessService: BusinessService,
     private toastr: ToastrService,
     public router: Router,
-    private breadcrumbService : BreadcrumbService) {
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService) {
 
       this.breadcrumbService.breadCrumb.next([{url: '', label: ''}])
     }
@@ -35,14 +37,17 @@ export class HomeComponent implements OnInit {
   }
 
   private getLocationList() {
+    this.spinner.show();
     this.businessService.getLocations().subscribe({
       next : (data: any) => {
         this.locationList = ['All'];
         for (const key in data['response']) {
           this.locationList.push(data['response'][key][0])
         }
+        this.spinner.hide();
       }
       ,error :(error) => {
+        this.spinner.hide();
         this.toastr.error('Unable to fetch Locations!', 'ERROR!');
         console.log(error)
       }

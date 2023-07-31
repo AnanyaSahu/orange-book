@@ -5,6 +5,7 @@ import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-service-overview',
@@ -26,7 +27,8 @@ export class ServiceOverviewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public router: Router,
     private toastr: ToastrService,
-    private breadcrumbService : BreadcrumbService) {
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService) {
 
       this.breadcrumbService.breadCrumb.next([{url: '/services', label: 'Services'}])
 
@@ -40,6 +42,7 @@ export class ServiceOverviewComponent implements OnInit {
 
 
   private searchBusiness() {
+    this.spinner.show();
     this.activatedRoute.queryParams.subscribe(queryParams => {
       console.log(queryParams)
       this.searchParams.business = queryParams['business']?queryParams['business']:"all";
@@ -59,9 +62,11 @@ export class ServiceOverviewComponent implements OnInit {
           else if ( this.searchParams.business?.trim() =='all' && this.searchParams.location.trim()!='all'){
             this.searchedResultsString = this.businessList.length + " results for " + this.searchParams.location +" found";
           } 
+          this.spinner.hide();
         }
         ,error :(error) => {
             //error handling
+            this.spinner.hide();
             this.toastr.error('Unable to fetch services!', 'ERROR!');
              console.log(error)
         }

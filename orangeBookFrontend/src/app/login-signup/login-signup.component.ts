@@ -9,6 +9,7 @@ import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 // import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { FacebookLoginProvider } from "@abacritt/angularx-social-login";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 // const bcrypt = require('bcryptjs')
 @Component({
@@ -41,7 +42,8 @@ export class LoginSignupComponent {
     private toastr: ToastrService,
     public router: Router,
     private authService: SocialAuthService,
-    private breadcrumbService : BreadcrumbService) {
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService) {
 
     this.breadcrumbService.breadCrumb.next([{url: '/login', label: 'Login'}])
     this.signupForm = new FormGroup({
@@ -70,11 +72,12 @@ export class LoginSignupComponent {
   }
 
   signInWithFB(): void {
+    this.spinner.show();
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then((response : any) =>{
       console.log('faceboook user data')
       console.log(response)
 
-
+      
       // // save access token and user deatils as UserID is Fk ion booking check logic for FK
       // let ttl = 5 * 60* 1000 // in miliseconds
       // const access_token_item = {
@@ -100,7 +103,7 @@ export class LoginSignupComponent {
     
               // accessTokenFBUser
 
-              access.access_token
+              // access.access_token
     
     
                     // save access token and user deatils as UserID is Fk ion booking check logic for FK
@@ -115,11 +118,13 @@ export class LoginSignupComponent {
               this.userService.userDetailsAndToken.next(data)
               localStorage.setItem('userId',data.response.userId)
               localStorage.setItem('access_token',JSON.stringify(access_token_item))
+              this.spinner.hide();
               this.toastr.success('Login successful!', 'Success!');
               this.router.navigate(['/home'])
             }
             ,error :(error) => {
               //error handlin
+              this.spinner.hide();
               this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
               console.log(error)
             }
@@ -128,6 +133,7 @@ export class LoginSignupComponent {
         }
         ,error :(error) => {
           //error handlin
+          this.spinner.hide();
           this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
           console.log(error)
         }
@@ -141,7 +147,7 @@ export class LoginSignupComponent {
   }
 
   public createAccount(){
-
+    this.spinner.show();
       let createAccountParam = {
         firstname:this.firstName,
         lastname:this.lastName, 
@@ -153,6 +159,7 @@ export class LoginSignupComponent {
       
         this.userService.createUserAccount(createAccountParam).subscribe({
           next : (data: any) => {
+            this.spinner.hide();
             console.log('service call response', data )
             if(data.message == 'Account already exist') {
               this.toastr.info('Please login or use a different email to create account', data.message);
@@ -163,7 +170,9 @@ export class LoginSignupComponent {
             this.switchForm()
           }
           ,error :(error) => {
-            //error handlin
+            //error handlinthis.spinner.hide();
+            this.spinner.hide();
+
             this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
             console.log(error)
           }
@@ -175,6 +184,7 @@ export class LoginSignupComponent {
 
 
   public login() {
+    this.spinner.show();
     //hash password
     // this.useremail = 'ananya@example.co'
     // this.userpassword = '3627997f92de663756a57b5098e3c11e'
@@ -182,6 +192,7 @@ export class LoginSignupComponent {
     if(this.useremail != null &&  this.userpassword != null) {
       this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
         next : (data) => {
+          this.spinner.hide();
           console.log(data.message)
           if(data.message == 'Invalid Credentials'){
             this.toastr.error('Please enter a correct username or password!', 'ERROR!');
@@ -206,6 +217,7 @@ export class LoginSignupComponent {
         }
         ,error :(error) => {
           //error handlin
+          this.spinner.hide();
           this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
           console.log(error)
         }
@@ -226,10 +238,12 @@ export class LoginSignupComponent {
   
   // 
   public resetPassword(){
+    this.spinner.show();
     // api call to reset password  updateUserPassword
     if(this.resetuseremail != null &&  this.newuserpassword != null) {
       this.userService.updateUserPassword(this.resetuseremail,{password:this.newuserpassword}).subscribe({
         next : (data: any) => {
+          this.spinner.hide();
           console.log('service call response', data )
           if(data.message == 'User Not Found') {
             this.toastr.info('Please enter a valid user email!', 'User Not Found!');
@@ -240,6 +254,7 @@ export class LoginSignupComponent {
   
         }
         ,error :(error) => {
+          this.spinner.hide();
           //error handlin
           this.toastr.error('Somthing went wront. Please try again later!', 'ERROR!');
           console.log(error)
