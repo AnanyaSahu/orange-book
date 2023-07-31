@@ -45,6 +45,8 @@ export class LoginSignupComponent {
     private breadcrumbService : BreadcrumbService,
     private spinner: NgxSpinnerService) {
 
+
+
     this.breadcrumbService.breadCrumb.next([{url: '/login', label: 'Login'}])
     this.signupForm = new FormGroup({
       title: new FormControl('', Validators.required),
@@ -210,6 +212,7 @@ export class LoginSignupComponent {
             }
             localStorage.setItem('access_token',JSON.stringify(access_token_item))
             localStorage.setItem('userId',data.response.userId)
+            localStorage.setItem('userId',data.response.userId)
             console.log('service call response', data )
             this.toastr.success('Login successful!', 'Success!');
             form.resetForm()
@@ -235,6 +238,11 @@ export class LoginSignupComponent {
 
   public forgetPassword(){
     this.isForgetPasswordClicked = true;
+  }
+
+  
+  public cancelResettingPassword(){
+    this.isForgetPasswordClicked = false;
   }
 
   

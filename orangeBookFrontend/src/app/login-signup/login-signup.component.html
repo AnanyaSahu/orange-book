@@ -69,6 +69,10 @@
                   <div *ngIf="forgetPasswordForm.controls.reenteruserpassword.errors.minlength">Password must be at least 6 characters long.</div>
                   </div>
                 <div class=" button-align">
+
+
+                  <!-- cancelResettingPassword -->
+                <button id="cancel-btn" type="button" class="btn-primary" (click)="cancelResettingPassword()">Cancel</button> &nbsp;
                 <button id="signin-btn" type="submit" class="btn-primary "   [disabled]="forgetPasswordForm.invalid">Reset Password</button>
                 <br>
         
