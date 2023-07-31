@@ -35,7 +35,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     AccountModalComponent,
     AccountBookingsComponent,
     AccountDetailsComponent,
-    ErrorPageComponent,BreadcrumbComponent, ServiceCardComponent
+    ErrorPageComponent,
+    BreadcrumbComponent,
+    ServiceCardComponent
   ],
   imports: [
     BrowserModule,
