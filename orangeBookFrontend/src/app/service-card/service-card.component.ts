@@ -22,7 +22,7 @@ export class ServiceCardComponent {
   {}
 
   @Input()
-  public business: Business | undefined;
+  public business: Business;
   @Input()
   public component: any;
 
