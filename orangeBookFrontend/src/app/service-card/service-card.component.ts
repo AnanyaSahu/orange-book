@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Business } from 'src/models/business.model';
@@ -22,9 +22,12 @@ export class ServiceCardComponent {
   {}
 
   @Input()
-  public business: Business;
+  public business: Business | undefined;
   @Input()
   public component: any;
+
+  @Output() 
+  public cancelBookingEmittor = new EventEmitter();
 
   public getRatings(ratings:number): any{
     let list: any[]=  [];
@@ -68,4 +71,27 @@ export class ServiceCardComponent {
     }
 
 }
+
+   /**
+   * cancel userBookings
+   */
+   public cancelBooking(bookingId: number) {
+
+    this.businessService.cancelBookings(bookingId).subscribe({
+      next : (data) => {
+        console.log('service call response', data )
+        // do something with the data here
+        
+        this.toastr.success('Your booking has been cancelled!', 'Success!');
+
+        // this.getBookings()
+        this.cancelBookingEmittor.emit('booking cancelled');
+      }
+      ,error :(error) => {
+        //error handlin
+        this.toastr.error('Unable to cancel bookings!', 'Error!');
+        console.log(error)
+      }
+    }); 
+  }
 }

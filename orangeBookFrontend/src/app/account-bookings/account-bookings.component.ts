@@ -56,7 +56,7 @@ export class AccountBookingsComponent implements OnInit {
       next : (data: any) => {
        
         this.bookingList = data.response
-        console.log('service call response', data )
+        // console.log('service call response', data )
         // do something with the data here
 
       }
@@ -70,25 +70,29 @@ export class AccountBookingsComponent implements OnInit {
   }
 
 
-   /**
-   * getBookings
-   */
-   public cancelBooking(bookingId: number) {
-
-    this.businessService.cancelBookings(bookingId).subscribe({
-      next : (data) => {
-        console.log('service call response', data )
-        // do something with the data here
-        this.getBookings()
-        this.toastr.success('Your booking has been cancelled!', 'Success!');
-      }
-      ,error :(error) => {
-        //error handlin
-        this.toastr.error('Unable to cancel bookings!', 'Error!');
-        console.log(error)
-      }
-    }); 
+  public cancelBookingEmittor(event: any) {
+    this.getBookings()
   }
+
+  //  /**
+  //  * getBookings
+  //  */
+  //  public cancelBooking(bookingId: number) {
+
+  //   this.businessService.cancelBookings(bookingId).subscribe({
+  //     next : (data) => {
+  //       console.log('service call response', data )
+  //       // do something with the data here
+  //       this.getBookings()
+  //       this.toastr.success('Your booking has been cancelled!', 'Success!');
+  //     }
+  //     ,error :(error) => {
+  //       //error handlin
+  //       this.toastr.error('Unable to cancel bookings!', 'Error!');
+  //       console.log(error)
+  //     }
+  //   }); 
+  // }
 
 
 }

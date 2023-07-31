@@ -2,30 +2,41 @@
     <div class='card'>
         <div class='card-content display-content'>
             <div ><h2 class='cursor-pointer primary-color' (click)="navigateToDetailPage( business.businessId )">{{business.businessName}}</h2></div>
-            <div ><h5>{{business.location}}</h5></div>
+            <div ><h5>Location: &nbsp;{{business.location}}</h5></div>
  
             <div class="display-flex">
             <div  class = "align-left ">
               <span *ngFor = "let rating of getRatings(business.ratings)"><i class="fa-solid fa-star"></i></span>
             </div>
-            <div class="align-right">{{business.contactNumber}}</div>
+            <div class="align-right">Contact Number: &nbsp;{{business.contactNumber}}</div>
         </div>
         <br>
         <div class="display-flex">
             <div  class = "align-left ">
-                <div>{{business.sreviceType}}</div>
+                <div>Service Type:&nbsp; {{business.sreviceType}}</div>
             </div>
-            <div class="align-right">{{business.address}}</div>
+            <div class="align-right">Address: &nbsp;{{business.address}}</div>
         </div>
         <br>
         
             
-            <div>{{business.serviceCost}}</div>
-            <div>{{business.email}}</div>
+            <div>Tariff: &nbsp;{{business.serviceCost}}</div>
+            <div>Email: &nbsp;{{business.email}}</div>
 
             <div *ngIf="component=='service-details'">
                 <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" 
                 (click)="bookAppointment(business.businessId )">Book Appointment</button>
+            </div>
+
+
+            
+            <div *ngIf="component=='account-booking'">
+                <div *ngIf="!business.isCancelled">
+                    <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" (click)="cancelBooking(business.bookingId )">Cancel Appointment</button>
+                </div>
+                <div *ngIf="business.isCancelled">
+                    <div>This booking is cancelled</div>
+                </div>
             </div>
                 </div>
                 </div>
