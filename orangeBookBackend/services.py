@@ -27,7 +27,7 @@ class services:
         if(location != 'all' ):
             locationQuery = " [location] = '"+location+"'"
         if( business  != 'all' ):
-            businessQuery = " AND ([serviceType] LIKE '"+business +"%' OR [businessName] LIKE '"+ business +"%')"
+            businessQuery = " AND ([serviceType] LIKE '%"+business +"%' OR [businessName] LIKE '%"+ business +"%')"
         finalQuery = query+whereQuery+locationQuery +businessQuery
         newQuery = finalQuery.replace('WHERE  AND', 'WHERE')
         

@@ -10,9 +10,17 @@ export class AccountModalComponent {
 
   @Output() 
   public closeModalEmittor = new EventEmitter();
+  public isUserLoggedIn = false
 
   constructor(public router: Router){
+    console.log(localStorage.getItem('userId'))
+    if(localStorage.getItem('userId')!=null || localStorage.getItem('userId')!=undefined ){
+      this.isUserLoggedIn = true
 
+    } else {
+      this.isUserLoggedIn = false
+    }
+    
   }
 
   /**
@@ -42,6 +50,7 @@ export class AccountModalComponent {
     this.closeAccountModal()
     localStorage.removeItem('access_token')
     localStorage.removeItem('userId')
+    // localStorage.setItem('userId')=null 
     this.router.navigate(['/home'])
   }
 }

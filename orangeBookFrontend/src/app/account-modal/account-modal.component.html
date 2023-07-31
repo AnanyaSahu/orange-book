@@ -5,15 +5,14 @@
                 <div class="apply-modal-content">
                         <div class="container">
                             <h3>Welcome</h3>
-                            <button id="signup-login-btn" type="button" class="btn-primary" (click)="navigateToPage('login')">Login/Sign Up</button>
+                            <button id="signup-login-btn" type="button" class="btn-primary" (click)="navigateToPage('login')" *ngIf="isUserLoggedIn==false">Login/Sign Up</button>
                             <hr>
                             <div class="cursor-pointer" (click)="navigateToPage('userDetails')">My Account</div>
                             <br>
                             <div  class="cursor-pointer" (click)="navigateToPage('bookings')">My Bookings</div>
-                         <hr>
-                            <div  class="cursor-pointer" (click)="signout()">Sign Out</div> 
-                            <!-- <br>
-                            <button id="signoutn-btn" type="button" class="btn-primary" (click)="navigateToPage('none')">Sign Out</button>
+                            <hr>
+                            <div  class="cursor-pointer" (click)="signout()"  *ngIf="isUserLoggedIn==true">Sign Out</div> 
+                    
 
                         </div>
                 </div>

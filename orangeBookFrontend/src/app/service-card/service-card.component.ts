@@ -18,7 +18,8 @@ export class ServiceCardComponent {
     private businessService: BusinessService,
     private toastr: ToastrService,
     public router: Router,
-    private breadcrumbService : BreadcrumbService)
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService)
   {}
 
   @Input()
@@ -47,23 +48,26 @@ export class ServiceCardComponent {
   }
 
   public bookAppointment( businessId : string) {
-
+    this.spinner.show();
     let createBookingParam = {
       customerId: localStorage.getItem('userId'),
       serviceId: businessId
 
     }
     if(localStorage.getItem('userId') == '' || localStorage.getItem('userId') == null){
+      this.spinner.hide();
       this.toastr.info('Login to book appointment!', 'Info!');
     }
     else {
       this.businessService.createBookings(createBookingParam).subscribe( {  
 
         next : (data) => { 
+          this.spinner.hide();
           this.toastr.success('Booking Confirmed!', 'Success!');
         }
         ,error :(error) => {
             //error handling
+            this.spinner.hide();
             this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
              console.log(error)
         }
@@ -76,9 +80,10 @@ export class ServiceCardComponent {
    * cancel userBookings
    */
    public cancelBooking(bookingId: number) {
-
+    this.spinner.show();
     this.businessService.cancelBookings(bookingId).subscribe({
       next : (data) => {
+        this.spinner.hide();
         console.log('service call response', data )
         // do something with the data here
         
@@ -89,6 +94,7 @@ export class ServiceCardComponent {
       }
       ,error :(error) => {
         //error handlin
+        this.spinner.hide();
         this.toastr.error('Unable to cancel bookings!', 'Error!');
         console.log(error)
       }

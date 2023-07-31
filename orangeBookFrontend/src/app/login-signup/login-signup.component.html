@@ -4,7 +4,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="signInForm" (ngSubmit)="login()" #signInForm="ngForm">
+                <form name="signInForm" (ngSubmit)="login(signInForm)" #signInForm="ngForm">
                 <br>
                 <input id="useremail" type="text" name="useremail" placeholder="Email" required   
                 pattern="[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}"
@@ -15,7 +15,7 @@
                   <div *ngIf="signInForm.controls.useremail.errors.pattern">Invalid email format.</div>
                 </div>
                 <br>
-                <input id="userpassword" type="text" name="userpassword" placeholder="Password"   required minlength="6"
+                <input id="userpassword" type="password" name="userpassword" placeholder="Password"   required minlength="6"
                 onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="userpassword">
                 <div *ngIf="signInForm.controls.userpassword?.invalid && (signInForm.controls.userpassword.dirty || signInForm.controls.userpassword.touched)">
                   <div *ngIf="signInForm.controls.userpassword.errors.required">Password is required.</div>
@@ -43,7 +43,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="forgetPasswordForm" (ngSubmit)="resetPassword()" #forgetPasswordForm="ngForm">
+                <form name="forgetPasswordForm" (ngSubmit)="resetPassword(forgetPasswordForm)" #forgetPasswordForm="ngForm">
 
                 <br>
                 <input id="resetuseremail" type="text" name="resetuseremail" placeholder="Email" required   
@@ -55,14 +55,14 @@
                   <div *ngIf="forgetPasswordForm.controls.resetuseremail.errors.pattern">Invalid email format.</div>
                 </div>
                 <br>
-                <input id="newuserpassword" type="text" name="newuserpassword" placeholder="Password"   required minlength="6"
+                <input id="newuserpassword" type="password" name="newuserpassword" placeholder="Password"   required minlength="6"
                 onfocus="this.placeholder=''" onblur="this.placeholder='Password'" [(ngModel)]="newuserpassword">
                 <div *ngIf="forgetPasswordForm.controls.newuserpassword?.invalid && (forgetPasswordForm.controls.newuserpassword.dirty || forgetPasswordForm.controls.newuserpassword.touched)">
                   <div *ngIf="forgetPasswordForm.controls.newuserpassword.errors.required">Password is required.</div>
                   <div *ngIf="forgetPasswordForm.controls.newuserpassword.errors.minlength">Password must be at least 6 characters long.</div>
                   </div>
                 <br>
-                <input id="reenteruserpassword" type="text" name="reenteruserpassword" placeholder="Re-enter Password"   required minlength="6"
+                <input id="reenteruserpassword" type="password" name="reenteruserpassword" placeholder="Re-enter Password"   required minlength="6"
                 onfocus="this.placeholder=''" onblur="this.placeholder='Re-enter Password'" [(ngModel)]="reenteruserpassword">
                 <div *ngIf="forgetPasswordForm.controls.reenteruserpassword?.invalid && (forgetPasswordForm.controls.reenteruserpassword.dirty || forgetPasswordForm.controls.reenteruserpassword.touched)">
                   <div *ngIf="forgetPasswordForm.controls.reenteruserpassword.errors.required">Password is required.</div>
@@ -83,7 +83,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="signupForm" (ngSubmit)="createAccount()" #signupForm="ngForm">
+                <form name="signupForm" (ngSubmit)="createAccount(signupForm)" #signupForm="ngForm">
                   <input id="title" type="text" name="title" placeholder="First Name" required [(ngModel)]="firstName">
                   <br>
                   <input id="lastName" type="text" name="lastName" placeholder="Last Name" required [(ngModel)]="lastName">

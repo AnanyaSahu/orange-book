@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {  SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 // import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { FacebookLoginProvider } from "@abacritt/angularx-social-login";
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -146,7 +146,7 @@ export class LoginSignupComponent {
     this.authService.signOut();
   }
 
-  public createAccount(){
+  public createAccount(form: NgForm){
     this.spinner.show();
       let createAccountParam = {
         firstname:this.firstName,
@@ -164,6 +164,7 @@ export class LoginSignupComponent {
             if(data.message == 'Account already exist') {
               this.toastr.info('Please login or use a different email to create account', data.message);
             } else {
+              form.resetForm()
               this.toastr.success('Please Login!', 'Account created successfully!');
               
             }
@@ -183,7 +184,7 @@ export class LoginSignupComponent {
   }
 
 
-  public login() {
+  public login(form: NgForm) {
     this.spinner.show();
     //hash password
     // this.useremail = 'ananya@example.co'
@@ -211,6 +212,7 @@ export class LoginSignupComponent {
             localStorage.setItem('userId',data.response.userId)
             console.log('service call response', data )
             this.toastr.success('Login successful!', 'Success!');
+            form.resetForm()
             this.router.navigate(['/home'])
           }
          
@@ -237,7 +239,7 @@ export class LoginSignupComponent {
 
   
   // 
-  public resetPassword(){
+  public resetPassword(form: NgForm){
     this.spinner.show();
     // api call to reset password  updateUserPassword
     if(this.resetuseremail != null &&  this.newuserpassword != null) {
@@ -247,8 +249,11 @@ export class LoginSignupComponent {
           console.log('service call response', data )
           if(data.message == 'User Not Found') {
             this.toastr.info('Please enter a valid user email!', 'User Not Found!');
-          } else if(data.message =='Password has been updated')
-          this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
+          } else if(data.message =='Password has been updated'){
+            this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
+            form.resetForm()
+          }
+          
           this.isSignUpFormVisible = false
           this.isForgetPasswordClicked = false
   
