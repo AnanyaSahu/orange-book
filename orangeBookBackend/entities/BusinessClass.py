@@ -1,6 +1,6 @@
 class BusinessObj:
    
- def __init__(self, businessId, businessName, contactNumber, email, address,location, ratings, sreviceType, serviceCost):
+ def __init__(self, businessId, businessName, contactNumber, email, address,location, ratings, serviceType, serviceCost):
     self.businessId = businessId
     self.businessName = businessName
     self.contactNumber = contactNumber
@@ -8,7 +8,7 @@ class BusinessObj:
     self.address = address
     self.location =location
     self.ratings = ratings
-    self.serviceType = sreviceType
+    self.serviceType = serviceType
     self.serviceCost = serviceCost
 
         

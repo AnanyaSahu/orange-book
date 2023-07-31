@@ -5,7 +5,7 @@ export interface Business {
     email: string,
     address: string,
     ratings: number,
-    sreviceType: string,
+    serviceType: string,
     serviceCost: string,
     location:string
     }
