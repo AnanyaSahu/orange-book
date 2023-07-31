@@ -6,6 +6,7 @@ import {BusinessService} from '../../services/business.service'
 import {UserService} from '../../services/user.service'
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class AccountBookingsComponent implements OnInit {
     private businessService:BusinessService,
     private userService:UserService,
     private toastr: ToastrService,
-    private breadcrumbService : BreadcrumbService) {
+    private breadcrumbService : BreadcrumbService,
+    private spinner: NgxSpinnerService) {
 
       this.breadcrumbService.breadCrumb.next([{url: '/bookings', label: 'My Bookings'}])
     
@@ -48,6 +50,7 @@ export class AccountBookingsComponent implements OnInit {
    * getBookings
    */
   public getBookings() {
+    this.spinner.show();
     if(this.userId == ''  || this.userId == null){
       this.toastr.info('Login to get bookings!', 'Info!');
     }
@@ -58,10 +61,11 @@ export class AccountBookingsComponent implements OnInit {
         this.bookingList = data.response
         // console.log('service call response', data )
         // do something with the data here
-
+        this.spinner.hide();
       }
       ,error :(error) => {
         //error handlin
+        this.spinner.hide();
         this.toastr.error('Unable to fetch bookings!', 'Error!');
         console.log(error)
       }

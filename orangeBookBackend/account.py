@@ -119,9 +119,7 @@ class account:
         a = account()
         # print(record)
         for row in record:
-            transformedListItem = transform('business',[row]).transformRows()[0]
-            transformedListItem['bookingId'] = row[9]
-            transformedListItem['isCancelled'] = row[10]
+            transformedListItem = transform('booking',[row]).transformRows()[0]
             bookedbusinessList.append(transformedListItem)
         return {'response':bookedbusinessList}
 
