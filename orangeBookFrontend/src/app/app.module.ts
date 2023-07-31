@@ -22,6 +22,7 @@ import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { SocialAuthServiceConfig, SocialLoginModule, FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { ServiceCardComponent } from './service-card/service-card.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA ],
@@ -44,6 +45,7 @@ import { ServiceCardComponent } from './service-card/service-card.component';
     FormsModule,
     FontAwesomeModule,
     SocialLoginModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
   ],
