@@ -11,9 +11,11 @@ export class AccountModalComponent {
   @Output() 
   public closeModalEmittor = new EventEmitter();
   public isUserLoggedIn = false
+  public userName: any = ''
 
   constructor(public router: Router){
     console.log(localStorage.getItem('userId'))
+    this.userName = localStorage.getItem('userName')?  localStorage.getItem('userName'): ' '
     if(localStorage.getItem('userId')!=null || localStorage.getItem('userId')!=undefined ){
       this.isUserLoggedIn = true
 

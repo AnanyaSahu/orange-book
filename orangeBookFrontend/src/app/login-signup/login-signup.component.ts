@@ -119,6 +119,7 @@ export class LoginSignupComponent {
               this.userService.userDetails.next(data.response)
               this.userService.userDetailsAndToken.next(data)
               localStorage.setItem('userId',data.response.userId)
+              localStorage.setItem('userName',data.response.firstName)
               localStorage.setItem('access_token',JSON.stringify(access_token_item))
               this.spinner.hide();
               this.toastr.success('Login successful!', 'Success!');
@@ -212,7 +213,7 @@ export class LoginSignupComponent {
             }
             localStorage.setItem('access_token',JSON.stringify(access_token_item))
             localStorage.setItem('userId',data.response.userId)
-            localStorage.setItem('userId',data.response.userId)
+            localStorage.setItem('userName',data.response.firstName)
             console.log('service call response', data )
             this.toastr.success('Login successful!', 'Success!');
             form.resetForm()
