@@ -63,16 +63,19 @@ export class AccountDetailsComponent implements OnInit{
           // console.log(data)
           this.user = data.response
           this.userCopy = JSON.parse(JSON.stringify(this.user))
+          this.spinner.hide();
           // console.log('service call response', this.user )
           // do something with the data here
         }
         ,error :(error) => {
           //error handlin
+          this.spinner.hide();
           this.toastr.error('Unable to fetch details!', 'ERROR!');
           console.log(error)
         }
       }); 
     } else {
+      this.spinner.hide();
       this.toastr.info( 'Please Login Again!','Session Expired!');
     }
  
