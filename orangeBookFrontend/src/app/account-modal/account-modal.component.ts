@@ -30,7 +30,7 @@ export class AccountModalComponent {
    */
   public navigateToPage(pageName: string) {
     this.closeAccountModal()
-    if(localStorage.getItem('userId') == null)
+    if(localStorage.getItem('userId') == null && (pageName == 'userDetails' || pageName == 'bookings'))
     {
       this.toastr.info( 'Please Login to view details!','');
       this.router.navigate(['/login'])
@@ -49,12 +49,6 @@ export class AccountModalComponent {
     this.closeModalEmittor.emit(null);
   }
 
-  // close(event:any){
-  //   console.log('colse modal')
-  //   // this.toggleAccountModal(event)
-  //   event.stopPropagation()
-  // }
-
   signout(){
     this.closeAccountModal()
     localStorage.removeItem('access_token')
@@ -62,7 +56,6 @@ export class AccountModalComponent {
     localStorage.removeItem('userName')
     this.router.navigate(['/home'])
   }
-
 
   getUserName(){
     return localStorage.getItem('userName') != null?  localStorage.getItem('userName'): ' '
