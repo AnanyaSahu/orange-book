@@ -12,10 +12,8 @@ export class BreadcrumbComponent implements OnInit {
   @Input()
   public breadcrumb: any;
   public isFirstChild = false;
-  // breadcrumbs$: Observable<Breadcrumb[]>; 
  
   constructor() { 
-    // this.breadcrumbs$ = breadcrumbService.breadcrumbs$; 
   } 
   ngOnInit(): void {
     if(this.breadcrumb.length == 1){

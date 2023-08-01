@@ -1,17 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
-import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import {UserService} from '../../services/user.service'
-import * as bcrypt from 'bcryptjs';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {  SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
 import { FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
-// import { SocialAuthService } from "@abacritt/angularx-social-login";
 import { FacebookLoginProvider } from "@abacritt/angularx-social-login";
 import { NgxSpinnerService } from 'ngx-spinner';
 
-// const bcrypt = require('bcryptjs')
 @Component({
   selector: 'app-login-signup',
   templateUrl: './login-signup.component.html',
@@ -33,7 +29,6 @@ export class LoginSignupComponent {
   public isForgetPasswordClicked = false;
   public newuserpassword= ''
   public resetuseremail = ''
-  // passwordHash = require('password-hash');
   public fbLoginOptions = { }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
   
   public config = [ ];
@@ -90,8 +85,6 @@ export class LoginSignupComponent {
         isFacebookUser: true}
       this.userService.createUserAccount(createAccountFBParam).subscribe({
         next : (data: any) => {
-
-          // 
           this.userService.accessTokenFBUser(createAccountFBParam.email).subscribe({
             next : (access: any) => {
       let ttl = 5 * 60* 1000 // in miliseconds

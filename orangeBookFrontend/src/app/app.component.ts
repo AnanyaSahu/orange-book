@@ -14,9 +14,7 @@ export class AppComponent implements OnInit{
   public tabName = ''
   public currentRoute = ''
   public breadCrumbList = []
-  // @ViewChild('accountModal', { static: false }) 
-  // accountModalElementRef: ElementRef;
-
+  
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,

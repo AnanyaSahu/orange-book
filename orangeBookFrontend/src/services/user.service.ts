@@ -66,7 +66,6 @@ export class UserService {
   
   public getBookings(userId: number): Observable<Object> {
     const token = this.auth.getAccessToken()
-    // let token = 'euJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4ODIzNjM4NiwianRpIjoiMTY0MzUwYzUtZTE0NS00ZmU1LWIzYzAtZDkzZTViNjU4ZDQzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFuYW55YUBleGFtcGxlLmNvIiwibmJmIjoxNjg4MjM2Mzg2LCJleHAiOjE2ODgyMzcyODZ9.9Lu3kn07PXaUfQtHkghTOuo8roEl9VSjWksrF1V1__k'
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http
     .get(this.prefix + '/getBookings/' + userId,{ headers })

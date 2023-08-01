@@ -85,8 +85,6 @@ export class ServiceCardComponent {
       next : (data) => {
         this.spinner.hide();
         this.toastr.success('Your booking has been cancelled!', 'Success!');
-
-        // this.getBookings()
         this.cancelBookingEmittor.emit('booking cancelled');
       }
       ,error :(error) => {
