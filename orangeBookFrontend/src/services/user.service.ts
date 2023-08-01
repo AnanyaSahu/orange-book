@@ -34,14 +34,13 @@ export class UserService {
 
 
   public createUserAccount(params: any): Observable<Object> {
-    console.log(params)
+
     return this.http
     .post(this.prefix + '/createAccount', params)
  
   }
 
   public verifyUserAccount(params: any): Observable<any> {
-    console.log(params)
     return this.http
     .post(this.prefix + '/verifyAccount', params)
 

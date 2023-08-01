@@ -57,7 +57,6 @@ export class HomeComponent implements OnInit {
   public selectLocation(e: any){
     this.selectedLocation = e.target.value
     this.searchParams.location = e.target.value
-  console.log(e.target.value)
 
   }
 
@@ -73,7 +72,6 @@ export class HomeComponent implements OnInit {
     if(e.target.value.length >= 3) {
         this.businessInputField = e.target.value
         this.searchParams.business = e.target.value
-        console.log(e.target.value)
     } else {
       this.businessInputField = ''
     }

@@ -44,7 +44,6 @@ export class ServiceOverviewComponent implements OnInit {
   private searchBusiness() {
     this.spinner.show();
     this.activatedRoute.queryParams.subscribe(queryParams => {
-      console.log(queryParams)
       this.searchParams.business = queryParams['business']?queryParams['business']:"all";
       this.searchParams.location = queryParams['location']?queryParams['location']:"all";
 

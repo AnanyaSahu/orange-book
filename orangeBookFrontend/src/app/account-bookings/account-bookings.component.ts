@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Business } from 'src/models/business.model';
 import { Router } from '@angular/router';
-import {BusinessService} from '../../services/business.service'
 import {UserService} from '../../services/user.service'
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'src/services/breadcrumb.service';
@@ -23,7 +21,6 @@ export class AccountBookingsComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     public router: Router,
-    private businessService:BusinessService,
     private userService:UserService,
     private toastr: ToastrService,
     private breadcrumbService : BreadcrumbService,
@@ -36,15 +33,8 @@ export class AccountBookingsComponent implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('userId')
-    // this.userService.userDetails.subscribe((userData)=>{
-    //   this.userId = userData.userId
       this.getBookings()
-    // })
-   
-
   }
-
-
 
   /**
    * getBookings
@@ -59,8 +49,6 @@ export class AccountBookingsComponent implements OnInit {
       next : (data: any) => {
        
         this.bookingList = data.response
-        // console.log('service call response', data )
-        // do something with the data here
         this.spinner.hide();
       }
       ,error :(error) => {
@@ -78,26 +66,6 @@ export class AccountBookingsComponent implements OnInit {
     this.spinner.show();
     this.getBookings()
   }
-
-  //  /**
-  //  * getBookings
-  //  */
-  //  public cancelBooking(bookingId: number) {
-
-  //   this.businessService.cancelBookings(bookingId).subscribe({
-  //     next : (data) => {
-  //       console.log('service call response', data )
-  //       // do something with the data here
-  //       this.getBookings()
-  //       this.toastr.success('Your booking has been cancelled!', 'Success!');
-  //     }
-  //     ,error :(error) => {
-  //       //error handlin
-  //       this.toastr.error('Unable to cancel bookings!', 'Error!');
-  //       console.log(error)
-  //     }
-  //   }); 
-  // }
 
 
 }

@@ -45,9 +45,6 @@ export class ServiceDetailsComponent {
   public getUserDetailsFromUserService() {
     this.userService.userDetails.subscribe((userData)=>{
       this.userId = userData.userId
-      // console.log("userId")
-      // console.log(userData)
-
     })
   }
   getBusinessById(){
@@ -58,7 +55,6 @@ export class ServiceDetailsComponent {
         this.businessService.getServiceByServiceId(this.bookingId).subscribe( {  
           next : (data: any) => {
             this.spinner.hide();
-            console.log('service call response', data )
             if(data.message == 'No Matching Business')
             {
               this.toastr.info('No Matching Business!', 'Info!');
@@ -70,7 +66,6 @@ export class ServiceDetailsComponent {
             
           }
           ,error :(error: any) => {
-              //error handling
               this.spinner.hide();
               if(error.status == 404){
                 this.router.navigate(['/404'])

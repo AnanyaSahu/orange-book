@@ -67,7 +67,6 @@ export class ServiceCardComponent {
           this.toastr.success('Booking Confirmed!', 'Success!');
         }
         ,error :(error) => {
-            //error handling
             this.spinner.hide();
             this.toastr.error('Somthing went wrong, not able to book appointment!', 'ERROR!');
              console.log(error)
@@ -85,16 +84,12 @@ export class ServiceCardComponent {
     this.businessService.cancelBookings(bookingId).subscribe({
       next : (data) => {
         this.spinner.hide();
-        console.log('service call response', data )
-        // do something with the data here
-        
         this.toastr.success('Your booking has been cancelled!', 'Success!');
 
         // this.getBookings()
         this.cancelBookingEmittor.emit('booking cancelled');
       }
       ,error :(error) => {
-        //error handlin
         this.spinner.hide();
         this.toastr.error('Unable to cancel bookings!', 'Error!');
         console.log(error)

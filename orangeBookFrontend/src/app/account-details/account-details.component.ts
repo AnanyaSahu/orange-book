@@ -40,18 +40,9 @@ export class AccountDetailsComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    // this.getUserDetailsFromUserService()
     this.getDEtailsformDB()
   }
-  /**
-   * getUserDetailsFromUserService
-   */
-  public getUserDetailsFromUserService() {
-    // this.userService.userDetails.subscribe((userData)=>{
-      
-
-    // })
-  }
+  
 
   getDEtailsformDB(){
     this.spinner.show();
@@ -59,16 +50,11 @@ export class AccountDetailsComponent implements OnInit{
     if( this.userId != null) {
       this.userService.getAccountDetails(this.userId).subscribe({
         next : (data: any) => {
-          // this.userService.userDetails.next(data)
-          // console.log(data)
           this.user = data.response
           this.userCopy = JSON.parse(JSON.stringify(this.user))
           this.spinner.hide();
-          // console.log('service call response', this.user )
-          // do something with the data here
         }
         ,error :(error) => {
-          //error handlin
           this.spinner.hide();
           this.toastr.error('Unable to fetch details!', 'ERROR!');
           console.log(error)
@@ -96,7 +82,6 @@ export class AccountDetailsComponent implements OnInit{
   public saveDetails() {
     
     this.editDetails()
-    //api call to save details
 
     this.updateUserAccount()
 
@@ -122,7 +107,6 @@ export class AccountDetailsComponent implements OnInit{
             
           } 
           ,error :(error) => {
-            //error handlin
             this.spinner.hide();
             this.toastr.error('Somthing went wrong!', 'ERROR!');
             console.log(error)
@@ -136,7 +120,6 @@ export class AccountDetailsComponent implements OnInit{
   public cancelChanges(){
     
  this.editDetails()
-// this.getDEtailsformDB()
 this.user = this.userCopy
   }
 }
