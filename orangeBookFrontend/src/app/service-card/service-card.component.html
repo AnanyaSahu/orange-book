@@ -8,20 +8,20 @@
             <div  class = "align-left ">
               <span *ngFor = "let rating of getRatings(business.ratings)"><i class="fa-solid fa-star"></i></span>
             </div>
-            <div class="align-right">Contact Number: &nbsp;{{business.contactNumber}}</div>
+            <div class="align-right" *ngIf="component!='service-overview'" >Contact Number: &nbsp;{{business.contactNumber}}</div>
         </div>
         <br>
         <div class="display-flex">
             <div  class = "align-left ">
                 <div>Service Type:&nbsp; {{business.serviceType}}</div>
             </div>
-            <div class="align-right">Address: &nbsp;{{business.address}}</div>
+            <div class="align-right" *ngIf="component!='service-overview'" >Address: &nbsp;{{business.address}}</div>
         </div>
         <br>
         
             
             <div>Tariff: &nbsp;{{business.serviceCost}}</div>
-            <div>Email: &nbsp;{{business.email}}</div>
+            <div *ngIf="component!='service-overview'" >Email: &nbsp;{{business.email}}</div>
 
             <div *ngIf="component=='service-details'">
                 <button id="book-modal-btn" type="button" class="btn-primary cursor-pointer" 

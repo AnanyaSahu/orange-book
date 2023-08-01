@@ -14,8 +14,7 @@ export class AccountModalComponent {
   public userName: any = ''
 
   constructor(public router: Router){
-    console.log(localStorage.getItem('userId'))
-    this.userName = localStorage.getItem('userName')?  localStorage.getItem('userName'): ' '
+
     if(localStorage.getItem('userId')!=null || localStorage.getItem('userId')!=undefined ){
       this.isUserLoggedIn = true
 
@@ -54,5 +53,10 @@ export class AccountModalComponent {
     localStorage.removeItem('userId')
     // localStorage.setItem('userId')=null 
     this.router.navigate(['/home'])
+  }
+
+
+  getUserName(){
+    this.userName = localStorage.getItem('userName')?  localStorage.getItem('userName'): ' '
   }
 }
