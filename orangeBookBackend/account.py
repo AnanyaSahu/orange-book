@@ -186,7 +186,7 @@ class account:
     def resetPassword(self, userid, param):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+userid +" and [isFacebookUser] = 0';"
+        query = "SELECT [userId] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+str(userid) +"' and [isFacebookUser] = 0;"
         # print(query)
         cursor.execute(query)
         record = cursor.fetchall()
@@ -201,7 +201,7 @@ class account:
             return {'message':"User Not Found" }
         elif(len(record) == 1):
             encryptedPassword =generate_password_hash(param['password'])
-            query = "UPDATE [OrangeBook].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+" and [isFacebookUser] = 0;"
+            query = "UPDATE [OrangeBook].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= '"+str(userid)+"' and [isFacebookUser] = 0;"
             print(query)
             return {'message':"Password has been updated" }
 
