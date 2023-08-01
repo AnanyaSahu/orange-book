@@ -63,7 +63,6 @@ export class AccountBookingsComponent implements OnInit {
 
 
   public cancelBookingEmittor(event: any) {
-    this.spinner.show();
     this.getBookings()
   }
 

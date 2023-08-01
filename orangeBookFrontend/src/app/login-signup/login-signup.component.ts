@@ -218,7 +218,7 @@ export class LoginSignupComponent {
         next : (data: any) => {
           this.spinner.hide();
           if(data.message == 'User Not Found') {
-            this.toastr.info('Please enter a valid user email!', 'User Not Found!');
+            this.toastr.info('Please enter a valid user email or If you are a facebook user please reset your password on facebook', 'User Not Found!');
           } else if(data.message =='Password has been updated'){
             this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
             this.forgetPasswordForm.resetForm()

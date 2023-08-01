@@ -186,7 +186,7 @@ class account:
     def resetPassword(self, userid, param):
         d = databaseConnection()
         cursor = d.openDbConnection()
-        query = "SELECT [userId] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+userid +"';"
+        query = "SELECT [userId] FROM [OrangeBook].[dbo].[User] WHERE [email] =  '"+userid +" and [isFacebookUser] = 0';"
         # print(query)
         cursor.execute(query)
         record = cursor.fetchall()
@@ -201,30 +201,10 @@ class account:
             return {'message':"User Not Found" }
         elif(len(record) == 1):
             encryptedPassword =generate_password_hash(param['password'])
-            query = "UPDATE [OrangeBook].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+";"
+            query = "UPDATE [OrangeBook].[dbo].[User] SET [password] = "+ encryptedPassword + "where [email]= "+userid+" and [isFacebookUser] = 0;"
             print(query)
             return {'message':"Password has been updated" }
 
     def getAccessTokenForFBUser(self, userid):
                 access_token = create_access_token(identity=userid)
-                return {'userIdForFBUSer':userid, 'access_token':access_token }
-       
-    
-    # def transformUserRows(self, record):
-    #     # userList = []
-    #     for row in record:
-    #         userObj = UserObj(row[0],row[1],row[2],row[3],row[4],row[5])
-    #         # print(json.dumps(businessObj.__dict__))
-    #         # businessList.append(json.loads(json.dumps(businessObj.__dict__)))
-    #     # print(businessList)
-    #     return json.loads(json.dumps(userObj.__dict__))
-# def check_password(raw_password, enc_password):
-#     """
-#     Returns a boolean of whether the raw_password was correct. Handles
-#     encryption formats behind the scenes.
-#     """
-#     algo, salt, hsh = enc_password.split('$')
-#     return hsh == get_hexdigest(algo, salt, raw_password)
-
-# s =account()
-# s.getBookings('100')        
+                return {'userIdForFBUSer':userid, 'access_token':access_token }   
