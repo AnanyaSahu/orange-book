@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 import {UserService} from '../../services/user.service'
 import * as bcrypt from 'bcryptjs';
@@ -37,6 +37,9 @@ export class LoginSignupComponent {
   public fbLoginOptions = { }; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
   
   public config = [ ];
+  @ViewChild('signInForm') signInForm: NgForm;
+  @ViewChild('forgetPasswordForm') forgetPasswordForm: NgForm;
+  @ViewChild('signupForm') createAccountForm: NgForm;
 
   constructor (private userService:UserService,
     private toastr: ToastrService,
@@ -149,7 +152,8 @@ export class LoginSignupComponent {
     this.authService.signOut();
   }
 
-  public createAccount(form: NgForm){
+  public createAccount(){
+
     this.spinner.show();
       let createAccountParam = {
         firstname:this.firstName,
@@ -167,7 +171,7 @@ export class LoginSignupComponent {
             if(data.message == 'Account already exist') {
               this.toastr.info('Please login or use a different email to create account', data.message);
             } else {
-              form.resetForm()
+              this.createAccountForm.resetForm()
               this.toastr.success('Please Login!', 'Account created successfully!');
               
             }
@@ -187,12 +191,10 @@ export class LoginSignupComponent {
   }
 
 
-  public login(form: NgForm) {
+  public login() {
+    // document.getElementById('signInForm').reset
+    // document.signInForm.reset()
     this.spinner.show();
-    //hash password
-    // this.useremail = 'ananya@example.co'
-    // this.userpassword = '3627997f92de663756a57b5098e3c11e'
-    let hashedPAssword = this.userpassword
     if(this.useremail != null &&  this.userpassword != null) {
       this.userService.verifyUserAccount({username:this.useremail, password:this.userpassword }).subscribe({
         next : (data) => {
@@ -216,7 +218,7 @@ export class LoginSignupComponent {
             localStorage.setItem('userName',data.response.firstName)
             console.log('service call response', data )
             this.toastr.success('Login successful!', 'Success!');
-            form.resetForm()
+            this.signInForm.resetForm()
             this.router.navigate(['/home'])
           }
          
@@ -247,8 +249,7 @@ export class LoginSignupComponent {
   }
 
   
-  // 
-  public resetPassword(form: NgForm){
+  public resetPassword(){
     this.spinner.show();
     // api call to reset password  updateUserPassword
     if(this.resetuseremail != null &&  this.newuserpassword != null) {
@@ -260,7 +261,7 @@ export class LoginSignupComponent {
             this.toastr.info('Please enter a valid user email!', 'User Not Found!');
           } else if(data.message =='Password has been updated'){
             this.toastr.success('Please login again with new passowrd!', 'Password Updated!');
-            form.resetForm()
+            this.forgetPasswordForm.resetForm()
           }
           
           this.isSignUpFormVisible = false

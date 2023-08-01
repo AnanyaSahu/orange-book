@@ -4,7 +4,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="signInForm" (ngSubmit)="login(signInForm)" #signInForm="ngForm">
+                <form name="signInForm" (ngSubmit)="login()" #signInForm="ngForm" >
                 <br>
                 <input id="useremail" type="text" name="useremail" placeholder="Email" required   
                 pattern="[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}"
@@ -43,7 +43,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="forgetPasswordForm" (ngSubmit)="resetPassword(forgetPasswordForm)" #forgetPasswordForm="ngForm">
+                <form name="forgetPasswordForm" (ngSubmit)="resetPassword(ngForm)" #forgetPasswordForm="ngForm" >
 
                 <br>
                 <input id="resetuseremail" type="text" name="resetuseremail" placeholder="Email" required   
@@ -87,7 +87,7 @@
     <div class="container-fluid ">
           <div class="body">
               <div class="formContainer">
-                <form name="signupForm" (ngSubmit)="createAccount(signupForm)" #signupForm="ngForm">
+                <form name="signupForm" (ngSubmit)="createAccount(ngForm)" #signupForm="ngForm">
                   <input id="title" type="text" name="title" placeholder="First Name" required [(ngModel)]="firstName">
                   <br>
                   <input id="lastName" type="text" name="lastName" placeholder="Last Name" required [(ngModel)]="lastName">

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-account-modal',
@@ -13,7 +14,7 @@ export class AccountModalComponent {
   public isUserLoggedIn = false
   public userName: any = ''
 
-  constructor(public router: Router){
+  constructor(public router: Router, private toastr: ToastrService){
 
     if(localStorage.getItem('userId')!=null || localStorage.getItem('userId')!=undefined ){
       this.isUserLoggedIn = true
@@ -29,8 +30,9 @@ export class AccountModalComponent {
    */
   public navigateToPage(pageName: string) {
     this.closeAccountModal()
-    if(this.isUserLoggedIn = false)
+    if(localStorage.getItem('userId') == null)
     {
+      this.toastr.info( 'Please Login to view details!','');
       this.router.navigate(['/login'])
     } else {
      
@@ -57,12 +59,12 @@ export class AccountModalComponent {
     this.closeAccountModal()
     localStorage.removeItem('access_token')
     localStorage.removeItem('userId')
-    // localStorage.setItem('userId')=null 
+    localStorage.removeItem('userName')
     this.router.navigate(['/home'])
   }
 
 
   getUserName(){
-    this.userName = localStorage.getItem('userName')?  localStorage.getItem('userName'): ' '
+    return localStorage.getItem('userName') != null?  localStorage.getItem('userName'): ' '
   }
 }
